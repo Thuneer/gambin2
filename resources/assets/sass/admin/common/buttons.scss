@@ -1,0 +1,17 @@
+.tool-bar-add {
+  &__btn {
+    background-color: $primary;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    padding: 8px 13px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon {
+    font-size: 16px;
+    color: white;
+    margin-right: 8px;
+  }
+}

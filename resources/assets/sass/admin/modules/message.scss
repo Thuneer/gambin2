@@ -1,0 +1,130 @@
+.message {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 54px;
+  z-index: 99;
+  background-color: white;
+  display: flex;
+  padding: 20px 20px;
+  align-items: center;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+  border-radius: 4px;
+  min-width: 380px;
+  animation: messageAnimation 4s ease-out forwards;
+
+  &__icon {
+    margin-right: 15px;
+    font-size: 15px;
+    color: white;
+    background-color: green;
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-radius: 50%;
+  }
+
+  &__icon--error {
+    background-color: red;
+  }
+
+  &__text {
+    font-weight: 400;
+  }
+
+
+}
+
+@keyframes messageAnimation {
+
+  0% {
+    top: -84px;
+  }
+
+  8% {
+    top: 64px;
+  }
+
+  10% {
+    top: 44px;
+  }
+
+  12% {
+    top: 54px;
+  }
+
+  90% {
+    top: 54px;
+  }
+
+  100% {
+    top: -84px;
+  }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+
+}
+
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+
+
+  .message {
+
+    position: fixed;
+    right: 460px;
+    left: auto;
+    top: -84px;
+    z-index: 99;
+    background-color: white;
+    display: flex;
+    padding: 20px 30px;
+    align-items: center;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+    border-radius: 4px;
+    min-width: 380px;
+    animation: messageAnimation 4s ease-out forwards;
+  }
+
+  @keyframes messageAnimation {
+
+    0% {
+      top: -84px;
+    }
+
+    8% {
+      top: 80px;
+    }
+
+    10% {
+      top: 60px;
+    }
+
+    12% {
+      top: 70px;
+    }
+
+    90% {
+      top: 70px;
+    }
+
+    100% {
+      top: -84px;
+    }
+  }
+
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+
+}

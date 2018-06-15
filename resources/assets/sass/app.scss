@@ -1,6 +1,8 @@
 
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700");
+
+@import url("https://use.fontawesome.com/releases/v5.0.13/css/all.css");
 
 // Variables
 @import "variables";
@@ -8,7 +10,56 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+//Common
+@import "admin/common/buttons";
+@import "admin/common/headers";
+
+// Blocks
+@import "admin/modules/sidebar";
+@import "admin/modules/logo";
+@import "admin/modules/menu";
+@import "admin/modules/top-bar";
+@import "admin/modules/user-top";
+@import "admin/modules/list";
+@import "admin/modules/per-page";
+@import "admin/modules/tool-bar";
+@import "admin/modules/tool-options";
+@import "admin/modules/tool-search";
+@import "admin/modules/bulk-actions";
+@import "admin/modules/pagination";
+@import "admin/modules/message";
+@import "admin/modules/dropzone";
+@import "admin/modules/grid";
+@import "admin/modules/modals";
+@import "admin/modules/forms";
+@import "admin/modules/image-picker";
+
+
+
+
+html, body {
+  position: relative;
+  float: left;
+  width: 100%;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
+button:hover {
+  cursor: pointer;
+}
+
+.overlay {
+  position: fixed;
+  z-index: 98;
+  background-color: rgba(0,0,0,0.5);
+  top: 54px;
+  right: 0;
+  left: 230px;
+  bottom: 0;
+  display: none;
+}
+

@@ -1,0 +1,140 @@
+.top-bar {
+  position: relative;
+  height: 54px;
+  background-color: $primary;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+
+  &__left {
+    display: flex;
+    align-items: center;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+  }
+
+}
+
+.top-bar-toggle {
+
+  display: inline-block;
+  position: relative;
+
+  &__container {
+    height: 16px;
+    width: 20px;
+    //background-color: red;
+  }
+
+  &__line {
+    height: 2px;
+    background-color: #f1f1f1;
+    position: absolute;
+    width: 100%;
+    transition: .27s all cubic-bezier(.25, .1, .46, 1.51);
+  }
+
+  &__line--one {
+    top: 0;
+  }
+
+  &__line--two {
+    top: calc(50% - 1px);
+  }
+
+  &__line--three {
+    bottom: 0;
+  }
+
+}
+
+.top-bar-toggle:hover {
+  cursor: pointer;
+}
+
+.top-bar-toggle--active {
+
+  .top-bar-toggle__line--one {
+    top: 6px;
+    transform: rotate(45deg);
+  }
+
+  .top-bar-toggle__line--two {
+    top: calc(50% - 1px);
+    transform: rotate(-45deg);
+  }
+
+  .top-bar-toggle__line--three {
+    top: calc(50% - 1px);
+    transform: rotate(-45deg);
+  }
+
+}
+
+.home-top {
+
+  &__icon {
+    color: white;
+    font-size: 18px;
+    margin-left: 25px;
+  }
+
+}
+
+.add-top {
+
+  &__icon {
+    color: white;
+    font-size: 18px;
+    margin-left: 25px;
+  }
+
+}
+
+.message-top {
+
+  &__icon {
+    color: white;
+    font-size: 18px;
+  }
+
+}
+
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+
+  .message-top {
+
+    &__icon {
+      margin-right: 232px;
+    }
+
+  }
+
+  .top-bar {
+    position: fixed;
+    width: 100%;
+  }
+
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+
+}

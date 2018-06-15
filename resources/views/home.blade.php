@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                        <img src="/img/avatars/avatar1.png" alt="">
                     You are logged in!
                 </div>
             </div>

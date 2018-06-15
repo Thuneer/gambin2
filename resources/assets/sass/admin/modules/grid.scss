@@ -1,0 +1,92 @@
+.grid {
+
+  background-color: white;
+  border: 1px solid $light-grey;
+  padding: 5px;
+  border-radius: 4px;
+
+  &__item {
+    position: relative;
+    width: calc(25% - 5px);
+    display: inline-block;
+    margin: 1px;
+    padding-top: calc(25% - 5px);
+    //background: red;
+    box-shadow: 0 0 6px rgba(0,0,0,0.25);
+    border-radius: 10px;
+  }
+
+  &__item:hover {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+    cursor: pointer;
+  }
+
+  &__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+  }
+
+  &__details {
+    display: none;
+  }
+
+  &__bottom {
+    margin-top: 20px;
+  }
+  &__top {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+
+  .grid {
+
+    &__item {
+      width: calc(20% - 5px);
+      padding-top: calc(20% - 5px);
+    }
+  }
+
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+
+  .grid {
+
+    &__item {
+      width: calc(12.5% - 5.5px);
+      padding-top: calc(12.5% - 5.5px);
+    }
+  }
+
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+
+  .grid {
+    padding: 10px;
+
+    &__item {
+      width: calc(8.33% - 15.5px);
+      padding-top: calc(8.33% - 15.5px);
+      margin: 6px;
+    }
+  }
+
+}

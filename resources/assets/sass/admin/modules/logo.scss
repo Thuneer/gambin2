@@ -1,0 +1,55 @@
+.logo {
+  height: 54px;
+  background-color: $primary;
+  align-items: center;
+  padding: 20px;
+  border-right: 1px solid $primary-hover;
+  padding-right: 51px;
+  display: none;
+
+  &__text {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    display: inline-block;
+  }
+
+  &__text--thin {
+    font-weight: 100;
+    margin-left: -4px;
+    letter-spacing: 1px;
+  }
+
+  &__btn {
+    color: white;
+    font-size: 24px;
+    margin-right: 15px;
+  }
+
+}
+
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+
+  .logo {
+    display: flex;
+  }
+
+
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+
+}

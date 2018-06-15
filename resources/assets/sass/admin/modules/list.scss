@@ -1,0 +1,280 @@
+.list {
+
+  .table {
+
+    background-color: white;
+    border: 1px solid $light-grey;
+
+    thead th {
+      border: none;
+      padding: 0 0.75rem;
+      height: 100%;
+      position: relative;
+      vertical-align: middle;
+    }
+  }
+
+
+  &__td, &__th {
+    vertical-align: middle !important;
+    border: none !important;
+    display: none;
+    position: relative !important;
+  }
+
+  &__delete {
+    margin-left: 15px;
+    color: #eb0000;
+    background-color: transparent;
+    border: none;
+  }
+
+  &__delete:hover {
+    color: black;
+  }
+
+  &__delete:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    text-decoration: line-through;
+  }
+
+  &__edit {
+    color: $primary;
+    background-color: transparent;
+    border: none;
+  }
+
+  &__edit:hover {
+    color: black;
+  }
+
+  &__edit:disabled {
+    opacity: 0.5;
+    text-decoration: line-through;
+    pointer-events: none;
+  }
+
+  &__column:nth-child(4n + 1) {
+    border-top: 1px solid $light-border;
+    border-bottom: 1px solid $light-border;
+  }
+
+  .list__dropdown {
+    display: block;
+    margin-top: -16px;
+  }
+
+  &__column {
+    transition: 0.1s all;
+  }
+
+  &__column:hover {
+    background-color: #f5f5f5;
+  }
+
+  .list__dropdown--hidden {
+    display: none;
+  }
+
+  &__primary {
+    display: table-cell;
+  }
+
+  .list__dropdown-icon {
+    position: absolute;
+    right: 20px;
+    font-size: 20px;
+  }
+
+  &__img {
+    height: 36px;
+    width: 36px;
+    background-color: $placeholder-color;
+    margin: 0 15px 0 0;
+    border-radius: 4px;
+    display: inline-block;
+    background-position: center;
+    background-size: cover;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+  }
+
+  &__img-avatar {
+    border-radius: 50%;
+    min-width: 32px;
+  }
+
+  &__amount {
+    margin-bottom: 0;
+    margin-right: 3px;
+    align-self: flex-end;
+  }
+
+  &__search-text {
+    margin-right: 20px;
+    align-self: flex-end;
+  }
+
+  &__clear-search {
+    margin-right: 20px;
+    align-self: flex-end;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  &__sort-btn {
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    font-weight: 700;
+    position: absolute;
+    top: 0;
+    padding-left: 0.75rem;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &__sort-btn:hover {
+    background-color: #f0f0f0;
+  }
+
+  &__sort-arrow {
+    position: absolute;
+    right: 20px;
+    top: 17px;
+    font-size: 14px;
+    display: block;
+    pointer-events: none;
+  }
+
+  &__sort-arrow--hidden {
+    display: none;
+  }
+
+  &__sort-arrow--up {
+    transform: rotate(180deg);
+  }
+
+}
+
+.delete-modal {
+
+  &__title {
+
+  }
+
+  &__list {
+    margin: 15px 0;
+    color: $primary;
+    font-weight: 600;
+    padding-left: 20px;
+  }
+
+}
+
+.list-dropdown {
+  background-color: $light-border;
+  position: relative;
+
+  &__hidden {
+    display: none;
+  }
+
+  &__icon {
+    position: absolute;
+    right: 20px;
+    font-size: 18px;
+    top: 17px;
+  }
+
+  &__row {
+    padding: 10px;
+  }
+
+  &__header {
+    font-weight: 600;
+  }
+
+  &__text {
+
+  }
+
+  &__edit,
+  &__delete {
+
+    position: absolute;
+    font-size: 18px;
+
+  }
+
+  &__edit {
+    color: $primary;
+    bottom: 70px;
+    right: 16px;
+  }
+
+  &__delete {
+    bottom: 20px;
+    color: red;
+    right: 20px;
+  }
+
+
+  td {
+    position: relative !important;
+  }
+
+}
+
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+
+  .list-dropdown {
+
+    &__icon {
+      display: none;
+    }
+
+  }
+
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+
+  .list {
+
+    &__td, &__th {
+
+      display: table-cell;
+      border-top: none !important;
+    }
+
+    &__primary {
+
+    }
+
+
+  }
+
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {  }
