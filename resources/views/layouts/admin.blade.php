@@ -16,7 +16,6 @@
         var APP_URL = {!! json_encode(url('/')) !!};
     </script>
 
-    <script src="{{ asset('js/admin.js') }}" defer></script>
 
     <noscript>
         Enable javascript to use this page.
@@ -69,8 +68,9 @@
             <div class="user-top">
                 <div class="user-top__container">
                     <img class="user-top__img"
-                         src="@if(count(Auth::user()->images) > 0)/{{ Auth::user()->images[0]->path_thumbnail }} @else {{ userAvatar(Auth::user()->id) }} @endif" alt="">
-                    <div class="user-top__name">{{ ucfirst(Auth::user()->role->name) }}</div>
+                         src="@if(count(Auth::user()->images) > 0)/{{ Auth::user()->images[0]->path_thumbnail }} @else {{ userAvatar(Auth::user()->id) }} @endif"
+                         alt="">
+                    <div class="user-top__name">{{ substr(ucfirst(Auth::user()->roles->pluck('name')[0]), 0, 11)}}</div>
                     <i class="user-top__icon fas fa-chevron-down"></i>
 
                     <div class="user-top__dropdown">
@@ -89,7 +89,8 @@
                 </div>
                 <a href="/">
                     <img class="user-top__img user-top__img--mobile"
-                         src="@if(count(Auth::user()->images) > 0)/{{ Auth::user()->images[0]->path_thumbnail }} @else {{ userAvatar(Auth::user()->id) }} @endif" alt="">
+                         src="@if(count(Auth::user()->images) > 0)/{{ Auth::user()->images[0]->path_thumbnail }} @else {{ userAvatar(Auth::user()->id) }} @endif"
+                         alt="">
                 </a>
             </div>
         </div>
@@ -101,10 +102,11 @@
 
         <div class="sidebar-user">
             <img class="sidebar-user__img"
-                 src="@if(count(Auth::user()->images)> 0)/{{ Auth::user()->images[0]->path_thumbnail }} @else {{ userAvatar(Auth::user()->id) }} @endif" alt="">
+                 src="@if(count(Auth::user()->images)> 0)/{{ Auth::user()->images[0]->path_thumbnail }} @else {{ userAvatar(Auth::user()->id) }} @endif"
+                 alt="">
             <div class="sidebar-user__container">
                 <span class="sidebar-user__name">Hi, {{ Auth::user()->first_name }}</span>
-                <span class="sidebar-user__role">{{ ucfirst(Auth::user()->role->name) }}</span>
+                <span class="sidebar-user__role">{{ substr(ucfirst(Auth::user()->roles->pluck('name')[0]), 0, 11) }}</span>
             </div>
         </div>
 
@@ -113,6 +115,7 @@
 
             <ul class="sidebar-menu-outer" id="accordion">
 
+                <!-- Dashboard -->
                 <li class="sidebar-menu-outer__item">
                     <a class="sidebar-menu-outer__btn @if(Request::path() === "admin") sidebar-menu-outer__btn--active @endif"
                        href="/admin">
@@ -120,113 +123,204 @@
                         <span class="sidebar-menu-outer__text">Dashboard</span>
                     </a>
                 </li>
+                <!-- Dashboard- END -->
 
+                <!-- Articles -->
+                @if(Auth::user()->can('view articles') || Auth::user()->can('create articles'))
+                    <li class="sidebar-menu-outer__item">
 
-                <li class="sidebar-menu-outer__item">
+                        <button class="sidebar-menu-outer__btn @if( strpos(Request::path(), 'admin/articles') !== false) sidebar-menu-outer__btn--active @else collapsed @endif"
+                                data-toggle="collapse" data-target="#collapsePosts"
+                                aria-expanded="true"
+                                aria-controls="collapseTwo">
+                            <i class="sidebar-menu-outer__icon far fa-newspaper"></i>
+                            <span class="sidebar-menu-outer__text">Articles</span>
+                            <i class="sidebar-menu-outer__dropdown fas fa-chevron-down"></i>
 
-                    <button class="sidebar-menu-outer__btn @if( strpos(Request::path(), 'admin/posts') !== false) sidebar-menu-outer__btn--active @else collapsed @endif"
-                            data-toggle="collapse" data-target="#collapsePosts"
-                            aria-expanded="true"
-                            aria-controls="collapseTwo">
-                        <i class="sidebar-menu-outer__icon far fa-newspaper"></i>
-                        <span class="sidebar-menu-outer__text">Posts</span>
-                        <i class="sidebar-menu-outer__dropdown fas fa-chevron-down"></i>
+                        </button>
 
-                    </button>
+                        <div id="collapsePosts"
+                             class="collapse @if( strpos(Request::path(), 'admin/articles') !== false) show @else  @endif"
+                             aria-labelledby="headingTwo" data-parent="#accordion">
 
-                    <div id="collapsePosts"
-                         class="collapse @if( strpos(Request::path(), 'admin/posts') !== false) show @else  @endif"
-                         aria-labelledby="headingTwo" data-parent="#accordion">
+                            <ul class="sidebar-menu-inner">
+                                @can('view articles')
+                                <li class="sidebar-menu-inner__item">
+                                    <a class="sidebar-menu-inner__link @if( Request::path() == 'admin/articles') sidebar-menu-inner__active @else @endif"
+                                       href="/admin/articles">All articles</a>
+                                </li>
+                                @endcan
+                                @can('create articles')
+                                <li class="sidebar-menu-inner__item">
+                                    <a class="sidebar-menu-inner__link @if( strpos(Request::path(), 'admin/articles/new') !== false) sidebar-menu-inner__active @else @endif"
+                                       href="/admin/articles/new">Add new article</a>
+                                </li>
+                                @endcan
+                                @can('edit articles')
+                                    <li class="sidebar-menu-inner__item">
+                                        <a class="sidebar-menu-inner__link @if( strpos(Request::path(), 'admin/tags') !== false) sidebar-menu-inner__active @else @endif"
+                                           href="/admin/articles/new">Categories</a>
+                                    </li>
+                                    <li class="sidebar-menu-inner__item">
+                                        <a class="sidebar-menu-inner__link @if( strpos(Request::path(), 'admin/categories') !== false) sidebar-menu-inner__active @else @endif"
+                                           href="/admin/articles/new">Tags</a>
+                                    </li>
+                                @endcan
+                            </ul>
 
-                        <ul class="sidebar-menu-inner">
-                            <li class="sidebar-menu-inner__item">
-                                <a class="sidebar-menu-inner__link" href="/">All users</a>
-                            </li>
-                            <li class="sidebar-menu-inner__item">
-                                <a class="sidebar-menu-inner__link" href="/admin/users/new">Edit users</a>
-                            </li>
-                        </ul>
+                        </div>
 
-                    </div>
+                    </li>
+                @endif
+            <!-- Articles - END -->
 
-                </li>
+                <!-- Pages -->
+                @if(Auth::user()->can('view pages') || Auth::user()->can('edit pages'))
+                    <li class="sidebar-menu-outer__item">
 
-                <li class="sidebar-menu-outer__item">
+                        <button class="sidebar-menu-outer__btn collapsed" data-toggle="collapse"
+                                data-target="#collapsePages"
+                                aria-expanded="true"
+                                aria-controls="collapseTwo">
+                            <i class="sidebar-menu-outer__icon fas fa-book"></i>
+                            <span class="sidebar-menu-outer__text">Pages</span>
+                            <i class="sidebar-menu-outer__dropdown fas fa-chevron-down"></i>
 
-                    <button class="sidebar-menu-outer__btn collapsed" data-toggle="collapse"
-                            data-target="#collapsePages"
-                            aria-expanded="true"
-                            aria-controls="collapseTwo">
-                        <i class="sidebar-menu-outer__icon fas fa-book"></i>
-                        <span class="sidebar-menu-outer__text">Pages</span>
-                        <i class="sidebar-menu-outer__dropdown fas fa-chevron-down"></i>
+                        </button>
 
-                    </button>
+                        <div id="collapsePages" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
 
-                    <div id="collapsePages" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <ul class="sidebar-menu-inner">
+                                @can('view pages')
+                                    <li class="sidebar-menu-inner__item">
+                                        <a class="sidebar-menu-inner__link" href="/pages">All pages</a>
+                                    </li>
+                                @endcan
+                                @can('edit pages')
+                                    <li class="sidebar-menu-inner__item">
+                                        <a class="sidebar-menu-inner__link" href="/admin/page">Add new page</a>
+                                    </li>
+                                @endif
+                            </ul>
 
-                        <ul class="sidebar-menu-inner">
-                            <li class="sidebar-menu-inner__item">
-                                <a class="sidebar-menu-inner__link" href="/">All users</a>
-                            </li>
-                            <li class="sidebar-menu-inner__item">
-                                <a class="sidebar-menu-inner__link" href="/">Edit users</a>
-                            </li>
-                        </ul>
+                        </div>
 
-                    </div>
+                    </li>
+                @endif
+            <!-- Pages - END -->
 
-                </li>
-
+                <!-- Media -->
+                @can('view media')
                 <li class="sidebar-menu-outer__item">
                     <a class="sidebar-menu-outer__btn @if( strpos(Request::path(), 'admin/media') !== false) sidebar-menu-outer__btn--active @else collapsed @endif"
                        href="/admin/media">
-                        <i class="sidebar-menu-outer__icon fas fa-images"></i>
+                        <i class="sidebar-menu-outer__icon fas fa-image"></i>
                         <span class="sidebar-menu-outer__text">Media</span>
 
                     </a>
                 </li>
+                @endcan
+                <!-- Media - END -->
 
 
+                <!-- Users -->
+                @if(Auth::user()->can('view users') || Auth::user()->can('create standard users') || Auth::user()->can('create editors') || Auth::user()->can('create administrators') || Auth::user()->can('create super administrators'))
+                    <li class="sidebar-menu-outer__item">
+
+                        <button class="sidebar-menu-outer__btn @if( strpos(Request::path(), 'admin/users') !== false) sidebar-menu-outer__btn--active @else collapsed @endif"
+                                data-toggle="collapse" data-target="#collapseTwo"
+                                aria-expanded="true"
+                                aria-controls="collapseTwo">
+                            <i class="sidebar-menu-outer__icon fas fa-user"></i>
+                            <span class="sidebar-menu-outer__text">Users</span>
+                            <i class="sidebar-menu-outer__dropdown fas fa-chevron-down"></i>
+
+                        </button>
+
+                        <div id="collapseTwo"
+                             class="collapse @if( strpos(Request::path(), 'admin/users') !== false) show @else @endif"
+                             aria-labelledby="headingTwo" data-parent="#accordion">
+
+
+                            <ul class="sidebar-menu-inner">
+                                @can('view users')
+                                    <li class="sidebar-menu-inner__item">
+                                        <a class="sidebar-menu-inner__link @if( Request::path() == 'admin/users') sidebar-menu-inner__active @else @endif"
+                                           href="/admin/users">All users</a>
+                                    </li>
+                                @endcan
+                                @if(Auth::user()->can('create standard users') || Auth::user()->can('create editors') || Auth::user()->can('create administrators') || Auth::user()->can('create super admins'))
+                                    <li class="sidebar-menu-inner__item">
+                                        <a class="sidebar-menu-inner__link @if( strpos(Request::path(), 'admin/users/new') !== false) sidebar-menu-inner__active @else @endif"
+                                           href="/admin/users/new">Add new user</a>
+                                    </li>
+                                @endif
+                            </ul>
+
+                        </div>
+
+                    </li>
+                @endif
+
+            <!-- Users - END -->
+
+                @hasrole('owner')
                 <li class="sidebar-menu-outer__item">
-
-                    <button class="sidebar-menu-outer__btn @if( strpos(Request::path(), 'admin/users') !== false) sidebar-menu-outer__btn--active @else collapsed @endif"
-                            data-toggle="collapse" data-target="#collapseTwo"
-                            aria-expanded="true"
-                            aria-controls="collapseTwo">
-                        <i class="sidebar-menu-outer__icon fas fa-users"></i>
-                        <span class="sidebar-menu-outer__text">Users</span>
-                        <i class="sidebar-menu-outer__dropdown fas fa-chevron-down"></i>
-
-                    </button>
-
-                    <div id="collapseTwo"
-                         class="collapse @if( strpos(Request::path(), 'admin/users') !== false) show @else @endif"
-                         aria-labelledby="headingTwo" data-parent="#accordion">
-
-                        <ul class="sidebar-menu-inner">
-                            <li class="sidebar-menu-inner__item">
-                                <a class="sidebar-menu-inner__link @if( Request::path() == 'admin/users') sidebar-menu-inner__active @else @endif"
-                                   href="/admin/users">All users</a>
-                            </li>
-                            <li class="sidebar-menu-inner__item">
-                                <a class="sidebar-menu-inner__link @if( strpos(Request::path(), 'admin/users/new') !== false) sidebar-menu-inner__active @else @endif"
-                                   href="/admin/users/new">Add new user</a>
-                            </li>
-                        </ul>
-
-                    </div>
-
-                </li>
-
-
-                <li class="sidebar-menu-outer__item">
-                    <a class="sidebar-menu-outer__btn" href="/admin">
-                        <i class="sidebar-menu-outer__icon fas fa-cog"></i>
-                        <span class="sidebar-menu-outer__text">Settings</span>
+                    <a class="sidebar-menu-outer__btn @if(Request::path() === "admin/permissions") sidebar-menu-outer__btn--active @endif"
+                       href="/admin/permissions">
+                        <i class="sidebar-menu-outer__icon fas fa-lock"></i>
+                        <span class="sidebar-menu-outer__text">Permissions</span>
 
                     </a>
                 </li>
+                @endhasrole
+
+
+                <!-- Appearance -->
+
+                    <li class="sidebar-menu-outer__item">
+
+                        <button class="sidebar-menu-outer__btn collapsed" data-toggle="collapse"
+                                data-target="#collapseAppearance"
+                                aria-expanded="true"
+                                aria-controls="collapseTwo">
+                            <i class="sidebar-menu-outer__icon fas fa-paint-brush"></i>
+                            <span class="sidebar-menu-outer__text">Appearance</span>
+                            <i class="sidebar-menu-outer__dropdown fas fa-chevron-down"></i>
+
+                        </button>
+
+                        <div id="collapseAppearance" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+
+                            <ul class="sidebar-menu-inner">
+                                    <li class="sidebar-menu-inner__item">
+                                        <a class="sidebar-menu-inner__link" href="/pages">Color theme</a>
+                                    </li>
+                                @can('edit menu')
+                                    <li class="sidebar-menu-inner__item">
+                                        <a class="sidebar-menu-inner__link" href="/admin/page">Menu</a>
+                                    </li>
+                                @endif
+                            </ul>
+
+                        </div>
+
+                    </li>
+
+            <!-- Appearance - END -->
+
+
+                <!-- Settings -->
+                @can('edit settings')
+                    <li class="sidebar-menu-outer__item">
+                        <a class="sidebar-menu-outer__btn" href="/admin">
+                            <i class="sidebar-menu-outer__icon fas fa-cog"></i>
+                            <span class="sidebar-menu-outer__text">Settings</span>
+
+                        </a>
+                    </li>
+            @endcan
+            <!-- Settings - END -->
 
 
             </ul>
@@ -243,6 +337,10 @@
     </main>
 </div>
 
+
+<script src="{{ asset('js/admin.js') }}"></script>
+<!-- include summernote css/js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
 
 </body>
 </html>

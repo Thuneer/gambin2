@@ -7,13 +7,19 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// Packacges and tools
+import 'summernote/dist/summernote-bs4.min'
+import './admin/init.summernote';
+import './dropzone';
 
 // Custom JS
-import './dropzone';
-import './media-upload';
+import './admin/media-upload';
 import './admin/top-bar';
 import './admin/list';
 import './admin/misc';
-import  './upload-preview';
-import './upload-preview-config';
+import './admin/upload-preview';
+import './admin/upload-preview-config';
 import './admin/image-picker';
+import './admin/tags';
+import './admin/permissions';
+import './admin/picker';

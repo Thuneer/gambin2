@@ -25,10 +25,12 @@
 
   &__container {
     display: none;
-    background-color: $primary-hover;
+    background-color: $primary;
   }
 
 }
+
+
 
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
@@ -41,17 +43,14 @@
 
   .user-top {
 
-    position: absolute;
     height: 100%;
-    right: 0;
     display: flex;
     align-items: center;
 
     &__name {
       display: inline-block;
       color: white;
-      margin-left: 20px;
-      margin-right: 55px;
+      margin: 0 52px 0 20px;
     }
 
     &__img {
@@ -103,10 +102,10 @@
     &__container {
       display: flex;
       align-items: center;
-      position: absolute;
       height: 100%;
-      right: 0;
       min-width: 220px;
+      border-left: 1px solid $primary-hover;
+      position: relative;
     }
 
     &__container:hover {

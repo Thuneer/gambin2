@@ -13,12 +13,12 @@
                 <p id="deleteModalText"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
+                <button type="button" class="button" data-dismiss="modal">No, close</button>
                 <form method="POST" action="{{ $route }}">
                     @csrf
                     <input name="deleteIds" type="hidden" id="deleteModalIds">
                     <input name="list" type="hidden" value="{{ $list }}">
-                    <button id="deleteModalBtn" type="submit" class="btn btn-danger">Yes, delete</button>
+                    <button id="deleteModalBtn" type="submit" class="button button--danger">Yes, delete</button>
                 </form>
             </div>
         </div>

@@ -4,8 +4,8 @@
 
     <div class="tool-bar">
         <div class="tool-bar__left">
-            <h1 class="page-header">All Users</h1>
-            <a href="/admin/users/new" class="tool-bar-add__btn">
+            <span class="page-header__icon"><i class="fas fa-user"></i></span><h1 class="page-header">All Users</h1>
+            <a href="/admin/users/new" class="button button--primary">
                 <i class="tool-bar-add__icon fas fa-plus"></i>
                 Add new user
             </a>
@@ -73,7 +73,10 @@
             <tr>
 
                 <td class="list__td list__primary" style="width: 50px">
+
                     <input id="bulkCheckbox" type="checkbox">
+                    <label for="bulkCheckbox"></label>
+
                 </td>
 
                 @component('admin/components/list_th')
@@ -133,7 +136,8 @@
                     <input class="list-name" type="hidden" value="{{ $user->first_name }} {{ $user->last_name }}">
 
                     <td class="list__td list__primary">
-                        <input class="list__checkbox" type="checkbox">
+                        <input class="list__checkbox" id="styled-checkbox-{{ $user->id }}" type="checkbox">
+                        <label for="styled-checkbox-{{ $user->id }}"></label>
                     </td>
 
                     <td class="list__td list__primary">
@@ -147,15 +151,19 @@
                     </td>
 
                     <td class="list__td">{{ $user->email }}</td>
-                    <td class="list__td">{{ ucfirst($user->role->name) }}</td>
+                    <td class="list__td">{{ ucfirst($user->roles->pluck('name')[0]) }}</td>
                     <td class="list__td">
 
                         <a href="/admin/users/{{ $user->id }}/edit" class="list__edit">Edit</a>
 
-                        @component('admin/components/list_delete_btn', ['item' => $user])
-                            @slot('type') user @endslot
-                            @slot('min_role') 2 @endslot
-                        @endcomponent
+
+                        @if(!canDeleteUsers(Auth::user(), $user))
+                            <span data-toggle="tooltip" title="You do not have permission to delete this user."> @endif
+
+                                <button @if (!canDeleteUsers(Auth::user(), $user)) disabled
+                                        @endif class="list__delete" data-toggle="modal" data-target="#deleteModal">Delete</button>
+
+                                @if(!canDeleteUsers(Auth::user(), $user))</span>@endif
 
                     </td>
 
@@ -169,7 +177,7 @@
                         </div>
                         <div class="list-dropdown__row">
                             <div class="list-dropdown__header">Role</div>
-                            <div class="list-dropdown__text">{{ ucfirst($user->role->name) }}</div>
+                            <div class="list-dropdown__text">{{ ucfirst($user->roles->pluck('name')[0]) }}</div>
                         </div>
                         <div class="list-dropdown__row">
                             <div class="list-dropdown__header">Updated</div>

@@ -47,14 +47,14 @@ jQuery(document).ready(function ($) {
             sidebarExtended = false;
             if (mobileView) {
                 toggle.removeClass("top-bar-toggle--active");
-                overlay.hide();
+                overlay.fadeOut(200);
             }
         }
         else {
             extendSidebar();
             if (mobileView) {
                 toggle.addClass("top-bar-toggle--active");
-                overlay.show();
+                overlay.fadeIn(200);
             }
 
             else
@@ -91,5 +91,33 @@ jQuery(document).ready(function ($) {
         $('#mediaUpdated').html(item.updated);
 
     });
+
+    // Add transition to sidebar after page load
+    sidebar.addClass('sidebar--transition');
+    content.addClass('content--transition');
+
+    $('[data-pophide]').click(function () {
+
+        let id = $(this).data('pophide');
+
+        let popup = $(document).find('#' + id);
+
+        popup.fadeOut(250);
+
+    });
+
+    $('[data-popshow]').click(function () {
+
+        let id = $(this).data('popshow');
+
+        let popup = $(document).find('#' + id);
+
+        popup.fadeIn(250);
+
+    });
+
+    $('.popup__overlay').click(function () {
+        $(this).parent().fadeOut(250);
+    })
 
 });

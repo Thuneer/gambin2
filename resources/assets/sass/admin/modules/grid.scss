@@ -1,7 +1,7 @@
 .grid {
 
   background-color: white;
-  border: 1px solid $light-grey;
+  border: 1px solid $lighter-grey;
   padding: 5px;
   border-radius: 4px;
 
@@ -85,6 +85,20 @@
     &__item {
       width: calc(8.33% - 15.5px);
       padding-top: calc(8.33% - 15.5px);
+      margin: 6px;
+    }
+  }
+
+}
+
+@media (min-width: 1400px) {
+
+  .grid {
+    padding: 10px;
+
+    &__item {
+      width: calc(7.1428% - 15.5px);
+      padding-top: calc(7.1428% - 15.5px);
       margin: 6px;
     }
   }

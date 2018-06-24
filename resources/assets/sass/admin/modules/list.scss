@@ -3,7 +3,7 @@
   .table {
 
     background-color: white;
-    border: 1px solid $light-grey;
+    border: 1px solid $lighter-grey;
 
     thead th {
       border: none;
@@ -56,8 +56,8 @@
   }
 
   &__column:nth-child(4n + 1) {
-    border-top: 1px solid $light-border;
-    border-bottom: 1px solid $light-border;
+    border-top: 1px solid $lightest-grey;
+    border-bottom: 1px solid $lightest-grey;
   }
 
   .list__dropdown {
@@ -154,7 +154,7 @@
   &__sort-arrow {
     position: absolute;
     right: 20px;
-    top: 17px;
+    top: 20px;
     font-size: 14px;
     display: block;
     pointer-events: none;
@@ -186,7 +186,7 @@
 }
 
 .list-dropdown {
-  background-color: $light-border;
+  background-color: $light-grey;
   position: relative;
 
   &__hidden {

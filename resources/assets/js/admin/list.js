@@ -45,7 +45,6 @@ jQuery(document).ready(function ($) {
 
     });
 
-
     $('#bulkCheckbox').click(function () {
 
         let checkboxes = $('.list__checkbox');
@@ -59,7 +58,8 @@ jQuery(document).ready(function ($) {
 
             });
 
-            $('#deleteBulkBtn').prop('disabled', false);
+            if(checkboxes.length > 0)
+                $('#deleteBulkBtn').prop('disabled', false);
 
         } else {
 

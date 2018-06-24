@@ -24,6 +24,9 @@ class MediaController extends Controller
         $sort_value = $request->query('sort-value') == null || $request->query('sort-value') == 'desc' ? 'desc' : 'asc';
         $sort_type = $request->query('sort-type') !== null ? $request->query('sort-type') : 'created_at';
 
+        if ($per_page == null && $list == 1)
+            $per_page = 15;
+
         if ($sort_type !== 'name' && $sort_type !== 'size' && $sort_type !== 'extension' && $sort_type !== 'created_at')
             $sort_type = 'name';
 
@@ -101,6 +104,57 @@ class MediaController extends Controller
         return response()->json($image, 200);
     }
 
+    public function getImages(Request $request) {
+
+        $search = $request->input( 'search' );
+
+        if (strlen($search) !== 0) {
+            $media = Media::where('name', 'LIKE', '%' . $search . '%')->orderBy('created_at', 'DESC')->get();
+        } else {
+            $media = Media::orderBy('created_at', 'DESC')->take(32)->get();
+        }
+
+        return response()->json($media);
+
+    }
+
+    public function editView($id) {
+
+        $media = Media::find($id);
+        return view('admin.media.edit', ['item' => $media]);
+
+    }
+
+    public function edit(Request $request, $id) {
+
+        $validatedData = $request->validate([
+            'name' => 'required'
+        ]);
+
+        $name = $request->input( 'name' );
+        $alt = $request->input( 'alt' );
+        $image = Media::find($id);
+
+        if (!$image) {
+            $request->session()->flash('message', 'The media you are trying to edit no longer exists.');
+            $request->session()->flash('message-status', 'error');
+
+            return redirect('/admin/media');
+        }
+
+        $image->name = $name;
+        $image->alt = $alt;
+
+        $image->save();
+
+
+        $request->session()->flash('message', 'Media file was successfully updated.');
+        $request->session()->flash('message-status', 'success');
+
+        return redirect('/admin/media');
+
+    }
+
     public function delete(Request $request)
     {
 
@@ -111,7 +165,7 @@ class MediaController extends Controller
 
         if (count($id_array) == 0) {
             $request->session()->flash('message', 'Something went wrong.');
-            $request->session()->flash('status', 'error');
+            $request->session()->flash('message-status', 'error');
 
             return redirect('/admin/media');
         }
@@ -122,7 +176,7 @@ class MediaController extends Controller
 
             if (!$media) {
                 $request->session()->flash('message', 'Something went wrong, please try again.');
-                $request->session()->flash('status', 'error');
+                $request->session()->flash('message-status', 'error');
 
                 return redirect('/admin/media');
             }
@@ -161,13 +215,13 @@ class MediaController extends Controller
         if (count($id_array) > 1) {
 
             $request->session()->flash('message', count($id_array) . ' media files were successfully deleted.');
-            $request->session()->flash('status', 'success');
+            $request->session()->flash('message-status', 'success');
 
             return redirect('/admin/media?list=' . $list);
 
         } else {
             $request->session()->flash('message', '<b>' . $media->name . '</b> was successfully deleted.');
-            $request->session()->flash('status', 'success');
+            $request->session()->flash('message-status', 'success');
 
             return redirect('/admin/media?list=' . $list);
         }

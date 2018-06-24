@@ -1,26 +1,30 @@
 .image-picker-preview {
-  height: 120px;
-  width: 120px;
-  background-color: #f5f5f5;
-  border: 1px solid $light-grey;
+  height: 110px;
+  width: 110px;
+  background-color: white;
+  //background-color: $lightest-grey;
+  border: 1px solid $lighter-grey;
   border-radius: 5px;
   background-size: cover;
-  background-position: center;
   transition: 0.15s all;
   position: relative;
+  background-position: center;
 
   &__add {
 
-    font-size: 21px;
+    font-size: 20px;
     height: 50px;
     width: 50px;
     line-height: 50px;
-    //border: 1px solid #757575;
     border-radius: 50%;
     text-align: center;
     margin-top: calc(50% - 25px);
     margin-left: calc(50% - 25px);
     color: $primary;
+  }
+
+  &__add--hide {
+    display: none;
   }
 
   &__remove {
@@ -47,6 +51,7 @@
 .image-picker-preview:hover {
   cursor: pointer;
   background-color: $primary-light;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .image-picker {
@@ -113,20 +118,25 @@
 
   &__item {
     background-color: $placeholder-color;
+    border: 2px solid #e6e6e6;
+    border-radius: 4px;
     background-size: cover;
     background-position: center;
     width: calc(25% - 7px);
     margin: 2px;
     padding-top: calc(25% - 7px);
     display: inline-block;
+    transition: 0.1s all;
   }
 
   &__item:hover {
     cursor: pointer;
+    border: 2px solid $primary;
   }
 
   &__item--active {
-    outline: 2px solid $primary;
+    border: 2px solid $primary;
+    transform: scale(1.08);
   }
 
   &__search {

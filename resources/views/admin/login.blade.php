@@ -66,6 +66,11 @@
                                 </a>
                             </div>
 
+                            @foreach ($errors->all() as $message) {
+                            <p>{{ $message }}</p>
+                            @endforeach
+
+
                         </form>
                     </div>
                 </div>

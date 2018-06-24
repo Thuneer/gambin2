@@ -1,0 +1,104 @@
+.permissions {
+
+  background-color: white;
+  margin-bottom: 25px;
+  border: 1px solid $lighter-grey;
+  border-radius: 3px;
+
+  &__top {
+    border-bottom: 1px solid #eeeeee;
+  }
+
+  &__body {
+    padding: 25px;
+  }
+
+  &__header {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 9px;
+    color: #191919;
+  }
+
+  &__role {
+    font-weight: 100;
+    color: #000000;
+    letter-spacing: 0.4px;
+    padding: 16px 32px;
+    display: inline-block;
+    transition: 0.08s all;
+    margin-right: -4px;
+    border: none;
+    border-right: 1px solid #eeeeee;
+    background-color: white;
+  }
+
+  &__loading {
+    height: 24px;
+    left: 210px;
+    top: 5px;
+    position: absolute;
+    display: none;
+  }
+
+  &__success {
+    height: 24px;
+    top: 3px;
+    left: 215px;
+    margin-top: 5px;
+    font-size: 18px;
+    position: absolute;
+    color: #009b00;
+    display: none;
+  }
+
+  &__form {
+    display: inline-block;
+  }
+
+  &__role:hover {
+    background-color: $primary;
+    color: white;
+    cursor: pointer;
+  }
+
+  &__role--active {
+    background-color: $primary;
+    color: white;
+  }
+
+  &__item {
+    position: relative;
+    padding: 4px 0;
+    transition: 0.1s all;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    color: #323232;
+  }
+
+  &__item:hover {
+    background-color: #efefef;
+  }
+
+  &__item--spacer {
+    margin-bottom: 8px;
+  }
+
+  &__item--spacer-lg {
+    margin-bottom: 20px;
+  }
+
+  &__checkbox {
+    left: 0px;
+  }
+
+  &__label {
+    margin-bottom: 0;
+    margin-left: 32px;
+  }
+  &__label:hover {
+    cursor: pointer;
+  }
+
+}

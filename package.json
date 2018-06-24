@@ -21,6 +21,8 @@
     },
     "dependencies": {
         "imagesloaded": "^4.1.4",
-        "jquery.waitforimages": "^2.4.0"
+        "jquery-hoverintent": "^1.9.0",
+        "jquery.waitforimages": "^2.4.0",
+        "summernote": "^0.8.10"
     }
 }

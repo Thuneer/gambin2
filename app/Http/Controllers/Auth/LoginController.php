@@ -79,7 +79,7 @@ class LoginController extends Controller
 
             if (Hash::check($request->password, $userData->password)) {
 
-                if ($userData->role_id >= 2) {
+                if ($userData->hasPermissionTo('access admin panel')) {
 
                     $remember = $request->input('remember');
 

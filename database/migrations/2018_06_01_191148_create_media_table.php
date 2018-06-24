@@ -20,6 +20,7 @@ class CreateMediaTable extends Migration
             $table->string('type');
             $table->string('extension');
             $table->string('color');
+            $table->string('alt')->nullable();
             $table->string('resolution_x')->nullable();
             $table->string('resolution_y')->nullable();
             $table->string('duration')->nullable();

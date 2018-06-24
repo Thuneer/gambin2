@@ -10,6 +10,10 @@
     border: 1px solid $light-grey;
   }
 
+  .dropdown-item:hover {
+    cursor: pointer;
+  }
+
 }
 
 // Small devices (landscape phones, 576px and up)

@@ -5,7 +5,7 @@
     <div class="tool-bar">
         <div class="tool-bar__left">
             <h1 class="page-header">All Media</h1>
-            <button class="tool-bar-add__btn" data-toggle="modal" data-target="#mediaAdd">
+            <button class="button button--primary" data-toggle="modal" data-target="#mediaAdd">
                 <i class="tool-bar-add__icon fas fa-plus"></i>
                 Add media
             </button>
@@ -30,10 +30,10 @@
             <form method="GET" class="view-type">
                 <input name="list" id="list-value" type="hidden">
 
-                <i onclick="$('#list-value').val('1'); $('.view-type').submit();"
-                   class="view-type__icon view-type__icon--list @if($list == '1') view-type__active @endif fas fa-th-list"></i>
                 <i onclick="$('#list-value').val('0'); $('.view-type').submit();"
                    class="view-type__icon view-type__icon--grid icon @if($list == '0') view-type__active @endif fas fa-th"></i>
+                <i onclick="$('#list-value').val('1'); $('.view-type').submit();"
+                   class="view-type__icon view-type__icon--list @if($list == '1') view-type__active @endif fas fa-th-list"></i>
                 <i class="view-type__icon view-type__icon--search ion-md-search"></i>
 
             </form>
@@ -86,6 +86,7 @@
 
                     <td class="list__td list__primary" style="width: 50px">
                         <input id="bulkCheckbox" type="checkbox">
+                        <label for="bulkCheckbox"></label>
                     </td>
 
                     @component('admin/components/list_th')
@@ -146,7 +147,8 @@
                         <input class="list-name" type="hidden" value="{{ $item->name }}">
 
                         <td class="list__td list__primary">
-                            <input class="list__checkbox" type="checkbox">
+                            <input class="list__checkbox" id="styled-checkbox-{{ $item->id }}" type="checkbox">
+                            <label for="styled-checkbox-{{ $item->id }}"></label>
                         </td>
 
                         <td class="list__td list__primary">
@@ -166,11 +168,15 @@
 
                         <td class="list__td">
 
-                            <button class="list__edit">Edit</button>
-                            @component('admin/components/list_delete_btn', ['item' => $item])
-                                @slot('type') media @endslot
-                                @slot('min_role') 3 @endslot
-                            @endcomponent
+                            <a href="/admin/media/{{ $item->id }}/edit" class="list__edit">Edit</a>
+
+                            @if(!canDeleteMedia(Auth::user()))
+                                <span data-toggle="tooltip" title="You do not have permission to delete media files."> @endif
+
+                                    <button @if (!canDeleteMedia(Auth::user())) disabled
+                                            @endif class="list__delete" data-toggle="modal" data-target="#deleteModal">Delete</button>
+
+                                    @if(!canDeleteMedia(Auth::user()))</span>@endif
 
                         </td>
 
@@ -217,7 +223,7 @@
 
             @foreach($items as $item)
 
-                <div class="grid__item" data-toggle="modal" data-target="#mediaDetails">
+                <div class="grid__item" data-popshow="test1">
 
                     <div data-info='{
                     "name": "{{ $item->name }}",
@@ -276,57 +282,62 @@
 
 
     <!-- Media details -->
-    <div class="media-details modal fade" id="mediaDetails">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+    <div id="test1" class="popup">
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Media details</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
+        <div class="popup__overlay"></div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12 col-lg-6">
-                                <div class="media-details__img"></div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="media-details__row">
-                                            <div class="media-details__header">Name</div>
-                                            <div id="mediaName">Name and stuff</div>
-                                        </div>
-                                        <div class="media-details__row">
-                                            <div class="media-details__header">Size</div>
-                                            <div id="mediaSize">Name and stuff</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="media-details__row">
-                                            <div class="media-details__header">Extension</div>
-                                            <div id="mediaExtension">Name and stuff</div>
-                                        </div>
-                                        <div class="media-details__row">
-                                            <div class="media-details__header">Updated</div>
-                                            <div id="mediaUpdated">Name and stuff</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        <div class="popup__body">
+
+            <div class="popup__header">
+                <h3>Media details</h3>
+            </div>
+            <div class="media-details">
+
+                <div class="container-fluid">
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <img class="media-details__img" src="/img/test.jpg" alt="">
+                        </div>
+                        <div class="col-md-4">
+                           <div class="media-details__container">
+                               <div class="media-details__item">
+                                   <div class="media-details__header">Name</div>
+                                   <div class="media-details__text">test123</div>
+                               </div>
+                               <div class="media-details__item">
+                                   <div class="media-details__header">Extension</div>
+                                   <div class="media-details__text">.png</div>
+                               </div>
+                               <div class="media-details__item">
+                                   <div class="media-details__header">Size</div>
+                                   <div class="media-details__text">2 MB</div>
+                               </div>
+                               <div class="media-details__item">
+                                   <div class="media-details__header">Resolution</div>
+                                   <div class="media-details__text">1280 x 720</div>
+                               </div>
+
+                               <div class="media-details__item">
+                                   <div class="media-details__header">Alt attribute</div>
+                                   <div class="media-details__text">An image of a guy.</div>
+                               </div>
+
+                               <div class="media-details__item">
+                                   <div class="media-details__header">File path</div>
+                                   <div class="media-details__text">http://localhost:8000/admin/media?list=0</div>
+                               </div>
+                           </div>
                         </div>
                     </div>
+
                 </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal">Close</button>
-                </div>
+
             </div>
+            <div data-pophide="test1" class="popup__close-icon fas fa-times"></div>
 
         </div>
+
     </div>
 
     @component('admin/components/message')@endcomponent

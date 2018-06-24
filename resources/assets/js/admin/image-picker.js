@@ -3,11 +3,14 @@ import * as Dropzone from "../dropzone";
 
 (function ($) {
 
-    if (document.querySelector('.image-picker-preview') !== null) {
+    if (document.querySelector('.image-picker-previewddd') !== null) {
 
         let path = '';
+        let imageAdded = false;
         let id= -1;
         let images = $('.image-picker__images');
+
+        let previewContainer = $('.image-picker-preview');
 
         let searchIcon = $('.image-picker__search-icon');
         let loadingIcon = $('.image-picker__loading-icon');
@@ -15,6 +18,7 @@ import * as Dropzone from "../dropzone";
 
         let searchInput = $(".image-picker__input");
         let activeMessage = $('.image-picker__selected');
+        let addIcon = $('.image-picker-preview__add');
 
         // Add CSRF token to header for all AJAX requests
         $.ajaxSetup({
@@ -149,17 +153,32 @@ import * as Dropzone from "../dropzone";
         $('.image-picker-preview__remove').click(function (e) {
             e.stopPropagation();
             clearPreviewImage();
+            imageAdded = false;
         });
 
         function setActiveImage() {
-            $('.image-picker-preview').css('background-image', 'url(/' + path + ')');
-            $('.image-picker-preview__add').hide();
+
+            previewContainer.css('background-image', 'url(/' + path + ')');
+            $('.image-picker-preview__add').addClass('image-picker-preview__add--hide');
             $('#image-picker-id').val(id);
+            imageAdded = true;
+
+            let src = $(previewContainer).css('background-image');
+            let url = src.match(/\((.*?)\)/)[1].replace(/('|")/g, '');
+
+            let img = new Image();
+            img.onload = function () {
+                previewContainer.css('background-color', 'transparent');
+            };
+
+            img.src = url;
+            if (img.complete) img.onload();
+
         }
 
-        $('.image-picker-preview').hover(function () {
+        previewContainer.hover(function () {
 
-            if (path !== '') {
+            if (imageAdded) {
                 $('.image-picker-preview__remove').fadeIn(100);
             }
 
@@ -189,6 +208,7 @@ import * as Dropzone from "../dropzone";
                 success: function (result) {
 
                     images.html('');
+                    console.log(result);
 
                     for (let i = 0; i < result.length; i++) {
                         images.append(' <div style="background-color:' + result[i].color + ';background-image: url(/' + result[i].path_thumbnail + ')" class="image-picker__item" data-name="' + result[i].name + '" data-path="' + result[i].path_thumbnail + '" data-id="' + result[i].id + '"></div>');
@@ -289,8 +309,8 @@ import * as Dropzone from "../dropzone";
 
         function clearPreviewImage() {
 
-            $('.image-picker-preview').css('background-image', 'none');
-            $('.image-picker-preview__add').show();
+            $('.image-picker-preview').attr('style', '');
+            addIcon.removeClass('image-picker-preview__add--hide');
             $('.image-picker-preview__remove').hide();
             clearActiveImage();
             path = '';

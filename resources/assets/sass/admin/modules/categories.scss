@@ -1,0 +1,67 @@
+.categories {
+
+}
+
+.form {
+  .post-categories {
+
+    &__add {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    &__input {
+      height: 34px;
+      padding-left: 10px;
+      width: 100%;
+      border: 1px solid $light-grey;
+    }
+
+    &__btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 34px;
+      height: 34px;
+      color: $primary;
+      border: 1px solid $light-grey;
+      background-color: white;
+      float: right;
+    }
+
+    &__btn:hover {
+      background-color: $primary;
+      color: white;
+    }
+
+    label {
+      font-size: 14px;
+      color:  $primary;
+      font-weight: 400;
+    }
+
+    input[type=checkbox] + label:before {
+      line-height: 22px;
+      font-weight: 400;
+    } /* checked icon */
+
+    input[type=checkbox]:checked + label:before {
+      line-height: 22px;
+      font-weight: 400;
+    } /* checked icon */
+
+    &__item {
+      padding: 1px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    &__list {
+      border: 1px solid $light-grey;
+      padding: 5px 10px;
+      height: 115px;
+      overflow: auto;
+    }
+
+  }
+}

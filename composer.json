@@ -11,7 +11,9 @@
         "intervention/image": "^2.4",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
-        "league/color-extractor": "0.3.*"
+        "league/color-extractor": "0.3.*",
+        "mews/purifier": "^2.1",
+        "spatie/laravel-permission": "^2.12"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

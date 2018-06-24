@@ -1,4 +1,4 @@
-import * as Dropzone from "./dropzone";
+import * as Dropzone from "../dropzone";
 import $ from 'jquery';
 
 Dropzone.autoDiscover = false;

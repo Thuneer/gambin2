@@ -5,12 +5,16 @@
   width: 230px;
   height: calc(100% - 54px);
   left: -230px;
-  box-shadow: 0 0 4px rgba(0,0,0,0.06);
-  z-index: 90;
+  border-right: 1px solid $lighter-grey;
+  z-index: 100;
 }
 
 .sidebar--active {
   left: 0;
+}
+
+.sidebar--transition {
+  transition: 0.2s all ease-in-out;
 }
 
 .content {
@@ -21,19 +25,24 @@
   padding: 75px 20px 0 250px;
 }
 
+.content--transition {
+  transition: 0.2s all ease-in-out;
+}
+
 .sidebar-user {
 
   padding: 20px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #f0f0f0;
 
   &__img {
-    height: 40px;
-    width: 40px;
+    height: 38px;
+    width: 38px;
     margin-right: 12px;
     background-color: $placeholder-color;
     border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.5);
   }
 
   &__name {
@@ -47,9 +56,9 @@
 
   &__role {
     font-weight: 100;
-    margin-top: -2px;
-    font-size: 0.8rem;
-    letter-spacing: 0.6px;
+    margin-top: -3px;
+    font-size: 0.9rem;
+    letter-spacing: 0.4px;
     display: block;
     color: black;
   }

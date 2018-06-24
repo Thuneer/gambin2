@@ -76,7 +76,7 @@
   .message {
 
     position: fixed;
-    right: 460px;
+    right: 25px;
     left: auto;
     top: -84px;
     z-index: 99;
@@ -121,6 +121,10 @@
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) {
+
+  .message {
+    right: 460px;
+  }
 
 }
 
