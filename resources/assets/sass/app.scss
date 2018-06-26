@@ -50,7 +50,11 @@ html, body {
   position: relative;
 }
 
-
+body.popup-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
 
 .navbar-laravel {
   background-color: #fff;

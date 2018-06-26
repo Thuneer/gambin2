@@ -74,6 +74,7 @@
                     @component('admin.components.image_preview', ['item' => $post])
                         @slot('title') Post image @endslot
                         @slot('type') card @endslot
+                            @slot('id') imagePicker @endslot
                     @endcomponent
 
                 <!-- Categories -->

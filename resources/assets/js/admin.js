@@ -23,3 +23,4 @@ import './admin/image-picker';
 import './admin/tags';
 import './admin/permissions';
 import './admin/picker';
+import './admin/media-details';

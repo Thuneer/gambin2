@@ -20,23 +20,54 @@ class PostController extends Controller
         $per_page = $request->query('per-page') ?: '15';
         $list = $request->query('list') == null || $request->query('list') == '1' ? '1' : '0';
 
-        $sort_value = $request->query('sort-value') == null || $request->query('sort-value') == 'desc' ? 'desc' : 'asc';
-        $sort_type = $request->query('sort-type') !== null ? $request->query('sort-type') : 'updated_at';
+        $sort_direction = $request->query('sort-value') == null || $request->query('sort-value') == 'desc' ? 'desc' : 'asc';
+        $sort_column = $request->query('sort-type') !== null ? $request->query('sort-type') : 'updated_at';
 
-        if ($sort_type !== 'title' && $sort_type !== 'published')
-            $sort_type = 'updated_at';
+        if ($sort_column !== 'title' && $sort_column !== 'published')
+            $sort_column = 'updated_at';
 
         if ($search) {
-
-            $posts = Post::where('first_name', 'like', '%' . $search . '%')->orWhere('last_name', 'like', '%' . $search . '%')->orderBy($sort_type, $sort_value)->paginate($per_page);
-
+            $posts = Post::where('first_name', 'like', '%' . $search . '%')->orWhere('last_name', 'like', '%' . $search . '%')->orderBy($sort_column, $sort_direction)->paginate($per_page);
         } else {
-
-            $posts = Post::orderBy($sort_type, $sort_value)->paginate($per_page);
-
+            $posts = Post::orderBy($sort_column, $sort_direction)->paginate($per_page);
         }
 
-        return view('admin/posts/posts', ['items' => $posts, 'search' => $search, 'per_page' => $per_page, 'list' => $list, 'sort_type' => $sort_type, 'sort_value' => $sort_value]);
+        $list_options = array(
+            array(
+                'title' => 'Title',
+                'sort_value' => 'title',
+                'sortable' => '1',
+                'sort_type' => 'primary',
+                'route' => '/admin/articles',
+                'list_type' => 'article-title'
+            ),
+            array(
+                'title' => 'Author',
+                'sort_value' => 'email',
+                'sortable' => '1',
+                'sort_type' => 'standard',
+                'route' => '/admin/articles',
+                'list_type' => 'article-author'
+            ),
+            array(
+                'title' => 'Published',
+                'sort_value' => 'published',
+                'sortable' => '1',
+                'sort_type' => 'standard',
+                'route' => '/admin/articles',
+                'list_type' => 'article-published'
+            ),
+            array(
+                'title' => 'Updated',
+                'sort_value' => 'updated_at',
+                'sortable' => '1',
+                'sort_type' => 'standard',
+                'route' => '/admin/articles',
+                'list_type' => 'article-updated'
+            )
+        );
+
+        return view('admin/posts/posts', ['items' => $posts, 'search' => $search, 'per_page' => $per_page, 'list' => $list, 'sort_column' => $sort_column, 'sort_direction' => $sort_direction, 'list_options' => $list_options]);
 
     }
 
@@ -84,7 +115,7 @@ class PostController extends Controller
 
         }
 
-        if (count($checkedCategories) > 0) {
+        if ($checkedCategories != null && count($checkedCategories) > 0) {
 
             foreach ($checkedCategories as $id => $category) {
 
@@ -94,7 +125,7 @@ class PostController extends Controller
 
         }
 
-        if (count($selectedTags) > 0) {
+        if ($selectedTags != null && count($selectedTags) > 0) {
 
             foreach ($selectedTags as $id => $tag) {
 
@@ -104,7 +135,7 @@ class PostController extends Controller
 
         }
 
-        $request->session()->flash('message', 'Post was created successfully.');
+        $request->session()->flash('message', 'Article was created successfully.');
         $request->session()->flash('message-status', 'success');
 
         return redirect('/admin/articles');
@@ -153,7 +184,6 @@ class PostController extends Controller
 
         }
 
-
         $post = Post::find($id);
         $post->title = $title;
         $post->ingress = $ingress;
@@ -168,7 +198,7 @@ class PostController extends Controller
 
         }
 
-        if (count($checkedCategories) > 0) {
+        if ($checkedCategories != null && count($checkedCategories) > 0) {
 
             $post->categories()->detach();
 
@@ -182,7 +212,7 @@ class PostController extends Controller
             $post->categories()->detach();
         }
 
-        if (count($selectedTags) > 0) {
+        if ($selectedTags != null && count($selectedTags) > 0) {
 
             $post->tags()->detach();
 
@@ -196,7 +226,7 @@ class PostController extends Controller
             $post->tags()->detach();
         }
 
-        $request->session()->flash('message', 'Post was successfully edited.');
+        $request->session()->flash('message', 'Article was successfully updated.');
         $request->session()->flash('message-status', 'success');
 
         return redirect()->back();

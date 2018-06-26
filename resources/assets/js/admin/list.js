@@ -27,14 +27,12 @@ jQuery(document).ready(function ($) {
 
     $(document).on('click', '.list__delete', function () {
 
-
         let id = $(this).parent().parent().find('.list-id').val();
         let name = $(this).parent().parent().find('.list-name').val();
         console.log(id);
         //$(this).parent().find('#deleteModalText').html("ddd");
         $('#deleteModalText').html('Are you sure you want to delete ' + '<b>' + name + '</b>?');
         $('#deleteModalIds').val(id);
-
 
     });
 

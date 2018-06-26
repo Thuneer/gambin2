@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use League\ColorExtractor\Color;
 use League\ColorExtractor\ColorExtractor;
@@ -21,26 +22,69 @@ class MediaController extends Controller
         $list = $request->query('list') == null || $request->query('list') == '0' ? '0' : '1';
         $per_page = $request->query('per-page') == null && $list == 0 ? '50' : $request->query('per-page');
 
-        $sort_value = $request->query('sort-value') == null || $request->query('sort-value') == 'desc' ? 'desc' : 'asc';
-        $sort_type = $request->query('sort-type') !== null ? $request->query('sort-type') : 'created_at';
+        $sort_direction = $request->query('sort-value') == null || $request->query('sort-value') == 'desc' ? 'desc' : 'asc';
+        $sort_column = $request->query('sort-type') !== null ? $request->query('sort-type') : 'created_at';
 
         if ($per_page == null && $list == 1)
             $per_page = 15;
 
-        if ($sort_type !== 'name' && $sort_type !== 'size' && $sort_type !== 'extension' && $sort_type !== 'created_at')
-            $sort_type = 'name';
+        if ($sort_column !== 'name' && $sort_column !== 'size' && $sort_column !== 'extension' && $sort_column !== 'created_at')
+            $sort_column = 'name';
 
         if ($search) {
 
-            $media = Media::where('name', 'like', '%' . $search . '%')->orderBy($sort_type, $sort_value)->paginate($per_page);
+            $media = Media::where('name', 'like', '%' . $search . '%')->orderBy($sort_column, $sort_direction)->paginate($per_page);
 
         } else {
 
-            $media = Media::orderBy($sort_type, $sort_value)->paginate($per_page);
+            $media = Media::orderBy($sort_column, $sort_direction)->paginate($per_page);
 
         }
 
-        return view('admin/media', ['items' => $media, 'search' => $search, 'per_page' => $per_page, 'list' => $list, 'sort_type' => $sort_type, 'sort_value' => $sort_value]);
+        $list_options = array(
+            array(
+                'title' => 'Name',
+                'sort_value' => 'name',
+                'sortable' => '1',
+                'sort_type' => 'primary',
+                'route' => '/admin/media',
+                'list_type' => 'media-name'
+            ),
+            array(
+                'title' => 'Extension',
+                'sort_value' => 'extension',
+                'sortable' => '1',
+                'sort_type' => 'standard',
+                'route' => '/admin/media',
+                'list_type' => 'media-extension'
+            ),
+            array(
+                'title' => 'Size',
+                'sort_value' => 'size',
+                'sortable' => '1',
+                'sort_type' => 'standard',
+                'route' => '/admin/media',
+                'list_type' => 'media-size'
+            ), array(
+                'title' => 'Connections',
+                'sort_value' => '-1',
+                'sortable' => '0',
+                'sort_type' => 'standard',
+                'route' => '/admin/media',
+                'list_type' => 'media-connections'
+
+
+            ));
+
+        return view('admin/media', [
+            'items' => $media,
+            'search' => $search,
+            'per_page' => $per_page,
+            'list' => $list,
+            'sort_column' => $sort_column,
+            'sort_direction' => $sort_direction,
+            'list_options' => $list_options
+        ]);
 
     }
 
@@ -52,6 +96,8 @@ class MediaController extends Controller
         $ext = $file->getClientOriginalExtension();
         $size = $file->getClientSize();
         $name = explode('.', $base)[0];
+        $resolution_x =  getimagesize($file)[0];
+        $resolution_y =  getimagesize($file)[1];
 
         $img_full = Image::make($file);
 
@@ -94,6 +140,8 @@ class MediaController extends Controller
         $image->type = 'image';
         $image->extension = $ext;
         $image->color = $color;
+        $image->resolution_x = $resolution_x;
+        $image->resolution_y = $resolution_y;
         $image->path_full = $img_full_path;
         $image->path_large = $img_large_path;
         $image->path_medium = $img_medium_path;
@@ -127,32 +175,29 @@ class MediaController extends Controller
 
     public function edit(Request $request, $id) {
 
-        $validatedData = $request->validate([
-            'name' => 'required'
+        $validator = Validator::make($request->all(), [
+            'column' => 'required',
+            'value' => 'required'
         ]);
 
-        $name = $request->input( 'name' );
-        $alt = $request->input( 'alt' );
+        $column = $request->input( 'column' );
+        $value = $request->input( 'value' );
+
+        if ($validator->fails())
+            return response()->json('Validation failed', 400);
+        else if($column !== 'name' && $column !== 'title' && $column !== 'alt')
+            return response()->json('Values wrong', 400);
+
         $image = Media::find($id);
 
         if (!$image) {
-            $request->session()->flash('message', 'The media you are trying to edit no longer exists.');
-            $request->session()->flash('message-status', 'error');
-
-            return redirect('/admin/media');
+            return response()->json('Image not found', 404);
         }
 
-        $image->name = $name;
-        $image->alt = $alt;
-
+        $image[$column] = $value;
         $image->save();
 
-
-        $request->session()->flash('message', 'Media file was successfully updated.');
-        $request->session()->flash('message-status', 'success');
-
-        return redirect('/admin/media');
-
+        return response()->json($image, 201);
     }
 
     public function delete(Request $request)

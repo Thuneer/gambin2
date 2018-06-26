@@ -461,11 +461,11 @@
       display: inline-block;
       color: white;
       margin-left: 20px;
-      font-weight: 100;
+      font-weight: 400;
       letter-spacing: 0.6px;
       position: absolute;
       left: 50px;
-      top: 30px;
+      top: 29px;
       font-size: 14px;
       text-transform: uppercase;
       opacity: 0.95;
@@ -474,13 +474,13 @@
     &__icon {
       background-color: white;
       color: $primary;
-      height: 34px;
-      width: 34px;
-      line-height: 34px;
+      height: 32px;
+      width: 32px;
+      line-height: 32px;
       border-radius: 50%;
       font-size: 15px;
       text-align: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      //box-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
 
   }

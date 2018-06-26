@@ -102,6 +102,13 @@
     display: flex;
     align-items: center;
     font-weight: 600;
+    background-color: transparent;
+    border: none;
+    color: $primary;
+  }
+
+  &__link:hover {
+  color: black;
   }
 
   &__img-avatar {

@@ -19,24 +19,51 @@ class UserController extends Controller
         $per_page = $request->query('per-page') ?: '15';
         $list = $request->query('list') == null || $request->query('list') == '1' ? '1' : '0';
 
-        $sort_value = $request->query('sort-value') == null || $request->query('sort-value') == 'desc' ? 'desc' : 'asc';
-        $sort_type = $request->query('sort-type') !== null ? $request->query('sort-type') : 'created_at';
+        $sort_direction = $request->query('sort-value') == null || $request->query('sort-value') == 'desc' ? 'desc' : 'asc';
+        $sort_column = $request->query('sort-type') !== null ? $request->query('sort-type') : 'created_at';
 
-        if ($sort_type !== 'first_name' && $sort_type !== 'email' && $sort_type !== 'role_id' && $sort_type !== 'created_at')
+        if ($sort_column !== 'first_name' && $sort_column !== 'email' && $sort_column !== 'role_id' && $sort_column !== 'created_at')
             $sort_type = 'first_name';
 
         if ($search) {
-            if ($sort_type == 'role_id')
-                $users = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')->where('first_name', 'like', '%' . $search . '%')->orWhere('last_name', 'like', '%' . $search . '%')->orderBy('role_id', $sort_value)->paginate($per_page);
+            if ($sort_column == 'role_id')
+                $users = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')->where('first_name', 'like', '%' . $search . '%')->orWhere('last_name', 'like', '%' . $search . '%')->orderBy('role_id', $sort_direction)->paginate($per_page);
             else
-                $users = User::where('first_name', 'like', '%' . $search . '%')->orWhere('last_name', 'like', '%' . $search . '%')->orderBy($sort_type, $sort_value)->paginate($per_page);
-        } else if ($sort_type == 'role_id') {
-            $users = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')->orderBy('role_id', $sort_value)->paginate($per_page);
+                $users = User::where('first_name', 'like', '%' . $search . '%')->orWhere('last_name', 'like', '%' . $search . '%')->orderBy($sort_column, $sort_direction)->paginate($per_page);
+        } else if ($sort_column == 'role_id') {
+            $users = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')->orderBy('role_id', $sort_direction)->paginate($per_page);
         } else {
-            $users = User::orderBy($sort_type, $sort_value)->paginate($per_page);
+            $users = User::orderBy($sort_column, $sort_direction)->paginate($per_page);
         }
 
-        return view('admin/users/users', ['users' => $users, 'search' => $search, 'per_page' => $per_page, 'list' => $list, 'sort_type' => $sort_type, 'sort_value' => $sort_value]);
+        $list_options = array(
+            array(
+                'title' => 'Name',
+                'sort_value' => 'first_name',
+                'sortable' => '1',
+                'sort_type' => 'primary',
+                'route' => '/admin/users',
+                'list_type' => 'user-name'
+            ),
+            array(
+                'title' => 'Email',
+                'sort_value' => 'email',
+                'sortable' => '1',
+                'sort_type' => 'standard',
+                'route' => '/admin/users',
+                'list_type' => 'user-email'
+            ),
+            array(
+                'title' => 'Role',
+                'sort_value' => 'role_id',
+                'sortable' => '1',
+                'sort_type' => 'standard',
+                'route' => '/admin/users',
+                'list_type' => 'user-role'
+            )
+        );
+
+        return view('admin/users/users', ['users' => $users, 'search' => $search, 'per_page' => $per_page, 'list' => $list, 'sort_column' => $sort_column, 'sort_direction' => $sort_direction, 'list_options' => $list_options]);
 
     }
 
@@ -76,7 +103,7 @@ class UserController extends Controller
         if (($role->name === 'standard user' && !$auth_role->hasPermissionTo('create standard users')) ||
             ($role->name === 'editor' && !$auth_role->hasPermissionTo('create editors')) ||
             ($role->name === 'administrator' && !$auth_role->hasPermissionTo('create administrators')) ||
-            ($role->name === 'super admin' && !$auth_role->hasPermissionTo('create super admin'))) {
+            ($role->name === 'super admin' && !$auth_role->hasPermissionTo('create super admins'))) {
 
             $request->session()->flash('message', 'You do not have permission to create <b>'. ucfirst($role->name) .'s</b>.');
             $request->session()->flash('message-status', 'error');
@@ -197,7 +224,7 @@ class UserController extends Controller
             }
         }
 
-        $request->session()->flash('message', '<b>' . $user->first_name . ' ' . $user->last_name . '</b> was successfully edited.');
+        $request->session()->flash('message', '<b>' . $user->first_name . ' ' . $user->last_name . '</b> was successfully updated.');
         $request->session()->flash('message-status', 'success');
 
         return redirect()->back();

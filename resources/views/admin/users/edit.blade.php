@@ -98,6 +98,7 @@
                             @component('admin.components.image_preview', ['item' => $user])
                                 @slot('title') Avatar @endslot
                                 @slot('type') regular @endslot
+                                @slot('id') imagePicker @endslot
                         @endcomponent
 
                         <!-- Password -->

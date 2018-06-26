@@ -56,7 +56,6 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/admin/media', 'MediaController@index');
     Route::post('/admin/media', 'MediaController@upload');
     Route::post('/admin/media/delete', 'MediaController@delete');
-    Route::get('/admin/media/{id}/edit', 'MediaController@editView');
     Route::post('/admin/media/{id}/edit', 'MediaController@edit');
     Route::get('/admin/media/getImages', 'MediaController@getImages');
 

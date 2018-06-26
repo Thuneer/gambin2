@@ -1,10 +1,9 @@
-<div id="imagePicker" class="popup popup--lg">
+<div id="imagePicker" class="popup popup--full">
 
-    <div class="popup__close-icon fas fa-times"></div>
 
     <div class="popup__overlay"></div>
 
-    <div class="popup__body">
+    <div class="popup__main">
 
         <div class="picker">
 
@@ -60,7 +59,7 @@
 
                 <div class="picker__footer">
                     <span class="picker__footer-selected"></span>
-                    <button class="button">Close</button>
+                    <button data-pophide="imagePicker" class="button">Close</button>
                     <button data-pophide="imagePicker" class="picker__select-btn button button--primary" disabled>Select image</button>
                 </div>
 

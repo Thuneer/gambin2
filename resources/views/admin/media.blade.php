@@ -53,160 +53,17 @@
 
     @if($list == '1')
 
-        <div class="list">
+        @component('admin/components/list', ['items' => $items, 'list_options' => $list_options])
+            @slot('search') {{ $search }} @endslot
+            @slot('sort_column') {{ $sort_column }} @endslot
+            @slot('sort_direction') {{ $sort_direction }} @endslot
+            @slot('per_page') {{ $per_page }} @endslot
+            @slot('list') {{ $list }} @endslot
+            @slot('route') /admin/media @endslot
+            @slot('singular') media file @endslot
+            @slot('plural') media files @endslot
+        @endcomponent
 
-            <div class="list__top">
-
-                <div class="dropdown bulk-actions">
-                    <button class="bulk-actions__btn btn dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Bulk actions
-                    </button>
-
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button disabled id="deleteBulkBtn" class="dropdown-item" href="#" data-toggle="modal"
-                           data-target="#deleteModal">Delete selected</button>
-                    </div>
-
-                </div>
-
-                @if($search)
-                    <div class="list__search-text">Searching for <b>{{ $search }}</b></div>
-                    <a class="list__clear-search" href="/admin/media">Clear search</a> @endif
-
-                @component('admin/components/amount', ['items' => $items])
-                    @slot('single') media file @endslot
-                    @slot('plural') media files @endslot
-                @endcomponent
-            </div>
-
-            <table class="table">
-                <thead>
-                <tr>
-
-                    <td class="list__td list__primary" style="width: 50px">
-                        <input id="bulkCheckbox" type="checkbox">
-                        <label for="bulkCheckbox"></label>
-                    </td>
-
-                    @component('admin/components/list_th')
-                        @slot('title') Name @endslot
-                        @slot('value') name @endslot
-                        @slot('sort_type') {{ $sort_type }} @endslot
-                        @slot('sort_value') {{ $sort_value }} @endslot
-                        @slot('per_page') {{ $per_page }} @endslot
-                        @slot('search') {{ $search }} @endslot
-                        @slot('route') /admin/media @endslot
-                        @slot('list') {{ $list }} @endslot
-                        @slot('type') primary @endslot
-                    @endcomponent
-
-                    @component('admin/components/list_th')
-                        @slot('title') Extension @endslot
-                        @slot('value') extension @endslot
-                        @slot('sort_type') {{ $sort_type }} @endslot
-                        @slot('sort_value') {{ $sort_value }} @endslot
-                        @slot('per_page') {{ $per_page }} @endslot
-                        @slot('search') {{ $search }} @endslot
-                        @slot('route') /admin/media @endslot
-                        @slot('list') {{ $list }} @endslot
-                        @slot('type') normal @endslot
-                    @endcomponent
-
-                    @component('admin/components/list_th')
-                        @slot('title') Size @endslot
-                        @slot('value') size @endslot
-                        @slot('sort_type') {{ $sort_type }} @endslot
-                        @slot('sort_value') {{ $sort_value }} @endslot
-                        @slot('per_page') {{ $per_page }} @endslot
-                        @slot('search') {{ $search }} @endslot
-                        @slot('route') /admin/media @endslot
-                        @slot('list') {{ $list }} @endslot
-                        @slot('type') normal @endslot
-                    @endcomponent
-
-                    <th class="list__th" scope="col">Attached</th>
-                    <th class="list__th" scope="col">Actions</th>
-
-                </tr>
-                </thead>
-                <tbody>
-
-                @if(count($items) === 0)
-                    <tr id="none-found">
-                        <td colspan="3" class="list__column">
-                            No media found.
-                        </td>
-                    </tr>
-                @endif
-
-                @foreach ($items as $item)
-                    <tr class="list__column">
-
-                        <input class="list-id" type="hidden" value="{{ $item->id }}">
-                        <input class="list-name" type="hidden" value="{{ $item->name }}">
-
-                        <td class="list__td list__primary">
-                            <input class="list__checkbox" id="styled-checkbox-{{ $item->id }}" type="checkbox">
-                            <label for="styled-checkbox-{{ $item->id }}"></label>
-                        </td>
-
-                        <td class="list__td list__primary">
-                            <a class="list__link" href="/">
-                                <span class="list__img" style="background-color: {{ $item->color }}; background-image: url('/{{ $item->path_thumbnail }}')"></span>
-
-                                {{ $item->name }}
-
-                            </a>
-                            <i class="list-dropdown__icon fas fa-eye"></i>
-                        </td>
-
-                        <td class="list__td">{{ $item->extension }}</td>
-
-                        <td class="list__td">{{ round($item->size / 100000, 2) }} MB</td>
-                        <td class="list__td">Yes</td>
-
-                        <td class="list__td">
-
-                            <a href="/admin/media/{{ $item->id }}/edit" class="list__edit">Edit</a>
-
-                            @if(!canDeleteMedia(Auth::user()))
-                                <span data-toggle="tooltip" title="You do not have permission to delete media files."> @endif
-
-                                    <button @if (!canDeleteMedia(Auth::user())) disabled
-                                            @endif class="list__delete" data-toggle="modal" data-target="#deleteModal">Delete</button>
-
-                                    @if(!canDeleteMedia(Auth::user()))</span>@endif
-
-                        </td>
-
-                    </tr>
-
-                    <tr class="list-dropdown list-dropdown__hidden">
-                        <td colspan="3">
-                            <div class="list-dropdown__row">
-                                <div class="list-dropdown__header">Extension</div>
-                                <div class="list-dropdown__text">{{ $item->extension }}</div>
-                            </div>
-                            <div class="list-dropdown__row">
-                                <div class="list-dropdown__header">Size</div>
-                                <div class="list-dropdown__text">{{ round($item->size / 100000, 2) }} MB</div>
-                            </div>
-                            <i class="list-dropdown__delete fas fa-trash-alt"></i>
-                            <i class="list-dropdown__edit fas fa-edit"></i>
-                        </td>
-                    </tr>
-
-                @endforeach
-
-                </tbody>
-            </table>
-
-            <div class="list__bottom">
-                {{ $items->appends($_GET)->links() }}
-            </div>
-
-        </div>
     @elseif($list == '0')
 
         <div class="grid__top">
@@ -223,16 +80,22 @@
 
             @foreach($items as $item)
 
-                <div class="grid__item" data-popshow="test1">
+                <div class="grid__item" data-popshow="mediaDetails">
+                    <span class="imageInfo"
+                            data-id="{{ $item->id }}"
+                            data-name="{{ $item->name }}"
+                            data-path="{{ $item->path_medium }}"
+                            data-updated="{{ $item->updated_at->diffForHumans() }}"
+                            data-size="{{ round($item->size / 100000, 2) }} MB"
+                            data-alt="{{ $item->alt }}"
+                            data-title="{{ $item->title }}"
+                            data-resX="{{ $item->resolution_x }}"
+                            data-resY="{{ $item->resolution_y }}"
+                            data-extension="{{ $item->extension }}"
+                    ></span>
 
-                    <div data-info='{
-                    "name": "{{ $item->name }}",
-                    "path": "{{ $item->path_medium }}",
-                    "updated": "{{ $item->updated_at->diffForHumans() }}",
-                    "size": "{{ round($item->size / 100000, 2) }} MB",
-                    "extension": "{{ $item->extension }}" }'></div>
-
-                    <div class="grid__img" style="background-color: {{ $item->color }};background-image: url(/{{ $item->path_thumbnail }})" onload="$(this).css('border', '5px solid red')"></div>
+                    <div class="grid__img" style="background-color: {{ $item->color }};background-image: url(/{{ $item->path_thumbnail }})"
+                         onload="$(this).css('border', '5px solid red')"></div>
                     <div class="grid__details">
                         f
                     </div>
@@ -246,12 +109,6 @@
             {{ $items->appends($_GET)->links() }}
         </div>
     @endif
-
-    @component('admin/components/delete_modal')
-        @slot('title') Delete media @endslot
-        @slot('route') /admin/media/delete @endslot
-        @slot('list') {{ $list }} @endslot
-    @endcomponent
 
     <!-- Upload modal -->
     <div class="modal fade" id="mediaAdd">
@@ -281,64 +138,133 @@
     </div>
 
 
+
     <!-- Media details -->
-    <div id="test1" class="popup">
+    <div id="mediaDetails" class="popup popup--lg">
+
+        <div hidden id="detailsId"></div>
 
         <div class="popup__overlay"></div>
 
-        <div class="popup__body">
+        <div class="popup__main">
 
-            <div class="popup__header">
-                <h3>Media details</h3>
-            </div>
             <div class="media-details">
 
-                <div class="container-fluid">
+                <div class="media-details__img-container">
 
-                    <div class="row justify-content-center">
-                        <div class="col-md-8">
-                            <img class="media-details__img" src="/img/test.jpg" alt="">
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img class="media-details__img" src="/img/test.jpg" alt="">
+                            </div>
+
                         </div>
-                        <div class="col-md-4">
-                           <div class="media-details__container">
-                               <div class="media-details__item">
-                                   <div class="media-details__header">Name</div>
-                                   <div class="media-details__text">test123</div>
-                               </div>
-                               <div class="media-details__item">
-                                   <div class="media-details__header">Extension</div>
-                                   <div class="media-details__text">.png</div>
-                               </div>
-                               <div class="media-details__item">
-                                   <div class="media-details__header">Size</div>
-                                   <div class="media-details__text">2 MB</div>
-                               </div>
-                               <div class="media-details__item">
-                                   <div class="media-details__header">Resolution</div>
-                                   <div class="media-details__text">1280 x 720</div>
-                               </div>
 
-                               <div class="media-details__item">
-                                   <div class="media-details__header">Alt attribute</div>
-                                   <div class="media-details__text">An image of a guy.</div>
-                               </div>
-
-                               <div class="media-details__item">
-                                   <div class="media-details__header">File path</div>
-                                   <div class="media-details__text">http://localhost:8000/admin/media?list=0</div>
-                               </div>
-                           </div>
-                        </div>
                     </div>
 
                 </div>
+                <div class="media-details__text-container">
+                    <div class="container-fluid">
+                        
+                        <div class="row">
+                            <div class="col-md-6 col-lg-4">
 
+                                <div class="media-details__item">
+                                    <div class="media-details__header">Name
+                                        <span class="media-details__edit"><i class="fas fa-pencil-alt"></i> Edit</span>
+                                        <i class="media-details__check fas fa-check" data-column="name"></i>
+                                        <i class="media-details__error fas fa-times"></i>
+                                    </div>
+                                    <div id="mediaName" class="media-details__text">test123</div>
+                                    <input id="mediaNameInput" placeholder="Name..." class="media-details__input" type="text">
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="media-details__item">
+                                    <div class="media-details__header">Title
+                                        <span class="media-details__edit"><i class="fas fa-pencil-alt"></i> Edit</span>
+                                        <i class="media-details__check fas fa-check" data-column="title"></i>
+                                        <i class="media-details__error fas fa-times"></i>
+                                    </div>
+                                    <div id="mediaTitle" class="media-details__text">Image of a guy.</div>
+                                    <input id="mediaTitleInput" placeholder="Title..." class="media-details__input" type="text">
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="media-details__item">
+                                    <div class="media-details__header">Alt attribute
+                                        <span class="media-details__edit"><i class="fas fa-pencil-alt"></i> Edit</span>
+                                        <i class="media-details__check fas fa-check" data-column="alt"></i>
+                                        <i class="media-details__error fas fa-times"></i>
+                                    </div>
+                                    <div id="mediaAlt" class="media-details__text">An image of a guy.</div>
+                                    <input id="mediaAltInput" placeholder="Alt..." class="media-details__input" type="text">
+                                </div>
+
+
+
+                            </div>
+
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="media-details__item">
+                                    <div class="media-details__header">Extension</div>
+                                    <div id="mediaExtension" class="media-details__text">.png</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="media-details__item">
+                                    <div class="media-details__header">Resolution</div>
+                                    <div id="mediaResolution" class="media-details__text">1280 x 720</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="media-details__item">
+                                    <div class="media-details__header">Size</div>
+                                    <div id="mediaSize" class="media-details__text">1280 x 720</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="media-details__item media-details__item--end">
+                                    <div class="media-details__header">File path</div>
+                                    <div id="mediaPath" class="media-details__text">
+                                        http://localhost:8000/admin/media?list=0
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="media-details__item media-details__item--end">
+                                    <button data-popshow="deletePopup" class="media-details__delete"><i class="fas fa-trash-alt"></i> Delete media file</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div data-pophide="test1" class="popup__close-icon fas fa-times"></div>
+
+
+            <div data-pophide="mediaDetails" class="popup__close-icon fas fa-times"></div>
 
         </div>
 
     </div>
+
+    <!-- Popup delete -->
+    @component('admin/components/delete_modal')
+        @slot('title') Delete media file @endslot
+        @slot('route') /admin/media/delete @endslot
+        @slot('list') {{ $list }} @endslot
+    @endcomponent
 
     @component('admin/components/message')@endcomponent
 
