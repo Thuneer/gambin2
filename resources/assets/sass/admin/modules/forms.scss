@@ -159,6 +159,7 @@
 
 .note-editor.note-frame {
   border: 1px solid $light-grey;
+  z-index: 1;
 }
 
 .note-toolbar {

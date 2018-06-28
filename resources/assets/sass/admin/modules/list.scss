@@ -11,6 +11,7 @@
       height: 100%;
       position: relative;
       vertical-align: middle;
+      min-width: 85px;
     }
   }
 
@@ -177,34 +178,24 @@
 
 }
 
-.delete-modal {
-
-  &__title {
-
-  }
-
-  &__list {
-    margin: 15px 0;
-    color: $primary;
-    font-weight: 600;
-    padding-left: 20px;
-  }
-
-}
-
 .list-dropdown {
-  background-color: $light-grey;
+  background-color: white;
   position: relative;
+  border-bottom: 1px solid #dcdcdc;
 
   &__hidden {
     display: none;
   }
 
-  &__icon {
+  &__show {
     position: absolute;
-    right: 20px;
+    right: 0;
     font-size: 18px;
-    top: 17px;
+    top: 0;
+    height: 100%;
+    text-align: center;
+    width: 60px;
+    line-height: 60px;
   }
 
   &__row {
@@ -229,14 +220,14 @@
 
   &__edit {
     color: $primary;
-    bottom: 70px;
-    right: 16px;
+    bottom: 80px;
+    right: 18px;
   }
 
   &__delete {
-    bottom: 20px;
+    bottom: 30px;
     color: red;
-    right: 20px;
+    right: 22px;
   }
 
 
@@ -255,7 +246,7 @@
 
   .list-dropdown {
 
-    &__icon {
+    &__show {
       display: none;
     }
 

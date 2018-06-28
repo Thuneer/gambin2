@@ -72,5 +72,8 @@ class UsersTableSeeder extends Seeder
         App\Tag::create(['name' => 'Javascript']);
         App\Tag::create(['name' => 'Omni']);
 
+        App\Page::create(['title' => 'A page', 'url' => 'tomato']);
+        App\Page::create(['title' => 'A page 2', 'url' => 'sugar/man']);
+
     }
 }

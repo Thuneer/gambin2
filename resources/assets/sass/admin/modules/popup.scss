@@ -21,10 +21,9 @@
 
   &__main {
     position: absolute;
-    top: 0;
+    top: 50px;
     right: 0;
     left: 0;
-    bottom: 0;
     background-color: white;
     z-index: 300;
     display: none;
@@ -127,11 +126,9 @@
   .popup {
 
     &__main {
-      top: 10px;
-      right: 10px;
-      bottom: 10px;
-      left: 10px;
       border-radius: 4px;
+      width: 536px;
+      left: calc(50% - 268px);
     }
 
   }

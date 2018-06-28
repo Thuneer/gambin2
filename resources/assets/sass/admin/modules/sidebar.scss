@@ -3,10 +3,10 @@
   position: absolute;
   top: 54px;
   width: 230px;
-  height: calc(100% - 54px);
   left: -230px;
   border-right: 1px solid $lighter-grey;
   z-index: 100;
+  min-height: calc(100vh - 54px);
 }
 
 .sidebar--active {
@@ -78,6 +78,7 @@
   .sidebar {
     left: 0;
     position: fixed;
+    height: calc(100% - 54px);
   }
 
 }

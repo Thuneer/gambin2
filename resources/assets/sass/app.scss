@@ -10,68 +10,7 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-//Common
-@import "admin/common/buttons";
-@import "admin/common/headers";
 
-// Summernote
-@import "../../../node_modules/summernote/dist/summernote-lite.css";
-@import "../../../node_modules/summernote/dist/summernote-bs4.css";
-
-// Blocks
-@import "admin/modules/logo";
-@import "admin/modules/categories";
-@import "admin/modules/menu";
-@import "admin/modules/list";
-@import "admin/modules/message";
-@import "admin/modules/dropzone";
-@import "admin/modules/grid";
-@import "admin/modules/image-picker";  ;
-@import "admin/modules/forms";
-
-@import "admin/modules/per-page";
-@import "admin/modules/tool-bar";
-@import "admin/modules/tool-options";
-@import "admin/modules/tool-search";
-@import "admin/modules/bulk-actions";
-@import "admin/modules/pagination";
-@import "admin/modules/top-bar";
-@import "admin/modules/sidebar";
-@import "admin/modules/user-top";
-@import "admin/modules/tags";
-@import "admin/modules/permissions";
-@import "admin/modules/picker";
-@import "admin/modules/popup";
-@import "admin/modules/media-details";
-
-
-html, body {
-
-  position: relative;
-}
-
-body.popup-open {
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-}
-
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-button:hover {
-  cursor: pointer;
-}
-
-.overlay {
-  position: fixed;
-  z-index: 95;
-  background-color: rgba(0,0,0,0.5);
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  display: none;
-}
+@import "modules/navigation";
+@import "modules/article";
+@import "modules/footer";

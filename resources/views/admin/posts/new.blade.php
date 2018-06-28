@@ -32,8 +32,8 @@
 
                     <!-- Description -->
                     <div class="form__group">
-                        <label class="form__label" for="">Description <span class="form__required">*</span></label>
-                        <textarea placeholder="Description here..." rows="5" name="ingress" required></textarea>
+                        <label class="form__label" for="">Description</label>
+                        <textarea placeholder="Description here..." rows="5" name="ingress"></textarea>
                         @if ($errors->has('ingress'))
                             <div class="form__error">
                                 <strong>{{ $errors->first('ingress') }}</strong>
@@ -44,7 +44,7 @@
 
                     <!-- Content -->
                     <div class="form__group form__group--summernote">
-                        <label class="form__label" for="">Content <span class="form__required">*</span></label>
+                        <label class="form__label" for="">Content</label>
                         <textarea name="body" id="summernote"></textarea>
                         @if ($errors->has('body'))
                             <div class="form__error">
@@ -58,7 +58,7 @@
                         <button onclick="$('#submitBtn').click();" type="submit" class="button button--primary">Add new
                             article
                         </button>
-                        <button class="button button--secondary">Preview</button>
+                        <button class="post-preview button button--secondary">Preview</button>
                     </div>
                     <button style="display: none" id="submitBtn"></button>
 
@@ -67,7 +67,7 @@
 
                     <!-- Status -->
                     @component('admin.components.forms.post_status')
-                        @slot('published') 0 @endslot
+                        @slot('status') draft @endslot
                     @endcomponent
 
                     <!-- Image Preview -->
@@ -89,7 +89,7 @@
                     <button onclick="$('#submitBtn').click();" type="submit" class="button button--primary">Add new
                         article
                     </button>
-                    <button class="button button--secondary">Preview</button>
+                    <button class="post-preview button button--secondary">Preview</button>
                 </div>
 
             </form>

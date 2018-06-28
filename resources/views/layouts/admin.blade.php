@@ -22,7 +22,7 @@
     </noscript>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 </head>
 <body>
 <div id="app">
@@ -337,10 +337,7 @@
     </main>
 </div>
 
-
 <script src="{{ asset('js/admin.js') }}"></script>
-<!-- include summernote css/js-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
 
 </body>
 </html>

@@ -35,5 +35,10 @@ class User extends Authenticatable
         return $this->morphToMany('App\Media', 'mediable');
     }
 
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
+    }
+
 
 }

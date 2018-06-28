@@ -1,0 +1,26 @@
+.article {
+
+  margin-top: 20px;
+
+  &__img {
+    width: 100%;
+  }
+
+  &__body {
+    background-color: white;
+    padding: 0 120px 40px 120px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+
+  &__title {
+    padding: 40px 0 20px 0;
+    font-weight: 700;
+  }
+
+  p span {
+    font-size: 17px !important;
+    color: #525252;
+  }
+
+}

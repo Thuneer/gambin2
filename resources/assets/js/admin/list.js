@@ -33,6 +33,19 @@ jQuery(document).ready(function ($) {
         //$(this).parent().find('#deleteModalText').html("ddd");
         $('#deleteModalText').html('Are you sure you want to delete ' + '<b>' + name + '</b>?');
         $('#deleteModalIds').val(id);
+        console.log("ff");
+
+    });
+
+    $(document).on('click', '.list-dropdown__delete', function () {
+
+        let id = $(this).parent().parent().parent().find('.list-id').val();
+        let name = $(this).parent().parent().parent().find('.list-name').val();
+        console.log(id);
+        //$(this).parent().find('#deleteModalText').html("ddd");
+        $('#deleteModalText').html('Are you sure you want to delete ' + '<b>' + name + '</b>?');
+        $('#deleteModalIds').val(id);
+        console.log("ff");
 
     });
 
@@ -178,7 +191,7 @@ jQuery(document).ready(function ($) {
     });
 
 
-    $(document).on('click', '.list-dropdown__icon', function () {
+    $(document).on('click', '.list-dropdown__show', function () {
 
         let dropdown = $(this).parent().parent().next();
 

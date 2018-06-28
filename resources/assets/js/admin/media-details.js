@@ -13,6 +13,13 @@ import jQuery from "jquery";
 
     });
 
+    $(document).on('click', '.list-dropdown__edit', function () {
+
+        let element = $(this).parent().parent().parent().find('.imageInfo');
+        addMediaDetails(element);
+
+    });
+
     $('.media-details__edit').click(function () {
 
         activeEdit($(this).next().attr('data-column'));

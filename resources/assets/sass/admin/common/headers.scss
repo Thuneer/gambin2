@@ -34,7 +34,7 @@ input[type=checkbox] + label:before {
 
 input[type=checkbox] + label {
   margin-bottom: 0;
-  font-size: 17px;
+  font-size: 16px;
 } /* unchecked icon */
 
 input[type=checkbox] + label:hover {
@@ -55,7 +55,7 @@ input[type=checkbox] + label:hover:before {
 input[type=checkbox]:checked + label:before {
   content: "\f14a";
   letter-spacing:10px;
-  line-height: 26px;
+  line-height: 24px;
   color: $primary;
   font-weight: 600;
 } /* checked icon */

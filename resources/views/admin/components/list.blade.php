@@ -70,103 +70,181 @@
         @endif
 
         @foreach ($items as $item)
+
             <tr class="list__column">
 
             @foreach($list_options as $sort)
 
                 <!-- USER -->
-                    @if($sort['list_type'] == 'user-name')
+                    @if(strpos($sort['list_type'], 'user') !== false)
 
-                        <input class="list-id" type="hidden" value="{{ $item->id }}">
-                        <input class="list-name" type="hidden" value="{{ $item->first_name }} {{ $item->last_name }}">
+                        @if($sort['list_type'] == 'user-name')
 
-                        <td class="list__td list__primary">
-                            <input class="list__checkbox" id="styled-checkbox-{{ $item->id }}" type="checkbox">
-                            <label for="styled-checkbox-{{ $item->id }}"></label>
-                        </td>
 
-                        <td class="list__td list__primary">
-                            <a class="list__link" href="/admin/users/{{ $item->id }}/edit">
+                            <input class="list-id" type="hidden" value="{{ $item->id }}">
+                            <input class="list-name" type="hidden"
+                                   value="{{ $item->first_name }} {{ $item->last_name }}">
+
+                            <td class="list__td list__primary">
+                                <input class="list__checkbox" id="styled-checkbox-{{ $item->id }}" type="checkbox">
+                                <label for="styled-checkbox-{{ $item->id }}"></label>
+                            </td>
+
+                            <td class="list__td list__primary">
+                                <a class="list__link" href="/admin/users/{{ $item->id }}/edit">
                             <span class="list__img"
                                   style="background-color: {{ $item->color }}; background-image: url('@if(count($item->images) > 0)/{{ $item->images[0]->path_thumbnail }} @else{{ userAvatar($item->id) }} @endif'"></span>
 
-                                <span class="list__title">{{ $item->first_name }} {{ $item->last_name }}</span>
-                            </a>
-                            <i class="list-dropdown__icon fas fa-eye"></i>
-                        </td>
+                                    <span class="list__title">{{ $item->first_name }} {{ $item->last_name }}</span>
+                                </a>
+                                <i class="list-dropdown__show fas fa-eye"></i>
+                            </td>
 
-                    @elseif($sort['list_type'] == 'user-email')
-                        <td class="list__td">{{ $item->email }}</td>
-                    @elseif($sort['list_type'] == 'user-role')
-                        <td class="list__td">{{ ucfirst($item->roles->pluck('name')[0]) }}</td>
+                        @elseif($sort['list_type'] == 'user-email')
+                            <td class="list__td">{{ $item->email }}</td>
+                        @elseif($sort['list_type'] == 'user-role')
+                            <td class="list__td">{{ ucfirst($item->roles->pluck('name')[0]) }}</td>
 
-                        <td class="list__td">
+                            <td class="list__td">
 
-                            <a href="/admin/users/{{ $item->id }}/edit" class="list__edit">Edit</a>
+                                <a href="/admin/users/{{ $item->id }}/edit" class="list__edit">Edit</a>
 
-                            @if(!canDeleteUsers(Auth::user(), $item))
-                                <span data-toggle="tooltip" title="You do not have permission to delete this user."> @endif
+                                @if(!canDeleteUsers(Auth::user(), $item))
+                                    <span data-toggle="tooltip"
+                                          title="You do not have permission to delete this user."> @endif
 
-                                    <button @if (!canDeleteUsers(Auth::user(), $item)) disabled
-                                            @endif class="list__delete" data-popshow="deletePopup">Delete</button>
+                                        <button @if (!canDeleteUsers(Auth::user(), $item)) disabled
+                                                @endif class="list__delete"
+                                                data-popshow="deletePopup">Delete</button>
 
-                                    @if(!canDeleteUsers(Auth::user(), $item))</span>@endif
+                                        @if(!canDeleteUsers(Auth::user(), $item))</span>@endif
 
-                        </td>
+                            </td>
 
-                        <!-- ARTICLES -->
-                    @elseif($sort['list_type'] == 'article-title')
-                        <input class="list-id" type="hidden" value="{{ $item->id }}">
-                        <input class="list-name" type="hidden" value="{{ $item->title }}">
+            </tr>
+            <tr class="list-dropdown list-dropdown__hidden">
+                <td colspan="10">
 
-                        <td class="list__td list__primary">
-                            <input class="list__checkbox" id="styled-checkbox-{{ $item->id }}" type="checkbox">
-                            <label for="styled-checkbox-{{ $item->id }}"></label>
-                        </td>
+                    <i class="list-dropdown__delete fas fa-trash-alt" data-popshow="deletePopup"></i>
+                    <a href="/admin/users/{{ $item->id }}/edit" class="list-dropdown__edit"><i class="fas fa-edit"></i></a>
 
-                        <td class="list__td list__primary">
-                            <a class="list__link" href="/admin/articles/{{ $item->id }}/edit">
+                    <div class="list-dropdown__row">
+                        <div class="list-dropdown__header">Email</div>
+                        <div class="list-dropdown__text">{{ $item->email }}</div>
+                    </div>
+                    <div class="list-dropdown__row">
+                        <div class="list-dropdown__header">Role</div>
+                        <div class="list-dropdown__text">{{ ucfirst($item->roles->pluck('name')[0]) }}</div>
+                    </div>
+
+
+                </td>
+            </tr>
+
+            @endif
+
+
+            @endif
+
+
+
+
+            <!-- ARTICLES -->
+
+            @if(strpos($sort['list_type'], 'article') !== false)
+
+                @if($sort['list_type'] == 'article-title')
+
+                    <input class="list-id" type="hidden" value="{{ $item->id }}">
+                    <input class="list-name" type="hidden" value="{{ $item->title }}">
+
+                    <td class="list__td list__primary">
+                        <input class="list__checkbox" id="styled-checkbox-{{ $item->id }}" type="checkbox">
+                        <label for="styled-checkbox-{{ $item->id }}"></label>
+                    </td>
+
+                    <td class="list__td list__primary">
+                        <a class="list__link" href="/admin/articles/{{ $item->id }}/edit">
                             <span class="list__img"
                                   style="background-color: {{ $item->color }}; background-image: url('@if(count($item->images) > 0)/{{ $item->images[0]->path_thumbnail }} @else{{ userAvatar($item->id) }} @endif'"></span>
 
-                                <span class="list__title">{{ $item->title }}</span>
-                            </a>
-                            <i class="list-dropdown__icon fas fa-eye"></i>
+                            <span class="list__title">{{ $item->title }}</span>
+                        </a>
+                        <i class="list-dropdown__show fas fa-eye"></i>
+                    </td>
+                @elseif($sort['list_type'] == 'article-author')
+                    <td class="list__td">{{ $item->user->first_name }} {{ $item->user->last_name }}</td>
+                @elseif($sort['list_type'] == 'article-published')
+                    <td class="list__td">@if($item->published == 0) No @else Yes @endif</td>
+                @elseif($sort['list_type'] == 'article-updated')
+                    <td class="list__td">
+                        {{ $item->updated_at->diffForHumans() }}
+                    </td>
+
+                    <td class="list__td">
+
+                        <a href="/a/{{ $item->slug }}" target="article-{{ $item->id }}">View</a>
+
+                        <a href="/admin/articles/{{ $item->id }}/edit" class="list__edit">Edit</a>
+
+                        @if(!canDeleteArticles(Auth::user(), $item))
+                            <span data-toggle="tooltip"
+                                  title="You do not have permission to delete this user."> @endif
+
+                                <button @if (!canDeleteArticles(Auth::user(), $item)) disabled
+                                        @endif class="list__delete"
+                                        data-popshow="deletePopup">Delete</button>
+
+                                @if(!canDeleteArticles(Auth::user(), $item))</span>@endif
+
+                    </td>
+
+                    </tr>
+                    <tr class="list-dropdown list-dropdown__hidden">
+                        <td colspan="10">
+
+                            <i class="list-dropdown__delete fas fa-trash-alt" data-popshow="deletePopup"></i>
+                            <a href="/admin/articles/{{ $item->id }}/edit" class="list-dropdown__edit"><i
+                                        class="fas fa-edit"></i></a>
+
+                            <div class="list-dropdown__row">
+                                <div class="list-dropdown__header">Author</div>
+                                <div class="list-dropdown__text">{{ $item->user->first_name }} {{ $item->user->last_name }}</div>
+                            </div>
+                            <div class="list-dropdown__row">
+                                <div class="list-dropdown__header">Status</div>
+                                <div class="list-dropdown__text">{{ $item->status }}</div>
+                            </div>
+                            <div class="list-dropdown__row">
+                                <div class="list-dropdown__header">Updated</div>
+                                <div class="list-dropdown__text">     {{ $item->updated_at->diffForHumans() }}</div>
+                            </div>
+
                         </td>
-                    @elseif($sort['list_type'] == 'article-author')
-                        <td class="list__td">{{ $item->user->first_name }} {{ $item->user->last_name }}</td>
-                    @elseif($sort['list_type'] == 'article-published')
-                        <td class="list__td">@if($item->published == 0) No @else Yes @endif</td>
-                    @elseif($sort['list_type'] == 'article-updated')
-                        <td class="list__td">
-                            {{ $item->updated_at->diffForHumans() }}
-                        </td>
+                    </tr>
 
-                        <td class="list__td">
 
-                            <a href="/admin/articles/{{ $item->id }}/edit" class="list__edit">Edit</a>
+                @endif
 
-                            @if(!canDeleteArticles(Auth::user(), $item))
-                                <span data-toggle="tooltip" title="You do not have permission to delete this user."> @endif
+            @endif
 
-                                    <button @if (!canDeleteArticles(Auth::user(), $item)) disabled
-                                            @endif class="list__delete" data-popshow="deletePopup">Delete</button>
 
-                                    @if(!canDeleteArticles(Auth::user(), $item))</span>@endif
+            <!-- MEDIA -->
+            @if(strpos($sort['list_type'], 'media') !== false)
+                @if($sort['list_type'] == 'media-name')
 
-                        </td>
 
-                        <!-- MEDIA -->
-                    @elseif($sort['list_type'] == 'media-name')
-                        <input class="list-id" type="hidden" value="{{ $item->id }}">
-                        <input class="list-name" type="hidden" value="{{ $item->name }}">
 
-                        <td class="list__td list__primary">
-                            <input class="list__checkbox" id="styled-checkbox-{{ $item->id }}" type="checkbox">
-                            <label for="styled-checkbox-{{ $item->id }}"></label>
-                        </td>
+                    <input class="list-id" type="hidden" value="{{ $item->id }}">
+                    <input class="list-name" type="hidden" value="{{ $item->name }}">
 
-                        <td class="list__td list__primary">
+                    <td class="list__td list__primary">
+                        <input class="list__checkbox" id="styled-checkbox-{{ $item->id }}"
+                               type="checkbox">
+                        <label for="styled-checkbox-{{ $item->id }}"></label>
+                    </td>
+
+                    <td class="list__td list__primary">
 
                             <span class="imageInfo"
                                   data-id="{{ $item->id }}"
@@ -181,48 +259,72 @@
                                   data-extension="{{ $item->extension }}">
                             </span>
 
-                            <button class="list__link" data-popshow="mediaDetails">
+                        <button class="list__link" data-popshow="mediaDetails">
                                 <span class="list__img"
                                       style="background-color: {{ $item->color }}; background-image: url('/{{ $item->path_thumbnail }}')"></span>
 
-                                <span class="list__title">{{ $item->name }}</span>
+                            <span class="list__title">{{ $item->name }}</span>
 
-                            </button>
-                            <i class="list-dropdown__icon fas fa-eye"></i>
+                        </button>
+                        <i class="list-dropdown__show fas fa-eye"></i>
+                    </td>
+                @elseif($sort['list_type'] == 'media-extension')
+                    <td class="list__td">{{ $item->extension }}</td>
+                @elseif($sort['list_type'] == 'media-size')
+
+                    <td class="list__td">{{ round($item->size / 100000, 2) }} MB</td>
+                @elseif($sort['list_type'] == 'media-connections')
+
+
+                    <td class="list__td">Yes</td>
+
+                    <td class="list__td">
+
+                        <button data-popshow="mediaDetails" class="list__edit">Edit</button>
+
+                        @if(!canDeleteMedia(Auth::user()))
+                            <span data-toggle="tooltip"
+                                  title="You do not have permission to delete media files."> @endif
+
+                                <button @if (!canDeleteMedia(Auth::user())) disabled
+                                        @endif class="list__delete"
+                                        data-popshow="deletePopup">Delete</button>
+
+                                @if(!canDeleteMedia(Auth::user()))</span>@endif
+
+                    </td>
+
+                    </tr>
+                    <tr class="list-dropdown list-dropdown__hidden">
+                        <td colspan="10">
+
+                            <i class="list-dropdown__delete fas fa-trash-alt" data-popshow="deletePopup"></i>
+                            <span data-popshow="mediaDetails" class="list-dropdown__edit"><i
+                                        class="fas fa-edit"></i></span>
+
+                            <div class="list-dropdown__row">
+                                <div class="list-dropdown__header">Extension</div>
+                                <div class="list-dropdown__text">{{ $item->extension }}</div>
+                            </div>
+                            <div class="list-dropdown__row">
+                                <div class="list-dropdown__header">Size</div>
+                                <div class="list-dropdown__text">{{ round($item->size / 100000, 2) }} MB</div>
+                            </div>
+                            <div class="list-dropdown__row">
+                                <div class="list-dropdown__header">Connections</div>
+                                <div class="list-dropdown__text">Yes</div>
+                            </div>
+
                         </td>
-                    @elseif($sort['list_type'] == 'media-extension')
-                        <td class="list__td">{{ $item->extension }}</td>
-                    @elseif($sort['list_type'] == 'media-size')
+                    </tr>
 
-                        <td class="list__td">{{ round($item->size / 100000, 2) }} MB</td>
-                    @elseif($sort['list_type'] == 'media-connections')
+                @endif
+
+            @endif
 
 
-                        <td class="list__td">Yes</td>
+        @endforeach
 
-                        <td class="list__td">
-
-                            <button data-popshow="mediaDetails" class="list__edit">Edit</button>
-
-                            @if(!canDeleteMedia(Auth::user()))
-                                <span data-toggle="tooltip" title="You do not have permission to delete media files."> @endif
-
-                                    <button @if (!canDeleteMedia(Auth::user())) disabled
-                                            @endif class="list__delete" data-popshow="deletePopup">Delete</button>
-
-                                    @if(!canDeleteMedia(Auth::user()))</span>@endif
-
-                        </td>
-
-                    @endif
-
-                @endforeach
-
-            </tr>
-
-            <tr class="list-dropdown list-dropdown__hidden">
-
-            </tr>
 
         @endforeach
 

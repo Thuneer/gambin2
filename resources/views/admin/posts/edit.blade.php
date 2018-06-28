@@ -30,10 +30,24 @@
                     </div>
                     <!-- Title - END -->
 
+
+                    <!-- Slug -->
+                    <div class="form__group">
+                        <label class="form__label" for="">Slug</label>
+                        <input value="{{ $post->slug }}" name="slug" class="form__input" type="text"
+                               placeholder="Title here...">
+                        @if ($errors->has('slug'))
+                            <div class="form__error">
+                                <strong>{{ $errors->first('slug') }}</strong>
+                            </div>
+                        @endif
+                    </div>
+                    <!-- Slug - END -->
+
                     <!-- Description -->
                     <div class="form__group">
-                        <label class="form__label" for="">Short content <span class="form__required">*</span></label>
-                        <textarea placeholder="Description here..." rows="5" name="ingress" required>{{ $post->ingress }}</textarea>
+                        <label class="form__label" for="">Short content</label>
+                        <textarea placeholder="Description here..." rows="5" name="ingress" >{{ $post->ingress }}</textarea>
                         @if ($errors->has('ingress'))
                             <div class="form__error">
                                 <strong>{{ $errors->first('ingress') }}</strong>
@@ -44,7 +58,7 @@
 
                     <!-- Content -->
                     <div class="form__group form__group--summernote">
-                        <label class="form__label" for="">Content <span class="form__required">*</span></label>
+                        <label class="form__label" for="">Content</label>
                         <textarea name="body" id="summernote">{{ $post->body }}</textarea>
                         @if ($errors->has('body'))
                             <div class="form__error">
@@ -54,10 +68,10 @@
                     </div>
                     <!-- Content - END -->
 
-                    <div class="form__bottom">
+                    <div class="form__bottom d-none d-lg-block">
                         <button @if(!canEditArticles(Auth::user(), $post)) disabled @endif onclick="$('#submitBtn').click();" type="submit" class="button button--primary">Save article
                         </button>
-                        <button @if(!canEditArticles(Auth::user(), $post)) disabled @endif class="button button--secondary">Preview</button>
+                        <button @if(!canEditArticles(Auth::user(), $post)) disabled @endif class="post-preview button button--secondary">Preview</button>
                         @if(!canEditArticles(Auth::user(), $post)) You do not have permission to edit other users' articles. @endif
                     </div>
                     <button style="display: none" id="submitBtn"></button>
@@ -67,7 +81,7 @@
 
                     <!-- Status -->
                 @component('admin.components.forms.post_status')
-                    @slot('published') {{ $post->published }} @endslot
+                    @slot('status') {{ $post->status }} @endslot
                 @endcomponent
 
                 <!-- Image Preview -->
@@ -85,6 +99,13 @@
                 <!-- Tags -->
                     @component('admin.components.forms.post_tags', ['tags' => $tags, 'post' => $post])@endcomponent
 
+                </div>
+
+                <div class="form__bottom d-block d-lg-none">
+                    <button @if(!canEditArticles(Auth::user(), $post)) disabled @endif onclick="$('#submitBtn').click();" type="submit" class="button button--primary">Save article
+                    </button>
+                    <button @if(!canEditArticles(Auth::user(), $post)) disabled @endif class="post-preview button button--secondary">Preview</button>
+                    @if(!canEditArticles(Auth::user(), $post)) You do not have permission to edit other users' articles. @endif
                 </div>
 
             </form>

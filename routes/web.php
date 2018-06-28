@@ -11,14 +11,13 @@
 |
 */
 
+use App\Post;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
@@ -66,6 +65,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/admin/articles/{id}/edit', 'PostController@edit');
     Route::post('/admin/articles/delete', 'PostController@delete');
 
+    Route::post('/admin/articles/preview', 'PostController@preview');
+
 
     Route::get('/admin/permissions', 'PermissionController@index');
 
@@ -75,3 +76,39 @@ Route::group(['middleware' => ['admin']], function () {
 
 Route::post('/admin/login', 'Auth\LoginController@adminLogin');
 
+Route::get('/', function () {
+    return view('404');
+});
+
+Route::get('/preview/a', function () {
+
+    $preview_post = Post::where('user_id', Auth::user()->id)->where('status', 'preview')->first();
+
+    if ($preview_post)
+        return view('article', ['item' => $preview_post]);
+    else
+        return view('404');
+});
+
+Route::get('/a/{slug}', function ($slug) {
+
+    $item = \App\Post::where('slug', $slug)->first();
+
+    if ($item)
+        return view('article', ['item' => $item]);
+    else
+        return view('404');
+});
+
+Route::get('/{url}', function ($url) {
+
+    App::setLocale('no');
+
+    $page = \App\Page::where('url', $url)->first();
+
+    if ($page)
+        return view('welcome', ['page' => $page]);
+    else
+        return view('404');
+
+})->where('url','.+');

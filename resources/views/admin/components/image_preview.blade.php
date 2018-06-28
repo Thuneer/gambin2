@@ -1,6 +1,6 @@
 <div class="form__group @if($type == 'card') form__group--card @endif">
 
-    <label class="form__label" for=""> {{ $title }} <span class="form__required">*</span></label>
+    <label class="form__label" for=""> {{ $title }}</label>
 
     <div class="image-picker-preview" data-popshow="{{ $id }}"
 
