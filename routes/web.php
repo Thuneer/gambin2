@@ -64,12 +64,19 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/admin/articles/{id}/edit', 'PostController@editView');
     Route::post('/admin/articles/{id}/edit', 'PostController@edit');
     Route::post('/admin/articles/delete', 'PostController@delete');
-
     Route::post('/admin/articles/preview', 'PostController@preview');
 
+    Route::get('/admin/articles/categories', 'CategoryController@index');
+    Route::post('/admin/articles/categories', 'CategoryController@create');
 
+    Route::get('/admin/articles/tags', 'TagController@index');
+    Route::post('/admin/articles/tags', 'TagController@create');
+
+    Route::get('/admin/pages', 'PageController@index');
+    Route::get('/admin/pages/new', 'PageController@newView');
+    Route::post('/admin/pages/new', 'PageController@create');
+    Route::get('/admin/pages/permalink', 'PageController@permalink');
     Route::get('/admin/permissions', 'PermissionController@index');
-
     Route::post('/admin/permissions/', 'PermissionController@edit');
 
 });
@@ -104,10 +111,10 @@ Route::get('/{url}', function ($url) {
 
     App::setLocale('no');
 
-    $page = \App\Page::where('url', $url)->first();
+    $page = \App\Page::where('permalink', $url)->first();
 
     if ($page)
-        return view('welcome', ['page' => $page]);
+        return view('welcome', ['item' => $page]);
     else
         return view('404');
 

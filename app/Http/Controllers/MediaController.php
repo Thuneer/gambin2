@@ -90,6 +90,31 @@ class MediaController extends Controller
 
     public function upload (Request $request) {
 
+        $unique_time = time();
+        $unique_id = uniqid();
+
+        $year = date('Y');
+        $month = date("m");
+        $day = date('d');
+
+        if (!file_exists('uploads') && !is_dir('uploads')) {
+            mkdir('uploads');
+        }
+
+        if (!file_exists('uploads/' . $year) && !is_dir('uploads/' . $year)) {
+            mkdir('uploads/' . $year);
+        }
+
+        if (!file_exists('uploads/' . $year . '/' . $month) && !is_dir('uploads/' . $year . '/' . $month)) {
+            mkdir('uploads/' . $year . '/' . $month);
+        }
+
+        if (!file_exists('uploads/' . $year . '/' . $month . '/' . $day) && !is_dir('uploads/' . $year . '/' . $month . '/' . $day)) {
+            mkdir('uploads/' . $year . '/' . $month . '/' . $day);
+        }
+
+        $path = 'uploads/' . $year . '/' . $month . '/' . $day . '/' . time() . '-' . uniqid();
+
         $file  = $request->file('file');
 
         $base = $file->getClientOriginalName();
@@ -99,37 +124,54 @@ class MediaController extends Controller
         $resolution_x =  getimagesize($file)[0];
         $resolution_y =  getimagesize($file)[1];
 
-        $img_full = Image::make($file);
 
-        $img_large = Image::make($file)->resize(1920, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        $img_original = Image::make($file);
 
-        $img_medium = Image::make($file)->resize(1024, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        $img_1_1_1120 = Image::make($file)->fit(1120, 1120);
+        $img_1_1_740 = Image::make($file)->fit(740, 740);
+        $img_1_1_550 = Image::make($file)->fit(550, 550);
+        $img_1_1_360 = Image::make($file)->fit(360, 360);
 
-        $img_small = Image::make($file)->resize(400, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        $img_4_3_1120 = Image::make($file)->fit(1120, 840);
+        $img_4_3_740 = Image::make($file)->fit(740, 555);
+        $img_4_3_550 = Image::make($file)->fit(550, 412);
+        $img_4_3_360 = Image::make($file)->fit(360, 270);
 
-        $img_thumbnail = Image::make($file)->resize(180, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        $img_16_9_1120 = Image::make($file)->fit(1120, 630);
+        $img_16_9_740 = Image::make($file)->fit(740, 416);
+        $img_16_9_550 = Image::make($file)->fit(550, 309);
+        $img_16_9_360 = Image::make($file)->fit(360, 202);
 
-        $img_full_path = 'uploads/' . 'full-' . time() . '-' . uniqid() . '.' . $ext;
-        $img_large_path = 'uploads/' . 'large-' . time() . '-' . uniqid() . '.' . $ext;
-        $img_medium_path = 'uploads/' . 'large-' . time() . '-' . uniqid() . '.' . $ext;
-        $img_small_path = 'uploads/' . 'small-' . time() . '-' . uniqid() . '.' . $ext;
-        $img_thumbnail_path = 'uploads/' . 'thumbnail-' . time() . '-' . uniqid() . '.' . $ext;
+        $img_21_9_1120 = Image::make($file)->fit(1120, 480);
+        $img_21_9_740 = Image::make($file)->fit(740, 317);
+        $img_21_9_550 = Image::make($file)->fit(550, 235);
+        $img_21_9_360 = Image::make($file)->fit(360, 154);
 
-        $img_full->save($img_full_path);
-        $img_large->save($img_large_path);
-        $img_medium->save($img_medium_path);
-        $img_small->save($img_small_path);
-        $img_thumbnail->save($img_thumbnail_path);
 
-        $palette = Palette::fromFilename('./' . $img_small_path);
+        $img_original->save($path . '.' . $ext);
+
+        $img_1_1_1120->save($path . '-1-1-xl.' .$ext);
+        $img_1_1_740->save($path . '-1-1-lg.' .$ext);
+        $img_1_1_550->save($path . '-1-1-md.' .$ext);
+        $img_1_1_360->save($path . '-1-1-sm.' .$ext);
+
+        $img_4_3_1120->save($path . '-4-3-xl.' .$ext);
+        $img_4_3_740->save($path . '-4-3-lg.' .$ext);
+        $img_4_3_550->save($path . '-4-3-md.' .$ext);
+        $img_4_3_360->save($path . '-4-3-sm.' .$ext);
+
+        $img_16_9_1120->save($path . '-16-9-xl.' .$ext);
+        $img_16_9_740->save($path . '-16-9-lg.' .$ext);
+        $img_16_9_550->save($path . '-16-9-md.' .$ext);
+        $img_16_9_360->save($path . '-16-9-sm.' .$ext);
+
+        $img_21_9_1120->save($path . '-21-9-xl.' .$ext);
+        $img_21_9_740->save($path . '-21-9-lg.' .$ext);
+        $img_21_9_550->save($path . '-21-9-md.' .$ext);
+        $img_21_9_360->save($path . '-21-9-sm.' .$ext);
+
+
+        $palette = Palette::fromFilename('./' . $path . '-16-9-sm.' .$ext);
         $extractor = new ColorExtractor($palette);
         $color_int = $extractor->extract(1)[0];
         $color = Color::fromIntToHex($color_int);
@@ -142,11 +184,7 @@ class MediaController extends Controller
         $image->color = $color;
         $image->resolution_x = $resolution_x;
         $image->resolution_y = $resolution_y;
-        $image->path_full = $img_full_path;
-        $image->path_large = $img_large_path;
-        $image->path_medium = $img_medium_path;
-        $image->path_small = $img_small_path;
-        $image->path_thumbnail = $img_thumbnail_path;
+        $image->path = $path;
         $image->save();
 
         return response()->json($image, 200);

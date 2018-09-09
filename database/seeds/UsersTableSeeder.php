@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
 
         $faker = Faker\Factory::create();
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 25; $i++) {
             $user = App\User::create([
                 'username' => $faker->userName,
                 'email' => $faker->email,
@@ -72,8 +72,18 @@ class UsersTableSeeder extends Seeder
         App\Tag::create(['name' => 'Javascript']);
         App\Tag::create(['name' => 'Omni']);
 
-        App\Page::create(['title' => 'A page', 'url' => 'tomato']);
-        App\Page::create(['title' => 'A page 2', 'url' => 'sugar/man']);
+        $root = App\Page::create(['title' => 'Persons', 'permalink' => 'persons', 'permalink_short' => 'persons', 'type' => 0]);
+        $root->children()->create(['title' => 'Matt', 'permalink' => 'persons/matt', 'permalink_short' => 'matt', 'type' => 0]);
+        $root->children()->create(['title' => 'Sam', 'permalink' => 'persons/sam', 'permalink_short' => 'sam', 'type' => 0]);
+
+        $root1 = App\Page::create(['title' => 'Animals', 'permalink' => 'animals', 'permalink_short' => 'animals', 'type' => 0]);
+        $root1->children()->create(['title' => 'Dog', 'permalink' => 'animals/dog', 'permalink_short' => 'dog', 'type' => 0]);
+        $root1->children()->create(['title' => 'Horse', 'permalink' => 'animals/horse', 'permalink_short' => 'horse', 'type' => 0]);
+
+        $sara = $root->children()->create(['title' => 'Timmy', 'permalink' => 'persons/timmy', 'permalink_short' => 'timmy', 'type' => 0]);
+        $root->children()->create(['title' => 'Sara', 'permalink' => 'persons/sara', 'permalink_short' => 'sara', 'type' => 0]);
+        $sara->children()->create(['title' => 'Boy', 'permalink' => 'persons/timmy/boy', 'permalink_short' => 'boy', 'type' => 0]);
+
 
     }
 }

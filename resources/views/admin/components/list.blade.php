@@ -75,7 +75,10 @@
 
             @foreach($list_options as $sort)
 
-                <!-- USER -->
+
+                <!--------------------------------------------------------
+                    USERS
+                ---------------------------------------------------------->
                     @if(strpos($sort['list_type'], 'user') !== false)
 
                         @if($sort['list_type'] == 'user-name')
@@ -147,10 +150,9 @@
             @endif
 
 
-
-
-            <!-- ARTICLES -->
-
+            <!--------------------------------------------------------
+                ARTICLES
+            ---------------------------------------------------------->
             @if(strpos($sort['list_type'], 'article') !== false)
 
                 @if($sort['list_type'] == 'article-title')
@@ -229,11 +231,99 @@
             @endif
 
 
-            <!-- MEDIA -->
+            <!--------------------------------------------------------
+                PAGES
+            ---------------------------------------------------------->
+
+            @if(strpos($sort['list_type'], 'page') !== false)
+
+                @if($sort['list_type'] == 'page-title')
+
+                    <input class="list-id" type="hidden" value="{{ $item->id }}">
+                    <input class="list-name" type="hidden" value="{{ $item->title }}">
+
+                    <td class="list__td list__primary">
+                        <input class="list__checkbox" id="styled-checkbox-{{ $item->id }}" type="checkbox">
+                        <label for="styled-checkbox-{{ $item->id }}"></label>
+                    </td>
+
+                    <td class="list__td list__primary">
+                        <a class="list__link" href="/admin/articles/{{ $item->id }}/edit">
+                            <span class="list__title">{{ $item->title }}</span>
+                        </a>
+                        <i class="list-dropdown__show fas fa-eye"></i>
+                    </td>
+
+                @elseif($sort['list_type'] == 'page-permalink')
+                    <td class="list__td">
+                        /{{ $item->permalink }}
+                    </td>
+
+                @elseif($sort['list_type'] == 'page-parent')
+                    <td class="list__td">
+                        @if($item->parent) {{ $item->parent->title }} @else - @endif
+                    </td>
+
+                @elseif($sort['list_type'] == 'page-updated')
+                    <td class="list__td">
+                        {{ $item->updated_at->diffForHumans() }}
+                    </td>
+
+                    <td class="list__td">
+
+                        <a href="/{{ $item->permalink }}" target="article-{{ $item->id }}">View</a>
+
+                        <a href="/admin/articles/{{ $item->id }}/edit" class="list__edit">Edit</a>
+
+                        @if(!canDeletePages(Auth::user()))
+                            <span data-toggle="tooltip"
+                                  title="You do not have permission to delete this page."> @endif
+
+                                <button @if (!canDeletePages(Auth::user())) disabled
+                                        @endif class="list__delete"
+                                        data-popshow="deletePopup">Delete</button>
+
+                                @if(!canDeletePages(Auth::user()))</span>@endif
+
+                    </td>
+
+                    </tr>
+                    <tr class="list-dropdown list-dropdown__hidden">
+                        <td colspan="10">
+
+                            <i class="list-dropdown__delete fas fa-trash-alt" data-popshow="deletePopup"></i>
+                            <a href="/admin/articles/{{ $item->id }}/edit" class="list-dropdown__edit"><i
+                                        class="fas fa-edit"></i></a>
+
+                            <div class="list-dropdown__row">
+                                <div class="list-dropdown__header">Permalink</div>
+                                <div class="list-dropdown__text">/{{ $item->url }}</div>
+                            </div>
+
+                            <div class="list-dropdown__row">
+                                <div class="list-dropdown__header">Parent</div>
+                                <div class="list-dropdown__text">@if($item->parent) {{ $item->parent->title }} @else
+                                        - @endif</div>
+                            </div>
+                            <div class="list-dropdown__row">
+                                <div class="list-dropdown__header">Updated</div>
+                                <div class="list-dropdown__text">     {{ $item->updated_at->diffForHumans() }}</div>
+                            </div>
+
+                        </td>
+                    </tr>
+
+
+                @endif
+
+            @endif
+
+
+            <!--------------------------------------------------------
+                MEDIA
+            ---------------------------------------------------------->
             @if(strpos($sort['list_type'], 'media') !== false)
                 @if($sort['list_type'] == 'media-name')
-
-
 
                     <input class="list-id" type="hidden" value="{{ $item->id }}">
                     <input class="list-name" type="hidden" value="{{ $item->name }}">
@@ -249,7 +339,7 @@
                             <span class="imageInfo"
                                   data-id="{{ $item->id }}"
                                   data-name="{{ $item->name }}"
-                                  data-path="{{ $item->path_medium }}"
+                                  data-path="{{ $item->path . '.' . $item->extension }}"
                                   data-updated="{{ $item->updated_at->diffForHumans() }}"
                                   data-size="{{ round($item->size / 100000, 2) }} MB"
                                   data-alt="{{ $item->alt }}"
@@ -261,7 +351,7 @@
 
                         <button class="list__link" data-popshow="mediaDetails">
                                 <span class="list__img"
-                                      style="background-color: {{ $item->color }}; background-image: url('/{{ $item->path_thumbnail }}')"></span>
+                                      style="background-color: {{ $item->color }}; background-image: url('/{{ $item->path . '.' . $item->extension }}')"></span>
 
                             <span class="list__title">{{ $item->name }}</span>
 
@@ -322,9 +412,40 @@
 
             @endif
 
+            @if(strpos($sort['list_type'], 'category') !== false)
+                @if($sort['list_type'] == 'category-name')
+                    <input class="list-id" type="hidden" value="{{ $item->id }}">
+                    <input class="list-name" type="hidden" value="{{ $item->name }}">
+
+                    <td class="list__td list__primary">
+                        <input class="list__checkbox" id="styled-checkbox-{{ $item->id }}" type="checkbox">
+                        <label for="styled-checkbox-{{ $item->id }}"></label>
+                    </td>
+
+                    <td class="list__td list__primary">
+                            <span class="list__title">{{ $item->name }}</span>
+
+                        <i class="list-dropdown__show fas fa-eye"></i>
+                    </td>
+
+                    <td class="list__td">
+                        <a href="/admin/articles/{{ $item->id }}/edit" class="list__edit">Edit</a>
+
+                        @if(!canDeletePages(Auth::user()))
+                            <span data-toggle="tooltip"
+                                  title="You do not have permission to delete this page."> @endif
+
+                                <button @if (!canDeletePages(Auth::user())) disabled
+                                        @endif class="list__delete"
+                                        data-popshow="deletePopup">Delete</button>
+
+                                @if(!canDeletePages(Auth::user()))</span>@endif
+                    </td>
+
+                @endif
+            @endif
 
         @endforeach
-
 
         @endforeach
 

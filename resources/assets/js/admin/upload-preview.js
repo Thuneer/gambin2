@@ -1,6 +1,6 @@
-import jQuery from 'jquery';
+import $ from 'jquery';
 
-(function ($) {
+$(function () {
     $.extend({
         uploadPreview : function (options) {
 
@@ -75,4 +75,4 @@ import jQuery from 'jquery';
             }
         }
     });
-})(jQuery);
+});

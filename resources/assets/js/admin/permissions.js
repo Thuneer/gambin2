@@ -1,6 +1,12 @@
-import jQuery from "jquery";
+import $ from "jquery";
 
-(function ($) {
+/**
+ *
+ *  Permissions
+ *
+ */
+
+$(function () {
 
     $('.permission-checkbox').click(function () {
 
@@ -40,4 +46,4 @@ import jQuery from "jquery";
 
     });
 
-})(jQuery);
+});

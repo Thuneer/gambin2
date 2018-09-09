@@ -3,3 +3,7 @@
         Footer
     </div>
 </footer>
+
+</div>
+</body>
+</html>

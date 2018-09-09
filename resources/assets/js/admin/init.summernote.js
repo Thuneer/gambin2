@@ -1,6 +1,12 @@
-import jQuery from 'jquery';
+import $ from 'jquery';
 
-jQuery(document).ready(function($) {
+/**
+ *
+ *  Setts up summernote text field for articles and posts
+ *
+ */
+
+$(function() {
     $('#summernote').summernote({
         height:300,
         tabsize: 1,

@@ -63,6 +63,10 @@
     min-height: 385px;
   }
 
+  &__mini-group {
+    margin-top: 15px;
+  }
+
   &__input {
     width: 100%;
     height: 38px;
@@ -75,6 +79,17 @@
     display: block;
     font-weight: 700;
     color: $primary;
+  }
+
+  &__label-mini {
+    font-weight: 600;
+     color: black;
+  }
+
+  &__group {
+    .form__mini-group:last-child {
+      //margin-top: 0;
+    }
   }
 
   &__label--status {
@@ -99,7 +114,7 @@
   select {
     background-color: white;
     border: 1px solid $light-grey;
-    padding: 5px 10px;
+    padding: 5px 5px 5px 5px;
   }
 
   #summernote {
@@ -112,6 +127,17 @@
     border: none;
     padding: 8px 15px;
     border-radius: 4px;
+  }
+
+  #pagebuilder-container {
+    display: none;
+  }
+
+  &__builder {
+    background-color: white;
+    text-align: center;
+    padding: 156px 0;
+    border: 1px solid $light-grey;
   }
 
   &__body {

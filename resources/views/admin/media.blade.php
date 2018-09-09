@@ -5,7 +5,7 @@
     <div class="tool-bar">
         <div class="tool-bar__left">
             <h1 class="page-header">All Media</h1>
-            <button class="button button--primary" data-toggle="modal" data-target="#mediaAdd">
+            <button class="button button--primary" data-toggle="modal" data-target="#mediaAddModal">
                 <i class="tool-bar-add__icon fas fa-plus"></i>
                 Add media
             </button>
@@ -84,7 +84,7 @@
                     <span class="imageInfo"
                             data-id="{{ $item->id }}"
                             data-name="{{ $item->name }}"
-                            data-path="{{ $item->path_medium }}"
+                            data-path="{{ $item->path . '.' . $item->extension}}"
                             data-updated="{{ $item->updated_at->diffForHumans() }}"
                             data-size="{{ round($item->size / 100000, 2) }} MB"
                             data-alt="{{ $item->alt }}"
@@ -94,7 +94,7 @@
                             data-extension="{{ $item->extension }}"
                     ></span>
 
-                    <div class="grid__img" style="background-color: {{ $item->color }};background-image: url(/{{ $item->path_thumbnail }})"
+                    <div class="grid__img" style="background-color: {{ $item->color }};background-image: url(/{{ $item->path . '.' . $item->extension }})"
                          onload="$(this).css('border', '5px solid red')"></div>
                     <div class="grid__details">
                         f
@@ -111,7 +111,7 @@
     @endif
 
     <!-- Upload modal -->
-    <div class="modal fade" id="mediaAdd">
+    <div class="modal fade" id="mediaAddModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
@@ -125,7 +125,7 @@
                 <div class="modal-body">
                     <form action="/admin/media" method="POST"
                           class="dropzone"
-                          id="my-awesome-dropzone"></form>
+                          id="media-upload-dropzone"></form>
                 </div>
 
                 <!-- Modal footer -->

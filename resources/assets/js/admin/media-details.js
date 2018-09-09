@@ -1,6 +1,15 @@
-import jQuery from "jquery";
+import $ from "jquery";
 
-(function ($) {
+/**
+ *
+ *  Display image information in a modal when user clicks an image in media section
+ *
+ */
+
+$(function () {
+
+
+    // Adds media details to modal when clicking images
 
     $(document).on('click', '.grid__item', function () {
         addMediaDetails($(this).find('.imageInfo'));
@@ -20,18 +29,21 @@ import jQuery from "jquery";
 
     });
 
+    // Activates edit mode when user clicks the pencil next to name, title, or alt attribute
     $('.media-details__edit').click(function () {
 
-        activeEdit($(this).next().attr('data-column'));
+        activateEditMode($(this).next().attr('data-column'));
 
     });
 
+    // Deactivates edit mode when user clicks red cross in edit node
     $('.media-details__error').click(function () {
 
-        deactivateEdit($(this).prev().attr('data-column'));
+        deactivateEditMode($(this).prev().attr('data-column'));
 
     });
 
+    // Adds the correct id to delete modal when user clicks delete button inside modal
     $('.media-details__delete').click(function () {
 
         let id = $('#detailsId').attr('data-details-id');
@@ -39,9 +51,7 @@ import jQuery from "jquery";
 
     });
 
-    $("body").on("popup-close", function () {
-    });
-
+    // Starts editing table when user clicks check mark in edit mode
     $('.media-details__check').click(function () {
 
         let column = $(this).attr('data-column');
@@ -50,6 +60,7 @@ import jQuery from "jquery";
 
     });
 
+    // Sends ajax request to edit a column with a given value
     function editMedia(column, value) {
 
         let id = $('#detailsId').attr('data-details-id');
@@ -69,28 +80,31 @@ import jQuery from "jquery";
                 let capColumn = capitalize(column);
                 $('#media' + capColumn).text(data[column]);
                 $('#media' + capColumn + 'Input').val(data[column]);
-                deactivateEdit(column);
+                deactivateEditMode(column);
 
-                let test = $('[data-id="' + id + '"]');
-                test.attr('data-' + column, value);
+                let listItemWithId = $('[data-id="' + id + '"]');
+                listItemWithId.attr('data-' + column, value);
 
-                if (column === 'name')
-                    test.parent().find('.list__title').html(value);
-
+                // If the user changed name, then set the name in the list
+                if (column === 'name') {
+                    listItemWithId.parent().find('.list__title').html(value);
+                }
 
             },
-            error: function (data) {
+            error: function () {
                 window.location.href = '/admin/media'
             }
         });
 
     }
 
+    // Capitalizes a string
     function capitalize(s)
     {
         return s && s[0].toUpperCase() + s.slice(1);
     }
 
+    // Adds all the data to the modal from the element data attributes
     function addMediaDetails(element) {
         $('#detailsId').attr('data-details-id', element.attr('data-id'));
 
@@ -107,7 +121,8 @@ import jQuery from "jquery";
         $('#mediaPath').text(APP_URL + '/' + element.attr('data-path'));
     }
 
-    function activeEdit(column) {
+    // Activates edit mode when uer clicks edit on name, title, ot alt attribute
+    function activateEditMode(column) {
         let check = $('[data-column="' + column +'"]');
 
         check.parent().parent().find('.media-details__input').show();
@@ -117,7 +132,8 @@ import jQuery from "jquery";
         check.prev().hide();
     }
 
-    function deactivateEdit(column) {
+    // Deactivates edit mode for name, title or alt attribute
+    function deactivateEditMode(column) {
 
         let check = $('[data-column="' + column +'"]');
 
@@ -129,4 +145,4 @@ import jQuery from "jquery";
 
     }
 
-}(jQuery));
+});

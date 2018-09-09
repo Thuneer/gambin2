@@ -7,6 +7,7 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
 // Packacges and tools
 import 'summernote/dist/summernote-bs4.min'
 import './admin/init.summernote';
@@ -22,5 +23,11 @@ import './admin/upload-preview-config';
 import './admin/image-picker';
 import './admin/tags';
 import './admin/permissions';
-import './admin/picker';
 import './admin/media-details';
+import './admin/article-type';
+import './admin/page-builder';
+import './admin/layout';
+import './admin/popup';
+import './admin/article-preview';
+
+import '../../../node_modules/dragula/dist/dragula.min'

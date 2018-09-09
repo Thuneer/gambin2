@@ -1,19 +1,22 @@
-import jQuery from 'jquery';
+import $ from 'jquery';
 import hoverIntent from 'jquery-hoverintent';
 
-jQuery( document ).ready(function($) {
+/**
+ *
+ *  Top bar
+ *
+ */
 
-let userContainer = $('.user-top__container');
-let dropdown = $('.user-top__dropdown');
-let icon = $('.user-top__icon');
+$(function () {
 
+    let userContainer = $('.user-top__container');
+    let icon = $('.user-top__icon');
 
-userContainer.hoverIntent(function () {
+    userContainer.hoverIntent(function () {
 
-    $('.user-top__dropdown').slideToggle(200);
-    icon.toggleClass('user-top__icon--flipped');
+        $('.user-top__dropdown').slideToggle(200);
+        icon.toggleClass('user-top__icon--flipped');
 
-});
-
+    });
 
 });

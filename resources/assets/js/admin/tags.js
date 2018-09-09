@@ -1,10 +1,16 @@
-import jQuery from "jquery";
+import $ from "jquery";
 
-(function ($) {
+/**
+ *
+ *  Tags on articles
+ *
+ */
+
+$(function () {
+
+    let tagContainer = $('.post-tags__container');
 
     if (document.querySelector('.post-tags') !== null) {
-
-        let tagContainer = $('.post-tags__container');
 
         $('.post-tags__item').click(function () {
 
@@ -61,9 +67,11 @@ import jQuery from "jquery";
 
         });
 
-        function addNewTag(tag, id) {
+    }
 
-            let string = `
+    function addNewTag(tag, id) {
+
+        let string = `
             
              <div class="post-tags__tag">
                  <div class="post-tags__text">${tag}</div>
@@ -73,21 +81,17 @@ import jQuery from "jquery";
                    
             `;
 
-            tagContainer.append(string);
+        tagContainer.append(string);
 
-            $('.post-tags__empty').remove();
-
-        }
-
-        function addEmptyString() {
-
-            let string = '<div class="post-tags__empty">No tags selected</div>';
-
-            tagContainer.append(string);
-
-        }
-
+        $('.post-tags__empty').remove();
 
     }
 
-})(jQuery);
+    function addEmptyString() {
+
+        let string = '<div class="post-tags__empty">No tags selected</div>';
+        tagContainer.append(string);
+
+    }
+
+});

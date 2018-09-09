@@ -45,6 +45,7 @@
         @slot('sort_direction') {{ $sort_direction }} @endslot
         @slot('per_page') {{ $per_page }} @endslot
         @slot('list') {{ $list }} @endslot
+        @slot('route') /admin/articles @endslot
         @slot('singular') article @endslot
         @slot('plural') articles @endslot
     @endcomponent

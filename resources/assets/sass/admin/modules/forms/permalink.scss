@@ -1,0 +1,45 @@
+.permalink {
+
+  display: flex;
+  align-items: center;
+
+  &__btn {
+    background-color: white;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-size: 13px;
+    margin-left: 5px;
+    display: inline-block;
+  }
+
+  &__url {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  &__input {
+    border: 1px solid #eaeaea;
+    padding-left: 8px;
+    height: 34px;
+    border-radius: 2px;
+    display: none;
+  }
+
+  &__btn--success {
+    color: green;
+    display: none;
+    margin-left: 10px;
+  }
+
+  &__btn--error {
+    color: red;
+    display: none;
+    margin-left: 10px;
+  }
+
+}

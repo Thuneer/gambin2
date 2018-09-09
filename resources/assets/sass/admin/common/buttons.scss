@@ -85,3 +85,16 @@
 .button--success:hover {
   background-color: #108510;
 }
+
+.button--builder {
+  padding: 18px 30px;
+  background-color: white;
+  border: 1px solid $primary;
+  color: $primary;
+  font-size: 17px;
+
+  .fas {
+    margin-right: 10px;
+  }
+
+}

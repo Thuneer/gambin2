@@ -16,13 +16,13 @@
         var APP_URL = {!! json_encode(url('/')) !!};
     </script>
 
-
     <noscript>
         Enable javascript to use this page.
     </noscript>
 
     <!-- Styles -->
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+
 </head>
 <body>
 <div id="app">
@@ -156,14 +156,14 @@
                                        href="/admin/articles/new">Add new article</a>
                                 </li>
                                 @endcan
-                                @can('edit articles')
+                                @can('create articles')
                                     <li class="sidebar-menu-inner__item">
-                                        <a class="sidebar-menu-inner__link @if( strpos(Request::path(), 'admin/tags') !== false) sidebar-menu-inner__active @else @endif"
-                                           href="/admin/articles/new">Categories</a>
+                                        <a class="sidebar-menu-inner__link @if( strpos(Request::path(), 'admin/articles/categories') !== false) sidebar-menu-inner__active @else @endif"
+                                           href="/admin/articles/categories">Categories</a>
                                     </li>
                                     <li class="sidebar-menu-inner__item">
-                                        <a class="sidebar-menu-inner__link @if( strpos(Request::path(), 'admin/categories') !== false) sidebar-menu-inner__active @else @endif"
-                                           href="/admin/articles/new">Tags</a>
+                                        <a class="sidebar-menu-inner__link @if( strpos(Request::path(), 'admin/articles/tags') !== false) sidebar-menu-inner__active @else @endif"
+                                           href="/admin/articles/tags">Tags</a>
                                     </li>
                                 @endcan
                             </ul>
@@ -178,7 +178,7 @@
                 @if(Auth::user()->can('view pages') || Auth::user()->can('edit pages'))
                     <li class="sidebar-menu-outer__item">
 
-                        <button class="sidebar-menu-outer__btn collapsed" data-toggle="collapse"
+                        <button class="sidebar-menu-outer__btn @if( strpos(Request::path(), 'admin/pages') !== false) sidebar-menu-outer__btn--active @else collapsed @endif" data-toggle="collapse"
                                 data-target="#collapsePages"
                                 aria-expanded="true"
                                 aria-controls="collapseTwo">
@@ -188,17 +188,17 @@
 
                         </button>
 
-                        <div id="collapsePages" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div id="collapsePages" class="collapse @if( strpos(Request::path(), 'admin/pages') !== false) show @else  @endif" aria-labelledby="headingTwo" data-parent="#accordion">
 
                             <ul class="sidebar-menu-inner">
                                 @can('view pages')
                                     <li class="sidebar-menu-inner__item">
-                                        <a class="sidebar-menu-inner__link" href="/pages">All pages</a>
+                                        <a class="sidebar-menu-inner__link @if( Request::path() == 'admin/pages') sidebar-menu-inner__active @else @endif" href="/admin/pages">All pages</a>
                                     </li>
                                 @endcan
-                                @can('edit pages')
+                                @can('create pages')
                                     <li class="sidebar-menu-inner__item">
-                                        <a class="sidebar-menu-inner__link" href="/admin/page">Add new page</a>
+                                        <a class="sidebar-menu-inner__link @if( strpos(Request::path(), 'admin/pages/new') !== false) sidebar-menu-inner__active @else @endif" href="/admin/pages/new">Add new page</a>
                                     </li>
                                 @endif
                             </ul>

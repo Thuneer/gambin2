@@ -24,3 +24,44 @@
   }
 
 }
+
+.articles {
+
+  &__item {
+    position: relative;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    width: 100%;
+  }
+
+  &__row {
+    margin-bottom: 20px;
+  }
+
+  &__container {
+    padding: 20px;
+  }
+
+  &__img {
+    width: 100%;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 0;
+    line-height: 1.3em;
+  }
+
+  &__category {
+
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: red;
+
+
+  }
+
+
+}

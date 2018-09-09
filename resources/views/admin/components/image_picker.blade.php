@@ -1,4 +1,4 @@
-<div id="imagePicker" class="popup popup--full">
+<div id="imagePicker" class="popup popup--xl">
 
 
     <div class="popup__overlay"></div>

@@ -1,61 +1,39 @@
-import jQuery from 'jquery';
+import $ from 'jquery';
 
-jQuery(document).ready(function ($) {
+/**
+ *
+ *  Mostly click events related to the list / table displaying data
+ *
+ */
 
-    let tr = $('tbody tr');
+$(function () {
+
     let checkboxesChecked = 0;
 
-
-    tr.each(function (index, element) {
-
-        let arrow = $(this).find('.list__dropdown-icon');
-
-        if (arrow.length !== 0) {
-
-            let dropdown = $(this).next();
-
-            arrow.click(function () {
-
-                dropdown.toggleClass('list__dropdown--hidden');
-
-            });
-
-        }
-
-    });
-
-
+    // Sets the text and id in the delete modal when user clicks delete button
     $(document).on('click', '.list__delete', function () {
 
         let id = $(this).parent().parent().find('.list-id').val();
         let name = $(this).parent().parent().find('.list-name').val();
-        console.log(id);
-        //$(this).parent().find('#deleteModalText').html("ddd");
+
         $('#deleteModalText').html('Are you sure you want to delete ' + '<b>' + name + '</b>?');
         $('#deleteModalIds').val(id);
-        console.log("ff");
 
     });
 
+    // Sets the text and id in the delete modal when user clicks delete button on mobile devices
     $(document).on('click', '.list-dropdown__delete', function () {
 
         let id = $(this).parent().parent().parent().find('.list-id').val();
         let name = $(this).parent().parent().parent().find('.list-name').val();
-        console.log(id);
-        //$(this).parent().find('#deleteModalText').html("ddd");
+
         $('#deleteModalText').html('Are you sure you want to delete ' + '<b>' + name + '</b>?');
         $('#deleteModalIds').val(id);
-        console.log("ff");
 
     });
 
 
-    $('.search-mobile__toggle').click(function () {
-
-        $('.search-mobile').slideToggle(200);
-
-    });
-
+    // Selects all checkboxes when user clicks the checkbox next to table headers
     $('#bulkCheckbox').click(function () {
 
         let checkboxes = $('.list__checkbox');
@@ -86,6 +64,7 @@ jQuery(document).ready(function ($) {
 
     });
 
+    // Selects a row when user clicks a checkbox
     $('.list__checkbox').click(function () {
 
         if ($(this).is(':checked')) {
@@ -100,11 +79,9 @@ jQuery(document).ready(function ($) {
             $('#deleteBulkBtn').prop('disabled', false);
         }
 
-        console.log(checkboxesChecked);
-
     });
 
-
+    // Deletes selected rows when the delete bulk button is clicked
     $('#deleteBulkBtn').click(function () {
 
         let checkboxes = $('.list__checkbox:checkbox:checked');
@@ -152,6 +129,7 @@ jQuery(document).ready(function ($) {
 
     });
 
+    // Hovering over table headers shows sort arrows
     $('.list__sort-btn').hover(function () {
 
         let arrow = $(this).next();
@@ -190,11 +168,17 @@ jQuery(document).ready(function ($) {
 
     });
 
+    // Slides down search on mobile devices
+    $('.search-mobile__toggle').click(function () {
 
+        $('.search-mobile').slideToggle(200);
+
+    });
+
+    // Shows more table data by clicking dropdown button in mobile mode
     $(document).on('click', '.list-dropdown__show', function () {
 
         let dropdown = $(this).parent().parent().next();
-
 
         $('.list-dropdown').each(function (index, element) {
 
@@ -209,6 +193,5 @@ jQuery(document).ready(function ($) {
         dropdown.fadeToggle(100);
 
     });
-
 
 });

@@ -28,18 +28,18 @@ function userAvatar($id)
 function canEditUserRole($auth_user, $user, $permission)
 {
 
-    if(
-    (($user->roles[0]->name == 'standard user' && $auth_user->roles[0]->hasPermissionTo('edit standard users') &&
-            $auth_user->roles[0]->hasPermissionTo($permission)) ||
+    if (
+        (($user->roles[0]->name == 'standard user' && $auth_user->roles[0]->hasPermissionTo('edit standard users') &&
+                $auth_user->roles[0]->hasPermissionTo($permission)) ||
 
-        ($user->roles[0]->name == 'editor' && $auth_user->roles[0]->hasPermissionTo('edit editors') &&
-            $auth_user->roles[0]->hasPermissionTo($permission)) ||
+            ($user->roles[0]->name == 'editor' && $auth_user->roles[0]->hasPermissionTo('edit editors') &&
+                $auth_user->roles[0]->hasPermissionTo($permission)) ||
 
-        ($user->roles[0]->name == 'administrator' && $auth_user->roles[0]->hasPermissionTo('edit administrators') &&
-            $auth_user->roles[0]->hasPermissionTo($permission)) ||
+            ($user->roles[0]->name == 'administrator' && $auth_user->roles[0]->hasPermissionTo('edit administrators') &&
+                $auth_user->roles[0]->hasPermissionTo($permission)) ||
 
-        ($user->roles[0]->name == 'super admin' && $auth_user->roles[0]->hasPermissionTo('edit super admins') &&
-            $auth_user->roles[0]->hasPermissionTo($permission))) || ($auth_user->roles[0]->name == 'owner' && $auth_user->id == $user->id)) {
+            ($user->roles[0]->name == 'super admin' && $auth_user->roles[0]->hasPermissionTo('edit super admins') &&
+                $auth_user->roles[0]->hasPermissionTo($permission))) || ($auth_user->roles[0]->name == 'owner' && $auth_user->id == $user->id)) {
         return true;
     } else {
         return false;
@@ -58,7 +58,8 @@ function canEditUser($user_role_name, $auth_role)
 
 }
 
-function canDeleteUsers($auth_user, $user) {
+function canDeleteUsers($auth_user, $user)
+{
 
     return
         ($user->roles[0]->name == 'standard user' && $auth_user->roles[0]->hasPermissionTo('delete standard users')) ||
@@ -69,27 +70,77 @@ function canDeleteUsers($auth_user, $user) {
 
 }
 
-function canEditArticles($auth_user, $post) {
+function canEditArticles($auth_user, $post)
+{
 
-    return $auth_user->hasPermissionTo('edit articles') ||  $auth_user->id == $post->user->id;
+    return $auth_user->hasPermissionTo('edit articles') || $auth_user->id == $post->user->id;
 
 }
 
 // Check if a user can delete an article
-function canDeleteArticles($auth_user, $post) {
+function canDeleteArticles($auth_user, $post)
+{
 
-   return $auth_user->roles[0]->hasPermissionTo('delete articles') || $auth_user->id == $post->user->id;
+    return $auth_user->roles[0]->hasPermissionTo('delete articles') || $auth_user->id == $post->user->id;
 
 }
 
-function canEditMedia($auth_user) {
+function canEditMedia($auth_user)
+{
 
     return $auth_user->hasPermissionTo('edit media');
 
 }
 
-function canDeleteMedia($auth_user) {
+function canDeleteMedia($auth_user)
+{
 
     return $auth_user->hasPermissionTo('delete media');
 
 }
+
+function canEditPages($auth_user)
+{
+
+    return $auth_user->hasPermissionTo('edit pages');
+
+}
+
+function canDeletePages($auth_user)
+{
+
+    return $auth_user->hasPermissionTo('delete pages');
+
+}
+
+
+// *Very simple* recursive rendering function
+function renderNode($page) {
+    echo "<li>";
+    echo "<b>{$page->title}</b>";
+
+    if ( $page->children()->count() > 0 ) {
+        echo "<ul>";
+        foreach($page->children as $child) renderNode($child);
+        echo "</ul>";
+    }
+
+    echo "</li>";
+}
+
+// *Very simple* recursive rendering function
+function renderNode1($page, $prefix = 0) {
+    echo "<option value='{$page->id}'>";
+
+    for ($i = 0; $i < $prefix; $i++)
+        echo "&nbsp;&nbsp;";
+
+    echo "{$page->title}";
+    echo "</option>";
+    if ( $page->children()->count() > 0 ) {
+        foreach($page->children as $child) renderNode1($child, $prefix+1);
+    }
+
+
+}
+

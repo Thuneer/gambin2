@@ -20,8 +20,10 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "dragula": "^3.7.2",
         "imagesloaded": "^4.1.4",
         "jquery-hoverintent": "^1.9.0",
+        "jquery-ui": "^1.12.1",
         "jquery.waitforimages": "^2.4.0",
         "summernote": "^0.8.10"
     }

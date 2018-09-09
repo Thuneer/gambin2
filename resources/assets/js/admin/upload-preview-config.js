@@ -1,6 +1,7 @@
 import $ from 'jquery';
 
-$(document).ready(function() {
+$(function () {
+
     $.uploadPreview({
         input_field: "#image-upload",   // Default: .image-upload
         preview_box: "#image-preview",  // Default: .image-preview
@@ -9,4 +10,5 @@ $(document).ready(function() {
         label_selected: "Change File",  // Default: Change File
         no_label: false                 // Default: false
     });
+
 });

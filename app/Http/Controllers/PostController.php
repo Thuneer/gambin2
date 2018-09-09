@@ -28,7 +28,7 @@ class PostController extends Controller
             $sort_column = 'updated_at';
 
         if ($search) {
-            $posts = Post::where('status', '!=', 'preview')->where('first_name', 'like', '%' . $search . '%')->orWhere('last_name', 'like', '%' . $search . '%')->orderBy($sort_column, $sort_direction)->paginate($per_page);
+            $posts = Post::where('status', '!=', 'preview')->where('title', 'like', '%' . $search . '%')->orderBy($sort_column, $sort_direction)->paginate($per_page);
         } else {
             $posts = Post::where('status', '!=', 'preview')->orderBy($sort_column, $sort_direction)->paginate($per_page);
         }
