@@ -19,7 +19,7 @@ class CreatePagesTable extends Migration
             $table->string('permalink');
             $table->string('permalink_short');
             $table->string('title');
-            $table->string('body')->nullable();
+            $table->text('body')->nullable();
             $table->integer('type');
             $table->string('template')->nullable();
             $table->timestamps();

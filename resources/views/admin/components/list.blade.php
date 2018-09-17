@@ -96,7 +96,7 @@
                             <td class="list__td list__primary">
                                 <a class="list__link" href="/admin/users/{{ $item->id }}/edit">
                             <span class="list__img"
-                                  style="background-color: {{ $item->color }}; background-image: url('@if(count($item->images) > 0)/{{ $item->images[0]->path_thumbnail }} @else{{ userAvatar($item->id) }} @endif'"></span>
+                                  style="background-color: {{ $item->color }}; background-image: url('@if(count($item->images) > 0)/{{ $item->images[0]->path . '.' . $item->images[0]->extension }} @else{{ userAvatar($item->id) }} @endif'"></span>
 
                                     <span class="list__title">{{ $item->first_name }} {{ $item->last_name }}</span>
                                 </a>
@@ -168,7 +168,7 @@
                     <td class="list__td list__primary">
                         <a class="list__link" href="/admin/articles/{{ $item->id }}/edit">
                             <span class="list__img"
-                                  style="background-color: {{ $item->color }}; background-image: url('@if(count($item->images) > 0)/{{ $item->images[0]->path_thumbnail }} @else{{ userAvatar($item->id) }} @endif'"></span>
+                                  style="background-color: {{ $item->color }}; background-image: url('@if(count($item->images) > 0)/{{ $item->images[0]->path . '.' . $item->images[0]->extension }} @else{{ userAvatar($item->id) }} @endif'"></span>
 
                             <span class="list__title">{{ $item->title }}</span>
                         </a>
@@ -248,7 +248,7 @@
                     </td>
 
                     <td class="list__td list__primary">
-                        <a class="list__link" href="/admin/articles/{{ $item->id }}/edit">
+                        <a class="list__link" href="/admin/pages/{{ $item->id }}/edit">
                             <span class="list__title">{{ $item->title }}</span>
                         </a>
                         <i class="list-dropdown__show fas fa-eye"></i>

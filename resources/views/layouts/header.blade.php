@@ -25,17 +25,16 @@
 
 <nav class="navigation">
 
-    <div class="logo">
-        HOME
-    </div>
-    <ul class="navigation__menu">
-        <li class="navigation__menu-item">Home</li>
-        <li class="navigation__menu-item">About</li>
-        <li class="navigation__menu-item">ontact</li>
-    </ul>
+    <div class="container navigation__container">
+        <div class="logo">
+            Logo
+        </div>
+        <ul class="navigation__menu">
+            <li class="navigation__menu-item">Menu item 1</li>
+            <li class="navigation__menu-item">Menu item 2</li>
+            <li class="navigation__menu-item">Menu item 3</li>
+        </ul>
 
-    <div class="navigation__right">
-        login
     </div>
 
 </nav>

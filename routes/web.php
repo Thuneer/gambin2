@@ -37,8 +37,6 @@ Route::get('/admin/login', function () {
 
 Route::group(['middleware' => ['admin']], function () {
 
-
-
     Route::get('/admin', function () {
 
         return view('admin/home');
@@ -65,6 +63,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/admin/articles/{id}/edit', 'PostController@edit');
     Route::post('/admin/articles/delete', 'PostController@delete');
     Route::post('/admin/articles/preview', 'PostController@preview');
+    Route::get('/admin/articles/{amount}', 'PostController@getArticles');
 
     Route::get('/admin/articles/categories', 'CategoryController@index');
     Route::post('/admin/articles/categories', 'CategoryController@create');

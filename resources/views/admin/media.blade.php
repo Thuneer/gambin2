@@ -84,7 +84,7 @@
                     <span class="imageInfo"
                             data-id="{{ $item->id }}"
                             data-name="{{ $item->name }}"
-                            data-path="{{ $item->path . '.' . $item->extension}}"
+                            data-path="{{ $item->path . '-16-9-lg' . '.' . $item->extension}}"
                             data-updated="{{ $item->updated_at->diffForHumans() }}"
                             data-size="{{ round($item->size / 100000, 2) }} MB"
                             data-alt="{{ $item->alt }}"
@@ -94,7 +94,7 @@
                             data-extension="{{ $item->extension }}"
                     ></span>
 
-                    <div class="grid__img" style="background-color: {{ $item->color }};background-image: url(/{{ $item->path . '.' . $item->extension }})"
+                    <div class="grid__img" style="background-color: {{ $item->color }};background-image: url(/{{ $item->path . '-16-9-lg' . '.' . $item->extension }})"
                          onload="$(this).css('border', '5px solid red')"></div>
                     <div class="grid__details">
                         f

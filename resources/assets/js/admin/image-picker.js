@@ -170,7 +170,7 @@ $(function () {
             success(file, res) {
 
                 $(file.previewElement).find('.dz-success-mark').css('display', 'block');
-                $(file.previewElement).attr('data-path', res.path + '.' + res.extension);
+                $(file.previewElement).attr('data-path', res.path + '-4-3-sm' + '.' + res.extension);
                 $(file.previewElement).attr('data-id', res.id);
                 $(file.previewElement).attr('data-name', res.name);
 
@@ -245,7 +245,7 @@ $(function () {
                 }
             });
 
-        }, 100);
+        }, 50);
 
 
     }
@@ -262,7 +262,7 @@ $(function () {
 
         return `<div class="picker-grid__item" style="
         background-color: ${item.color};
-        background-image: url('/${item.path + '.' + item.extension}')" 
+        background-image: url('/${item.path + '-4-3-sm' + '.' + item.extension}')" 
         data-id="${item.id}" 
         data-name="${item.name}" 
         data-path="${item.path + '.' + item.extension}">
@@ -274,7 +274,7 @@ $(function () {
     function getListItem(item) {
 
         return `<div class="picker-list__item" data-id="${item.id}" data-name="${item.name}" data-path="${item.path}">
-                    <div class="picker-list__img" style="background-image: url('/${item.path + '.' + item.extension}')"></div>
+                    <div class="picker-list__img" style="background-image: url('/${item.path + '-4-3-sm' + '.' + item.extension}')"></div>
                     <div class="picker-list__title">${item.name}</div>
                     <i class="picker-list__check fas fa-check"></i>
                 </div>`;

@@ -347,4 +347,14 @@ class PostController extends Controller
 
         return response()->json($preview_post, 200);
     }
+
+    public function getArticles(Request $request, $amount) {
+
+        $amount = $amount * 10;
+
+        $articles = Post::with('images')->take($amount)->get();
+
+        return $articles;
+
+    }
 }

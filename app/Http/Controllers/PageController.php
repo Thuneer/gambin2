@@ -108,7 +108,7 @@ class PageController extends Controller
 
         $title = $request->title;
         $permalink = $request->permalink;
-        $body = $request->body;
+        $body = $request->pb_body;
         $type = $request->type;
         $parent = $request->parent;
         $template = $request->template;
@@ -120,7 +120,7 @@ class PageController extends Controller
 
         $page = new Page();
         $page->title = $title;
-        $page->body = clean($body);
+        $page->body = $body;
         if($template !== '-1')
             $page->template = $template;
         $page->type = $type;

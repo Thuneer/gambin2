@@ -5,7 +5,6 @@
 
     <div class="popup__main">
 
-
         <div class="pb">
 
             <div class="pb__left">
@@ -34,30 +33,19 @@
                         </div>
                     </div>
 
-                    <div class="pb-articles">
-
-                        <div class="pb-articles__container">
-                            <div class="pb-articles__item">
-                                <div class="pb-articles__img" style="background-image: url('/img/test.jpg')"></div>
-                                <h3 class="pb-articles__title">Hello</h3>
-                                <div class="fas fa-arrows-alt pb-articles__drag"></div>
-                            </div>
-                        </div>
-
-                        <div class="pb-articles__container">
-                            <div class="pb-articles__item">
-                                <div class="pb-articles__img" style="background-image: url('/img/test.jpg')"></div>
-                                <h3 class="pb-articles__title">Hello</h3>
-                                <div class="fas fa-arrows-alt pb-articles__drag"></div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="pb-articles"></div>
 
                     <div id="potato" class="pb-elements potato">
                         <div class="pb-elements__container">
-                            <div id="element-text" class="pb-elements__item pb-elements__item--row">
+                            <div id="element-header" class="pb-elements__item pb-elements__item--row">
                                 <span class="pb-elements__icon fas fa-font"></span>
-                                <div class="pb-elements__text">Text</div>
+                                <div class="pb-elements__text">Header</div>
+                            </div>
+                        </div>
+                        <div class="pb-elements__container">
+                            <div id="element-paragraph" class="pb-elements__item pb-elements__item--row">
+                                <span class="pb-elements__icon fas fa-font"></span>
+                                <div class="pb-elements__text">Paragraph</div>
                             </div>
                         </div>
                         <div class="pb-elements__container">
@@ -68,10 +56,11 @@
                         </div>
                         <div class="pb-elements__container">
                             <div id="element-box" class="pb-elements__item pb-elements__item--row">
-                                <span class="pb-elements__icon fas fa-box"></span>
+                                <span class="pb-elements__icon fas fa-box-open"></span>
                                 <div class="pb-elements__text">Box</div>
                             </div>
                         </div>
+
 
                     </div>
 
@@ -153,12 +142,13 @@
                             </div>
 
                             <!-- IMAGE SIZE -->
-                            <div id="image-size-selection" class="pb-element__group"
+                            <div id="image-height-selection" class="pb-element__group"
                                  data-active="pb-element__size--active">
-                                <div class="pb-element__title">Image Size</div>
-                                <div class="pb-element__circle pb-element__size--active">S</div>
-                                <div class="pb-element__circle">M</div>
-                                <div class="pb-element__circle">L</div>
+                                <div class="pb-element__title">Image Height</div>
+                                <div id="ih-s" data-value="image-height-s" class="pb-element__circle pb-element__size--active">S</div>
+                                <div id="ih-m" data-value="image-height-m" class="pb-element__circle">M</div>
+                                <div id="ih-l" data-value="image-height-l" class="pb-element__circle">L</div>
+                                <div id="ih-xl" data-value="image-height-xl" class="pb-element__circle">XL</div>
                             </div>
 
                             <!-- ACTIONS -->
@@ -182,7 +172,6 @@
 
                 <div class="container articles">
 
-
                     <div class="articles__new-container">
                         <button class="articles__new"><i class="articles__new-icon fas fa-plus"></i> Add new row
                         </button>
@@ -191,200 +180,36 @@
                     <div class="row articles__row">
                         <div class="pb-row-controls">
                             <div class="pb-row-controls__icon pb-row-controls__icon--drag fas fa-arrows-alt"></div>
-                            <div class="pb-row-controls__icon pb-row-controls__icon--menu fas fa-bars"></div>
+                            <div class="pb-row-controls__icon pb-row-controls__icon--menu fas fa-bars" type="button" data-toggle="dropdown"></div>
                             <div class="pb-row-controls__icon pb-row-controls__icon--delete fas fa-trash-alt"></div>
+                            <div class="dropdown">
+                                <div class="dropdown-menu">
+                                    <h6 class="dropdown-header">Column types</h6>
+                                    <button data-value="12" class="dropdown-item" type="button">Column 12</button>
+                                    <button data-value="6-6" class="dropdown-item" type="button">Column 6 + 6</button>
+                                    <button data-value="4-6" class="dropdown-item" type="button">Column 4 + 8</button>
+                                    <button data-value="6-4" class="dropdown-item" type="button">Column 8 + 4</button>
+                                    <button data-value="4-4-4" class="dropdown-item" type="button">Column 4 + 4 + 4</button>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="articles__column col-md-12">
-
-                            <article class="articles__item articles__droppable">
-
+                            <div class="articles__item">
                                 <div class="pb-column-controls">
                                     <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
                                     <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
                                     <div class="pb-column-controls__icon pb-column-controls__icon--delete fas fa-trash-alt"></div>
                                 </div>
 
-                                <div class="articles__img-container">
-                                    <img src="http://mycms.test/img/test.jpg"
-                                         class="articles__img articles__element">
+                                <div class="articles-hand">
+                                    <div><i class="articles-hand__icon far fa-hand-point-down"></i></div>
+                                    <p class="articles-hand__text">Drop article here</p>
                                 </div>
 
-                                <div class="articles__container articles__element--bg-white">
-                                    <div class="articles__droppable articles__droppable--container">
-                                        <h2 class="articles__element articles__element--bg-white articles__element--color-black articles__element--font-size-l articles__element--font-weight-l">
-                                            SPORTS
-                                        </h2>
-                                        <h2 class="articles__element articles__element--bg-white articles__element--color-black articles__element--font-size-l articles__element--font-weight-l">
-                                            Road, rolled if great
-                                            people text, about and a
-                                            samples
-                                        </h2>
-                                    </div>
-                                </div>
-                                <div class="articles__container articles__element--bg-white">
-                                    <div class="articles__droppable articles__droppable--container">
-                                        <h2 class="articles__element articles__element--bg-white articles__element--color-black articles__element--font-size-l articles__element--font-weight-l">
-                                            SPORTS
-                                        </h2>
-                                        <h2 class="articles__element articles__element--bg-white articles__element--color-black articles__element--font-size-l articles__element--font-weight-l">
-                                            Road, rolled if great
-                                            people text, about and a
-                                            samples
-                                        </h2>
-                                    </div>
-                                </div>
-
-                            </article>
-                        </div>
-                    </div>
-                    <div class="row articles__row">
-                        <div class="pb-row-controls">
-                            <div class="pb-row-controls__icon pb-row-controls__icon--drag fas fa-arrows-alt"></div>
-                            <div class="pb-row-controls__icon pb-row-controls__icon--menu fas fa-bars"></div>
-                            <div class="pb-row-controls__icon pb-row-controls__icon--delete fas fa-trash-alt"></div>
-                        </div>
-
-                        <div class="articles__column col-md-12">
-
-                            <article class="articles__item articles__droppable">
-
-                                <div class="pb-column-controls">
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--delete fas fa-trash-alt"></div>
-                                </div>
-
-                                <div class="articles__container articles__element--bg-white">
-                                    <div class="articles__droppable articles__droppable--container">
-                                        <h2 class="articles__element articles__element--bg-white articles__element--color-black articles__element--font-size-l articles__element--font-weight-l">
-                                            SPORTS
-                                        </h2>
-
-                                    </div>
-                                </div>
-
-                            </article>
-                        </div>
-
-                    </div>
-                    <div class="row articles__row">
-
-                        <div class="pb-row-controls">
-                            <div class="pb-row-controls__icon pb-row-controls__icon--drag fas fa-arrows-alt"></div>
-                            <div class="pb-row-controls__icon pb-row-controls__icon--menu fas fa-bars"></div>
-                            <div class="pb-row-controls__icon pb-row-controls__icon--delete fas fa-trash-alt"></div>
-                        </div>
-
-                        <div class="col-md-4 articles__column">
-                            <div class="articles__item">
-
-                                <div class="pb-column-controls">
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--delete fas fa-trash-alt"></div>
-                                </div>
-
-                                <div class="articles__container">
-                                    <div class="articles__title">Here is a title</div>
-                                </div>
                             </div>
                         </div>
 
-                        <div class="col-md-4 articles__column">
-                            <div class="articles__item">
-
-                                <div class="pb-column-controls">
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--delete fas fa-trash-alt"></div>
-                                </div>
-
-
-                                <div class="articles__container">
-                                    <p>He answers calmly the questions:</p>
-                                    <div class="articles__title">Here is a title</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 articles__column">
-                            <div class="articles__item">
-
-                                <div class="pb-column-controls">
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--delete fas fa-trash-alt"></div>
-                                </div>
-
-
-                                <div class="articles__container">
-                                    <div class="articles__title">Here is a title</div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row articles__row">
-
-                        <div class="col-md-6 d-flex align-items-stretch">
-                            <div class="articles__item">
-
-                                <div class="pb-column-controls">
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--delete fas fa-trash-alt"></div>
-                                </div>
-
-
-                                <div class="articles__container">
-                                    <div class="articles__title">Here is a title</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 d-flex align-items-stretch">
-                            <div class="articles__item">
-
-
-                                <div class="pb-column-controls">
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--delete fas fa-trash-alt"></div>
-                                </div>
-
-
-                                <div class="articles__container">
-                                    <div class="articles__title">Here is a title</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row articles__row">
-
-                        <div class="col-md-8">
-                            <div class="articles__item">
-
-                                <div class="articles__container">
-                                    <div class="articles__title">Here is a title</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="articles__item">
-
-
-                                <div class="articles__container">
-                                    <div class="articles__title">Here is a title</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row articles__row">
-
-                    </div>
-                    <div class="row articles__row">
-
-                    </div>
-                    <div class="row articles__row">
 
                     </div>
 

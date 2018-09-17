@@ -10,7 +10,7 @@
 
         <i class="image-picker-preview__remove fas fa-times"></i>
 
-        <input type="hidden" id="image-picker-id" name="image" @if(count($item['images']) > 0) data-path="{{ $item['images'][0]->path_thumbnail }}" data-id="{{ $item['images'][0]->id }}" @elseif($type == 'media') data-path="{{ $item->path_thumbnail }}" data-id="{{ $item->id }}" @endif>
+        <input type="hidden" id="image-picker-id" name="image" @if(count($item['images']) > 0) data-path="{{ $item['images'][0]->path . '.' . $item['images'][0]->extension }}" data-id="{{ $item['images'][0]->id }}" @elseif($type == 'media') data-path="{{ $item->path_thumbnail }}" data-id="{{ $item->id }}" @endif>
 
     </div>
 

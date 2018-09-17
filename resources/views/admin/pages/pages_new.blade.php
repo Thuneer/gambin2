@@ -57,12 +57,13 @@
                     <!-- Content -->
                     <div class="form__group form__group--summernote">
                         <label class="form__label" for="">Content</label>
-                        <textarea name="body" id="summernote"></textarea>
+                        <textarea name="summernote-body" id="summernote"></textarea>
                         @if ($errors->has('body'))
                             <div class="form__error">
                                 <strong>{{ $errors->first('body') }}</strong>
                             </div>
                         @endif
+                        <input type="hidden" name="pb_body" id="pb-content">
                     </div>
                     <!-- Content - END -->
 
@@ -154,6 +155,8 @@
 
     </div>
 
+
+    <!-- Image Picker -->
     @component('admin.pages.pb')@endcomponent
 
     <!-- Image Picker -->

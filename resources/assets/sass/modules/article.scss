@@ -1,38 +1,26 @@
-.article {
+.articles {
 
   margin-top: 20px;
 
-  &__img {
-    width: 100%;
-  }
-
-  &__body {
-    background-color: white;
-    padding: 0 120px 40px 120px;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-  }
-
-  &__title {
-    padding: 40px 0 20px 0;
-    font-weight: 700;
-  }
-
-  p span {
-    font-size: 17px !important;
-    color: #525252;
-  }
-
-}
-
-.articles {
-
   &__item {
     position: relative;
+    display: block;
     background-color: white;
     border-radius: 3px;
     box-shadow: 0 2px 4px rgba(0,0,0,.1);
     width: 100%;
+    height: 100%;
+    transition: 0.1s all ease-in-out;
+  }
+
+  &__item:hover {
+    transform: scale(1.009);
+    text-decoration: none;
+    box-shadow: 0 3px 18px rgba(0,0,0,.15);
+  }
+
+  &__box-container {
+    padding: 22px;
   }
 
   &__row {
@@ -45,6 +33,8 @@
 
   &__img {
     width: 100%;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
   }
 
   &__title {
@@ -55,13 +45,90 @@
   }
 
   &__category {
-
     font-weight: 400;
     letter-spacing: 1px;
     color: red;
-
-
   }
 
+  &__element {
+    margin-bottom: 0;
+    word-break: break-word;
+  }
+
+  &__element--bg-white {
+    background-color: white;
+  }
+
+  &__element--bg-red {
+    background-color: red;
+  }
+
+  &__element--bg-green {
+    background-color: green;
+  }
+
+  &__element--bg-blue {
+    background-color: blue;
+  }
+
+  &__element--bg-purple {
+    background-color: purple;
+  }
+
+  &__element--bg-black {
+    background-color: #141414;
+  }
+
+  &__element--color-white {
+    color: white;
+  }
+
+  &__element--color-grey {
+    color: grey;
+  }
+
+  &__element--color-black {
+    color: black;
+  }
+
+  &__element--font-size-xs {
+    font-size: 1rem;
+  }
+
+  &__element--font-size-s {
+    font-size: 1.5rem;
+  }
+
+  &__element--font-size-m {
+    font-size: 2rem;
+  }
+
+  &__element--font-size-l {
+    font-size: 3rem;
+  }
+
+  &__element--font-size-xl {
+    font-size: 4rem;
+  }
+
+  &__element--font-weight-s {
+    font-weight: 400;
+  }
+
+  &__element--font-weight-m {
+    font-weight: 600;
+  }
+
+  &__element--font-weight-l {
+    font-weight: 700;
+  }
+
+  &__element--image-height-s {}
+
+  &__element--image-height-m {}
+
+  &__element--image-height-l {}
+
+  &__element--image-height-xl {}
 
 }
