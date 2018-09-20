@@ -24,7 +24,7 @@
   }
 
   &__delete {
-    margin-left: 15px;
+    margin-left: 10px;
     color: #eb0000;
     background-color: transparent;
     border: none;
@@ -54,6 +54,13 @@
     opacity: 0.5;
     text-decoration: line-through;
     pointer-events: none;
+  }
+
+  &__view {
+    background-color: transparent;
+    border: none;
+    color: #00a000;
+    margin-right: 10px;
   }
 
   &__column:nth-child(4n + 1) {

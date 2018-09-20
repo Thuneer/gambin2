@@ -11,6 +11,7 @@
 |
 */
 
+use App\Page;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -39,7 +40,11 @@ Route::group(['middleware' => ['admin']], function () {
 
     Route::get('/admin', function () {
 
-        return view('admin/home');
+        $users = User::take(5)->get();
+        $articles = Post::take(5)->get();
+        $pages = Page::take(7)->get();
+
+        return view('admin/home', compact('users', 'articles', 'pages'));
 
     });
 
@@ -74,6 +79,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/admin/pages', 'PageController@index');
     Route::get('/admin/pages/new', 'PageController@newView');
     Route::post('/admin/pages/new', 'PageController@create');
+    Route::get('/admin/pages/{id}/edit', 'PageController@editView');
+    Route::post('/admin/pages/{id}/edit', 'PageController@edit');
     Route::get('/admin/pages/permalink', 'PageController@permalink');
     Route::get('/admin/permissions', 'PermissionController@index');
     Route::post('/admin/permissions/', 'PermissionController@edit');

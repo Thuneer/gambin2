@@ -88,13 +88,17 @@
 
 .button--builder {
   padding: 18px 30px;
-  background-color: white;
+  background-color: $primary;
   border: 1px solid $primary;
-  color: $primary;
+  color: white;
   font-size: 17px;
 
   .fas {
     margin-right: 10px;
   }
 
+}
+
+.button--builder:hover {
+  background-color: #063c92;
 }

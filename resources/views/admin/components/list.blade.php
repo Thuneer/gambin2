@@ -271,9 +271,9 @@
 
                     <td class="list__td">
 
-                        <a href="/{{ $item->permalink }}" target="article-{{ $item->id }}">View</a>
+                        <a href="/{{ $item->permalink }}" target="article-{{ $item->id }}" class="list__view">View</a>
 
-                        <a href="/admin/articles/{{ $item->id }}/edit" class="list__edit">Edit</a>
+                        <a href="/admin/pages/{{ $item->id }}/edit" class="list__edit">Edit</a>
 
                         @if(!canDeletePages(Auth::user()))
                             <span data-toggle="tooltip"

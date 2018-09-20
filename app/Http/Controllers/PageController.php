@@ -108,22 +108,30 @@ class PageController extends Controller
 
         $title = $request->title;
         $permalink = $request->permalink;
-        $body = $request->pb_body;
+        $pb_body = $request->pb_body;
+        $summernote_body = $request->summernote_body;
         $type = $request->type;
         $parent = $request->parent;
         $template = $request->template;
+
+        $page = new Page();
+        $page->title = $title;
+
+        if ($type == 0) {
+            $page->body = $summernote_body;
+        } else {
+            $page->body = $pb_body;
+        }
+
+        if($template !== '-1') {
+            $page->template = $template;
+        }
+        $page->type = $type;
 
         $parent_page = Page::find($parent);
         if($parent !== null && !$parent_page) {
             return back();
         }
-
-        $page = new Page();
-        $page->title = $title;
-        $page->body = $body;
-        if($template !== '-1')
-            $page->template = $template;
-        $page->type = $type;
 
         if ($parent_page) {
 
@@ -153,11 +161,105 @@ class PageController extends Controller
 
     }
 
+    public function editView($id) {
+
+        $page = Page::find($id);
+        $pages = Page::defaultOrder()->get()->toTree();
+
+        $files = scandir(resource_path() . '/views/templates');
+        $files = array_diff($files, array('.', '..'));
+        $templates = [];
+
+
+        foreach ($files as $file) {
+            $content = file_get_contents(resource_path() . '/views/templates/' . $file);
+            if (strpos($content, 'Name: ') !== false &&strpos($content, ' --}}') !== false) {
+
+                $start = strpos($content, 'Name: ');
+                $end = strpos($content, ' --}}');
+                $here = substr($content, $start, $end);
+                $here = preg_replace("/(Name: | --}})/", "", $here);
+
+                array_push($templates, $here);
+            }
+
+        }
+
+        return view('/admin/pages/pages_edit', ['pages' => $pages, 'page' => $page, 'templates' => $templates]);
+    }
+
+    public function edit(Request $request, $id) {
+
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'permalink' => 'required',
+            'parent' => 'nullable|integer',
+            'type' => 'integer'
+        ]);
+
+        $page = Page::find($id);
+
+        $title = $request->title;
+        $permalink = $request->permalink;
+        $pb_body = $request->pb_body;
+        $summernote_body = $request->summernote_body;
+        $type = $request->type;
+        $parent = $request->parent;
+        $template = $request->template;
+
+        $page->title = $title;
+
+        if ($type == 0) {
+            $page->body = $summernote_body;
+        } else {
+            $page->body = $pb_body;
+        }
+
+        if($template !== '-1') {
+            $page->template = $template;
+        }
+        $page->type = $type;
+
+        $parent_page = Page::find($parent);
+        if($parent !== null && !$parent_page) {
+            return back();
+        }
+
+        if ($parent_page) {
+
+            $temp = '';
+
+            foreach ($parent_page->ancestors as $p) {
+                $temp .= $p->title . '/';
+            }
+            $permalink_short = $permalink;
+            $permalink = strtolower($temp . $parent_page->title . '/' . $permalink);
+
+            $page->parent_id = $parent;
+            $page->permalink_short = $permalink_short;
+
+        } else {
+            $page->permalink_short = $permalink;
+        }
+
+        $page->permalink = $permalink;
+
+        $page->save();
+
+        $request->session()->flash('message', 'Page was updated successfully.');
+        $request->session()->flash('message-status', 'success');
+
+        return redirect('/admin/pages/' . $id . '/edit');
+
+    }
+
     public function permalink(Request $request) {
 
         $permalink = $request->permalink;
         $title = $request->title;
         $parent = $request->parent;
+        $id = $request->id;
+        $permalink_slug = '';
 
         if ($permalink == null) {
             if ($title == null) {
@@ -167,7 +269,18 @@ class PageController extends Controller
             }
         }
 
-        $permalink_slug = SlugService::createSlug(Page::class, 'permalink', $permalink);
+        if ($id != null) {
+
+            if ($page = Page::where('permalink', $permalink)->first()) {
+                $permalink = $page->permalink;
+                $permalink_slug = 'eeeee';
+            } else {
+                $permalink_slug = SlugService::createSlug(Page::class, 'permalink', $permalink);
+            }
+
+        } else {
+            $permalink_slug = SlugService::createSlug(Page::class, 'permalink', $permalink);
+        }
 
         if ($p = Page::find($parent)) {
 
@@ -185,6 +298,8 @@ class PageController extends Controller
 
         return response()->json(['full' => $permalink, 'semi' => $permalink_slug ], 200);
 
-
     }
+
+
+
 }

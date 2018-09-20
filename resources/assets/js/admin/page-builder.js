@@ -1,5 +1,9 @@
 import jQuery from 'jquery';
 import dragula from 'dragula';
+import setupElementHoverEvents from './page-builder/pb-hover-events';
+import setupElementDragEvents from './page-builder/elements-drag-events';
+import state from './page-builder/state';
+import setColumnHeights from './page-builder/set-column-heights';
 
 (function ($) {
 
@@ -44,9 +48,7 @@ import dragula from 'dragula';
     let elementTab = $('.pb-element');
 
     let activeElement = null;
-    let drakeRow, drakeElements;
 
-    let ajaxArticlePage = 1;
 
     // Init
     (function init() {
@@ -57,6 +59,105 @@ import dragula from 'dragula';
         setupTextKeyUpEvent();
         setupTabSwitchingClickEvents();
         getImages();
+
+        $('.button--builder').click(function (e) {
+
+            let articles = $('#pb-content').val();
+
+            if ($(articles).hasClass('articles')) {
+
+                $('.articles').children().each(function (index, element) {
+                    if (!$(element).hasClass('articles__new-container')) {
+                        $(element).remove();
+                    }
+                });
+
+                let rows = $(articles).find('.articles__row');
+
+                for (let i = 0; i < rows.length; i++) {
+
+                    let row = document.createElement('div');
+                    row.className = 'row articles__row';
+
+                    $(row).append(rowControls());
+
+                    $('.articles').append(row);
+                    state.drakeRow.containers.push(row);
+
+                    let columns = $(rows[i]).find('.articles__column');
+
+                    for (let j = 0; j < columns.length; j++) {
+
+                        $('.articles-hand').hide();
+
+                        // Articles Column
+                        let column = document.createElement('div');
+                        column.classList = columns[j].classList;
+                        row.append(column);
+
+                        // Articles Item
+                        let article_item = document.createElement('div');
+                        article_item.className = 'articles__item';
+                        $(article_item).append(columnControls());
+                        column.append(article_item);
+
+                        // Articles Main Container
+                        let article_main_container = document.createElement('div');
+                        article_main_container.className = 'articles__main-container';
+                        $(article_item).append(article_main_container);
+
+                        // Articles Main
+                        let article_main = document.createElement('div');
+                        article_main.className = 'articles__main';
+                        $(article_main_container).append(article_main);
+
+                        let topElements = $(columns[j]).find('.articles__item').first().children();
+
+                        for (let k = 0; k < topElements.length; k++) {
+
+                            if ($(topElements[k]).prop('tagName') === 'IMG') {
+                                $(article_main).append(topElements[k]);
+
+                            } else {
+
+                                let box_container = document.createElement('div');
+                                box_container.classList = topElements[k].classList;
+                                $(article_main).append(box_container);
+
+                                let box = document.createElement('div');
+                                box.className = 'articles__box';
+                                $(box_container).append(box);
+
+                                state.drakeElements.containers.push(box);
+
+                                let elements = $(topElements[k]).children();
+
+                                for (let l = 0; l < elements.length; l++) {
+
+                                    if ($(elements[l]).prop('tagName') === 'H2') {
+                                        $(box).append(elements[l]);
+
+                                    } else if ($(elements[l]).prop('tagName') === 'P') {
+                                        $(box).append(elements[l]);
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                $('.articles-hand').hide();
+                setColumnHeights();
+
+            }
+
+        });
+
     }());
 
     $('.pb-element__header-icon').click(function () {
@@ -105,6 +206,8 @@ import dragula from 'dragula';
                             item = document.createElement('img');
                             item.classList = items[l].classList;
                             $(item).attr('src', $(items[l]).attr('src'));
+                            $(item).attr('data-path', $(items[l]).attr('data-path'));
+                            $(item).attr('data-extension', $(items[l]).attr('data-extension'));
 
                         } else {
 
@@ -128,7 +231,6 @@ import dragula from 'dragula';
                                 item.append(element);
 
                             }
-
 
                         }
 
@@ -225,6 +327,7 @@ import dragula from 'dragula';
             });
 
             $(e.target).addClass(activeClass);
+
             setColumnHeights();
 
         });
@@ -376,43 +479,6 @@ import dragula from 'dragula';
         });
     }
 
-    // Sets up the active element hover class as the user hovers over the elements
-    function setupElementHoverEvents() {
-        $(document).on('mouseenter', '.articles__img,.articles__box-container', function (e) {
-            e.stopPropagation();
-            $(this).addClass('articles__element--active');
-        });
-
-        $(document).on('mouseleave', '.articles__img,.articles__box-container', function (e) {
-            $(this).removeClass('articles__element--active');
-        });
-
-
-        $(document).on('mouseenter', '.articles__element', function (e) {
-            e.stopPropagation();
-
-            let box = $(e.target).parent().parent();
-
-            if (box.hasClass('articles__box-container')) {
-                box.removeClass('articles__element--active');
-            }
-
-            $(this).addClass('articles__element--active');
-        });
-
-        $(document).on('mouseleave', '.articles__element', function (e) {
-
-            let box = $(e.target).parent().parent();
-
-            if (box.hasClass('articles__box-container')) {
-                box.addClass('articles__element--active');
-            }
-
-            $(this).removeClass('articles__element--active');
-
-        });
-
-    }
 
     // Shows the element options based on type of clicked DOM element
     function showElementGroups(type) {
@@ -440,7 +506,7 @@ import dragula from 'dragula';
 
     function setupDragEvents() {
 
-        setupElementDragEvent();
+        setupElementDragEvents();
 
         dragula($('.articles').toArray(), {
             direction: 'vertical',
@@ -461,39 +527,6 @@ import dragula from 'dragula';
 
     }
 
-    function setColumnHeights() {
-        setTimeout(() => {
-
-            let rows = $('.articles__row');
-
-            for (let i = 0; i < rows.length; i++) {
-
-                let columns = $(rows[i]).find('.articles__main-container');
-                let maxHeight = 0;
-
-                for (let j = 0; j < columns.length; j++) {
-
-                    $(columns[j]).attr('style', '');
-
-                    let currentHeight = $(columns[j]).height();
-
-                    if (maxHeight < currentHeight) {
-                        maxHeight = currentHeight;
-                    }
-
-                }
-
-                for (let j = 0; j < columns.length; j++) {
-
-                    $(columns[j]).css({height: maxHeight + 'px'});
-                }
-
-            }
-
-        }, 20);
-
-    }
-
     // Deletes the active element
     function setupDeleteElementEvent() {
         $('#delete-element').click(() => {
@@ -502,173 +535,10 @@ import dragula from 'dragula';
         });
     }
 
-    function setupElementDragEvent() {
-        drakeElements = dragula($('.articles__item').toArray(), {
-            revertOnSpill: true,
-            accepts: function (el, target, source, sibling) {
-
-                // Article box
-                if (($(el).hasClass('articles__box-container') || $(el).hasClass('articles__img')) && ($(target).hasClass('articles__item') ||
-                    $(target).hasClass('pb-articles__container') || $(target).hasClass('articles__box'))) {
-                    return false;
-                }
-
-                // Header, paragraph
-                if (($(el).hasClass('articles__header') || $(el).hasClass('articles__paragraph')) &&
-                    ($(target).hasClass('articles__item') || $(target).hasClass('articles__main'))) {
-                    return false;
-                }
-
-                // Sidebar header, paragraph
-                if (($(el).attr('id') === 'element-header' || $(el).attr('id') === 'element-paragraph') &&
-                    ($(target).hasClass('articles__item') || $(target).hasClass('articles__main') || $(target).hasClass('pb-elements__container'))) {
-                    return false;
-                }
-
-                // Sidebar box, image
-                if (($(el).attr('id') === 'element-box' || $(el).attr('id') === 'element-image') && ($(target).hasClass('articles__item') ||
-                    $(target).hasClass('articles__box') || $(target).hasClass('pb-elements__container'))) {
-                    return false;
-                }
-
-                // Sidebar article
-                if (($(el).hasClass('pb-articles__item')) && ($(target).hasClass('pb-articles__container') ||
-                    $(target).hasClass('articles__box') || $(target).hasClass('articles__main'))) {
-                    return false;
-                }
-
-                // Main
-                if (($(el).hasClass('articles__main-container')) && ($(target).hasClass('pb-articles__container') ||
-                    $(target).hasClass('articles__box') || $(target).hasClass('articles__main'))) {
-                    return false;
-                }
-
-                return true;
-
-            },
-            isContainer: function (el) {
-                return $(el).hasClass('pb-elements__container') || $(el).hasClass('pb-delete') ||
-                    $(el).hasClass('pb-articles__container') || $(el).hasClass('articles__box') || $(el).hasClass('articles__main');
-            },
-            copy: function (el, source) {
-                return $(source).hasClass('pb-elements__container') || $(source).hasClass('pb-articles__container');
-            },
-            moves: function (el, container, handle) {
-                return !$(handle).hasClass('pb-column-controls') &&
-                    !$(handle).hasClass('pb-column-controls__icon') &&
-                    !$(el).hasClass('articles-hand');
-            }
-        }).on('drop', function (el, target, source, sibling) {
-
-            if ($(target).hasClass('pb-delete')) {
-                drakeElements.cancel(true);
-                $(el).remove();
-            }
-
-            if ($(source).hasClass('pb-articles__container') && $(target).hasClass('articles__item')) {
-                $(target).find('.articles__main-container').remove();
-
-                let article = {
-                    id: $(el).attr('data-id'),
-                    title: $(el).attr('data-title'),
-                    path: $(el).attr('data-path'),
-                    extension: $(el).attr('data-extension')
-                };
-
-                setTimeout(function () {
-                    $(target).find('.articles-hand').hide();
-                }, 20);
-                $(el).replaceWith(insertArticle(article));
-
-                drakeElements.containers.push($(target).find('.articles__item')[0]);
-
-            }
-
-            if ($(el).attr('id') === 'element-header') {
-                $(el).replaceWith('<h2 class="articles__header articles__element articles__element--bg-white articles__element--color-black articles__element--font-size-l articles__element--font-weight-l">Header text</h2>')
-            }
-            else if ($(el).attr('id') === 'element-paragraph') {
-                $(el).replaceWith('<h2 class="articles__paragraph articles__element articles__element--bg-white articles__element--color-black articles__element--font-size-s articles__element--font-weight-s">Paragraph text</h2>')
-            }
-            else if ($(el).attr('id') === 'element-box') {
-                $(el).replaceWith(
-                    `
-                    <div class="articles__box-container articles__element--bg-white">
-                         <div class="articles__box">
-                     
-                        </div>
-                    </div>                    `)
-            }
-            else if ($(el).attr('id') === 'element-image') {
-                $(el).replaceWith('<div class="articles__img-container">\n' +
-                    '                                    <img src="http://mycms.test/img/test.jpg" class="articles__img articles__element">\n' +
-                    '                                </div>')
-            }
-
-            setColumnHeights();
-
-        }).on('over', function (el, container, source) {
-
-            if ($(container).hasClass('articles__item')) {
-                $(container).parent().find('.articles-hand').hide();
-                setColumnHeights();
-            }
-
-            if ($(container).hasClass('pb-delete')) {
-
-                $('.pb-delete').addClass('pb-delete__hover');
-                $(el).hide();
-
-                if ($(el).hasClass('articles__container')) {
-                    $(container).parent().parent().find('.articles-hand').show();
-                }
-
-            }
-
-            if ($(container).hasClass('articles__box')) {
-                setColumnHeights();
-            }
-
-        }).on('out', function (el, container, source) {
-
-            if ($(container).hasClass('articles__item')) {
-                setColumnHeights();
-            }
-
-            if (($(container).hasClass('articles__item')) && ($(el).hasClass('pb-articles__item'))) {
-
-                if ($(container).find('.articles__main').length === 0) {
-                    $(container).find('.articles-hand').show();
-                }
-
-            }
-
-
-            if ($(container).hasClass('pb-delete')) {
-                $('.pb-delete').removeClass('pb-delete__hover');
-                $(el).show();
-            }
-
-        }).on('drag', function (el, target, source, sibling) {
-
-            if (!$(el).hasClass('pb-elements__item')) {
-                $('.pb-delete').fadeIn(250);
-            }
-
-        }).on('dragend', function () {
-            $('.pb-delete').fadeOut(250);
-        });
-
-        $('.pb-delete').mouseup(function (e) {
-            //activeElement.remove();
-        });
-    }
-
-
     // Sets up dragula event for sorting rows
     function dragArticleRow() {
 
-        drakeRow = dragula($('.articles__row').toArray(), {
+        state.drakeRow = dragula($('.articles__row').toArray(), {
             direction: 'horizontal',
             moves: function (el, container, handle) {
                 return $(handle).hasClass('pb-column-controls__icon--drag');
@@ -695,28 +565,6 @@ import dragula from 'dragula';
 
     }
 
-    function insertArticle(article) {
-
-        let string = `
-        <div class="articles__main-container" data-id="${article.id}">     
-                <div class="articles__main">
-        
-                   <img class="articles__img articles__element--image-height-s" src="/${article['path'] + '-21-9-md.' + article['extension']}" alt="" data-path="${article['path']}" data-extension="${article['extension']}">              
-           
-                    <div class="articles__box-container articles__element--bg-white">
-                         <div class="articles__box">
-                            <h2 class="articles__element articles__header articles__element--bg-white articles__element--color-black articles__element--font-size-l articles__element--font-weight-l">
-                            ${article['title']}
-                            </h2>
-                        </div>
-                    </div>
-           
-             </div>
-        </div>`;
-
-        return string;
-
-    }
 
     function getImages() {
 
@@ -742,7 +590,7 @@ import dragula from 'dragula';
     $('.articles__new').click(function () {
 
         let string = `
-<div class="row articles__row">
+                <div class="row articles__row">
                         <div class="pb-row-controls">
                             <div class="pb-row-controls__icon pb-row-controls__icon--drag fas fa-arrows-alt"></div>
                             <div class="pb-row-controls__icon pb-row-controls__icon--menu fas fa-bars" type="button" data-toggle="dropdown"></div>
@@ -759,39 +607,7 @@ import dragula from 'dragula';
                             </div>
                         </div>
 
-                        <div class="articles__column col-md-4">
-                            <div class="articles__item">
-                                <div class="pb-column-controls">
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--delete fas fa-trash-alt"></div>
-                                </div>
-
-                                <div class="articles-hand">
-                                    <div><i class="articles-hand__icon far fa-hand-point-down"></i></div>
-                                    <p class="articles-hand__text">Drop article here</p>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="articles__column col-md-4">
-                            <div class="articles__item">
-                                <div class="pb-column-controls">
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--delete fas fa-trash-alt"></div>
-                                </div>
-
-                                <div class="articles-hand">
-                                    <div><i class="articles-hand__icon far fa-hand-point-down"></i></div>
-                                    <p class="articles-hand__text">Drop article here</p>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="articles__column col-md-4">
+                        <div class="articles__column col-md-12">
                             <div class="articles__item">
                                 <div class="pb-column-controls">
                                     <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
@@ -813,10 +629,10 @@ import dragula from 'dragula';
 
 
         // Makes the new added element draggable
-        drakeElements.containers.push($('.articles__row').first().find('.articles__item')[0]);
-        drakeElements.containers.push($('.articles__row').first().find('.articles__item')[1]);
-        drakeElements.containers.push($('.articles__row').first().find('.articles__item')[2]);
-        drakeRow.containers.push($('.articles__row')[0]);
+        state.drakeElements.containers.push($('.articles__row').first().find('.articles__item')[0]);
+        state.drakeElements.containers.push($('.articles__row').first().find('.articles__item')[1]);
+        state.drakeElements.containers.push($('.articles__row').first().find('.articles__item')[2]);
+        state.drakeRow.containers.push($('.articles__row')[0]);
 
     });
 
@@ -872,33 +688,65 @@ import dragula from 'dragula';
         if (value === '12') {
             $(row).append(addColumn('col-md-12'));
         } else if (value === '6-6') {
-            $(row).append(addColumn('col-md-6'));
-            $(row).append(addColumn('col-md-6'));
+            $(row).append(addColumn('col-md-6', columnControls()));
+            $(row).append(addColumn('col-md-6', columnControls()));
         } else if (value === '4-6') {
-            $(row).append(addColumn('col-md-4'));
-            $(row).append(addColumn('col-md-8'));
+            $(row).append(addColumn('col-md-4', columnControls()));
+            $(row).append(addColumn('col-md-8', columnControls()));
         } else if (value === '6-4') {
-            $(row).append(addColumn('col-md-8'));
-            $(row).append(addColumn('col-md-4'));
+            $(row).append(addColumn('col-md-8', columnControls()));
+            $(row).append(addColumn('col-md-4', columnControls()));
         } else if (value === '4-4-4') {
-            $(row).append(addColumn('col-md-4'));
-            $(row).append(addColumn('col-md-4'));
-            $(row).append(addColumn('col-md-4'));
+            $(row).append(addColumn('col-md-4', columnControls()));
+            $(row).append(addColumn('col-md-4', columnControls()));
+            $(row).append(addColumn('col-md-4', columnControls()));
         }
 
         let containers = $(row).first().find('.articles__item');
 
         for (let i = 0; i < containers.length; i++) {
-            drakeElements.containers.push(containers[i]);
+            state.drakeElements.containers.push(containers[i]);
         }
 
     });
 
-    function addColumn(type) {
+    function addColumn(type, controls) {
 
         return `
     <div class="articles__column ${type}">
             <div class="articles__item">
+       ${controls}
+
+        </div>
+        </div>`;
+
+    }
+
+    function rowControls() {
+        return `
+ 
+          <div class="pb-row-controls">
+                            <div class="pb-row-controls__icon pb-row-controls__icon--drag fas fa-arrows-alt"></div>
+                            <div class="pb-row-controls__icon pb-row-controls__icon--menu fas fa-bars" type="button" data-toggle="dropdown"></div>
+                            <div class="pb-row-controls__icon pb-row-controls__icon--delete fas fa-trash-alt"></div>
+                            <div class="dropdown">
+                                <div class="dropdown-menu">
+                                    <h6 class="dropdown-header">Column types</h6>
+                                    <button data-value="12" class="dropdown-item" type="button">Column 12</button>
+                                    <button data-value="6-6" class="dropdown-item" type="button">Column 6 + 6</button>
+                                    <button data-value="4-6" class="dropdown-item" type="button">Column 4 + 8</button>
+                                    <button data-value="6-4" class="dropdown-item" type="button">Column 8 + 4</button>
+                                    <button data-value="4-4-4" class="dropdown-item" type="button">Column 4 + 4 + 4</button>
+                                </div>
+                            </div>
+                        </div>
+
+       `;
+    }
+
+    function columnControls() {
+        return `
+ 
             <div class="pb-column-controls">
             <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
             <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
@@ -910,9 +758,7 @@ import dragula from 'dragula';
         <p class="articles-hand__text">Drop article here</p>
         </div>
 
-        </div>
-        </div>`;
-
+       `;
     }
 
 }(jQuery));

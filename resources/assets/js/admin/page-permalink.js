@@ -20,6 +20,7 @@ $(function () {
     });
 
     let permaFlag = true;
+
     $("#page-title").focus(function() {})
         .blur(function() {
             if (permaFlag) {
@@ -52,7 +53,8 @@ $(function () {
             data: {
                 permalink: $('.permalink__input').val(),
                 title: $('#page-title').val(),
-                parent: $('#parent-select').val()
+                parent: $('#parent-select').val(),
+                id: $('#page-id').val()
             },
             headers: {
                 'x-csrf-token': document.querySelectorAll('meta[name=csrf-token]')[0].getAttributeNode('content').value,
@@ -61,10 +63,10 @@ $(function () {
             success: function (data) {
 
                 console.log(data);
-                $('.permalink__url').text(data['full'] + '/');
+                $('.permalink__url').text(data['full']);
                 hideEdit();
                 permaFlag = false;
-                $('.permalink__input').val(data['semi']);
+                $('.permalink__input').attr('value', data['semi']);
 
             },
             error: function (data) {

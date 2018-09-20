@@ -1,0 +1,27 @@
+.admin-login {
+
+  background-color: white;
+  padding: 50px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  border-radius: 3px;
+  margin-top: 30px;
+
+  &__header {
+    margin-bottom: 35px;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  &__btn {
+    width: 100%;
+    height: 50px;
+  }
+
+  &__input {
+    border-radius: 0;
+    height: 44px;
+    background-color: #e2e4eb;
+    border: 1px solid #e1e1e1;
+  }
+
+}

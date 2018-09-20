@@ -1,5 +1,5 @@
 <!-- Media details -->
-<div id="page-builder-popup" class="popup popup--show popup--full">
+<div id="page-builder-popup" class="popup popup--full">
 
     <div class="popup__overlay"></div>
 
@@ -177,44 +177,7 @@
                         </button>
                     </div>
 
-                    <div class="row articles__row">
-                        <div class="pb-row-controls">
-                            <div class="pb-row-controls__icon pb-row-controls__icon--drag fas fa-arrows-alt"></div>
-                            <div class="pb-row-controls__icon pb-row-controls__icon--menu fas fa-bars" type="button" data-toggle="dropdown"></div>
-                            <div class="pb-row-controls__icon pb-row-controls__icon--delete fas fa-trash-alt"></div>
-                            <div class="dropdown">
-                                <div class="dropdown-menu">
-                                    <h6 class="dropdown-header">Column types</h6>
-                                    <button data-value="12" class="dropdown-item" type="button">Column 12</button>
-                                    <button data-value="6-6" class="dropdown-item" type="button">Column 6 + 6</button>
-                                    <button data-value="4-6" class="dropdown-item" type="button">Column 4 + 8</button>
-                                    <button data-value="6-4" class="dropdown-item" type="button">Column 8 + 4</button>
-                                    <button data-value="4-4-4" class="dropdown-item" type="button">Column 4 + 4 + 4</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="articles__column col-md-12">
-                            <div class="articles__item">
-                                <div class="pb-column-controls">
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
-                                    <div class="pb-column-controls__icon pb-column-controls__icon--delete fas fa-trash-alt"></div>
-                                </div>
-
-                                <div class="articles-hand">
-                                    <div><i class="articles-hand__icon far fa-hand-point-down"></i></div>
-                                    <p class="articles-hand__text">Drop article here</p>
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                    </div>
-
                 </div>
-
 
             </div>
 

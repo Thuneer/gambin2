@@ -115,22 +115,26 @@ function canDeletePages($auth_user)
 
 
 // *Very simple* recursive rendering function
-function renderNode($page) {
-    echo "<li>";
-    echo "<b>{$page->title}</b>";
+function renderPageParentNodes($page, $editPage, $prefix = 0) {
+    echo "<option ";
 
-    if ( $page->children()->count() > 0 ) {
-        echo "<ul>";
-        foreach($page->children as $child) renderNode($child);
-        echo "</ul>";
-    }
+   if ($editPage != null) {
+       if ($page->children()->count() > 0) {
 
-    echo "</li>";
-}
+           foreach($page->children as $child) {
 
-// *Very simple* recursive rendering function
-function renderNode1($page, $prefix = 0) {
-    echo "<option value='{$page->id}'>";
+               if ($child->id == $editPage->id && $child->isLeaf()) {
+
+                   echo "selected ";
+
+               }
+
+           }
+       }
+
+   }
+
+    echo "value='{$page->id}'>";
 
     for ($i = 0; $i < $prefix; $i++)
         echo "&nbsp;&nbsp;";
@@ -138,7 +142,7 @@ function renderNode1($page, $prefix = 0) {
     echo "{$page->title}";
     echo "</option>";
     if ( $page->children()->count() > 0 ) {
-        foreach($page->children as $child) renderNode1($child, $prefix+1);
+        foreach($page->children as $child) renderPageParentNodes($child, $editPage, $prefix + 1);
     }
 
 

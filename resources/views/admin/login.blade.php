@@ -3,9 +3,9 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="admin-form">
-                    <div class="admin-form__header">Admin login</div>
+            <div class="col-12 col-md-6 col-lg-6">
+                <div class="admin-login">
+                    <div class="admin-login__header">Admin login</div>
 
                     <div class="admin-form__container">
 
@@ -17,7 +17,7 @@
 
 
                                 <input id="email" type="email"
-                                       class="admin-form__input form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
+                                       class="admin-login__input form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
                                        value="{{ old('email') }}" required autofocus>
 
                                 @if ($errors->has('email'))
@@ -33,7 +33,7 @@
 
 
                                 <input id="password" type="password"
-                                       class="admin-form__input form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                       class="admin-login__input form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                        name="password" required>
 
                                 @if ($errors->has('password'))
@@ -57,7 +57,7 @@
 
                             <div class="">
 
-                                <button type="submit" class="admin-form__btn btn btn-primary">
+                                <button type="submit" class="admin-login__btn btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
 

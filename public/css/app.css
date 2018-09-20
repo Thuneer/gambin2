@@ -10524,7 +10524,7 @@ a.text-dark:focus {
 
 .logo {
   height: 100%;
-  letter-spacing: 6px;
+  letter-spacing: 4px;
   font-weight: 400;
   padding: 0 30px;
   background-color: #7208e0;
@@ -10535,9 +10535,36 @@ a.text-dark:focus {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  font-size: 1rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
   height: 66px;
+}
+
+.admin-login {
+  background-color: white;
+  padding: 50px;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  margin-top: 30px;
+}
+
+.admin-login__header {
+  margin-bottom: 35px;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.admin-login__btn {
+  width: 100%;
+  height: 50px;
+}
+
+.admin-login__input {
+  border-radius: 0;
+  height: 44px;
+  background-color: #e2e4eb;
+  border: 1px solid #e1e1e1;
 }
 
 .articles {

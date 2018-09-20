@@ -15,7 +15,7 @@
 
 // External
 @import "../../../node_modules/summernote/dist/summernote-bs4.css";
-@import "~jquery-ui/themes/base/resizable.css";
+@import "./chartist.min.css";
 
 // Blocks
 @import "admin/modules/logo";
@@ -44,6 +44,8 @@
 @import "admin/modules/media-details";
 @import "admin/modules/forms/permalink";
 @import "admin/modules/page-builder";
+@import "admin/modules/login";
+@import "admin/modules/dashboard";
 
 
 html, body {

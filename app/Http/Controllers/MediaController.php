@@ -76,7 +76,7 @@ class MediaController extends Controller
 
             ));
 
-        return view('admin/media', [
+        return view('admin.media.media', [
             'items' => $media,
             'search' => $search,
             'per_page' => $per_page,

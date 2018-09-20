@@ -16,8 +16,8 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('permalink');
-            $table->string('permalink_short');
+            $table->string('permalink')->nullable();
+            $table->string('permalink_short')->nullable();
             $table->string('title');
             $table->text('body')->nullable();
             $table->integer('type');
