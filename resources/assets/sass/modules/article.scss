@@ -60,7 +60,7 @@
   }
 
   &__element--bg-red {
-    background-color: red;
+    background-color: #f10000;
   }
 
   &__element--bg-green {
@@ -89,6 +89,10 @@
 
   &__element--color-black {
     color: black;
+  }
+
+  &__element--color-red {
+    color: #f10000;
   }
 
   &__element--font-size-xs {
@@ -130,5 +134,115 @@
   &__element--image-height-l {}
 
   &__element--image-height-xl {}
+
+}
+
+.article {
+
+  &__content {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+
+  &__top {
+    padding: 45px 120px;
+  }
+
+  &__bottom {
+    padding: 45px 270px 45px 120px;
+    border-top: 1px solid #e7e7e7;
+
+    p span {
+      font-size: 1.1rem !important;
+      font-family: 'Open Sans', serif !important;
+      font-weight: 400;
+      line-height: 1.8em;
+    }
+  }
+
+  &__title {
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1.2em;
+  }
+
+  &__ingress {
+    font-weight: 700;
+    margin-top: 25px;
+    font-size: 1.2rem;
+    line-height: 2em;
+    margin-bottom: 0;
+  }
+
+  &__author {
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    display: inline-block;
+    margin-right: 15px;
+    color: #6c6c6c;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+
+  &__date {
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    display: inline-block;
+    margin-right: 15px;
+    color: #6c6c6c;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+
+  &__img {
+    width: 100%;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+}
+
+.article-related {
+
+  margin-top: 40px;
+
+  &__heading {
+    font-weight: 100;
+    margin-bottom: 25px;
+    font-size: 2.1rem;
+    letter-spacing: 1px;
+  }
+
+  &__column {
+    margin-bottom: 20px;
+  }
+
+  &__item {
+    background-color: white;
+    height: 100%;
+    display: block;
+    transition: 0.1s all ease-in-out;
+    color: #2e2e2e;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+
+  &__item:hover {
+    transform: scale(1.02);
+    text-decoration: none;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.2);
+    color: black;
+  }
+
+  &__title {
+    padding: 20px;
+    font-weight: 400;
+    margin-bottom: 0;
+  }
 
 }

@@ -22,6 +22,7 @@ class CreatePagesTable extends Migration
             $table->text('body')->nullable();
             $table->integer('type');
             $table->string('template')->nullable();
+            $table->integer('front_page');
             $table->timestamps();
             $table->nestedSet();
         });

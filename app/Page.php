@@ -12,7 +12,7 @@ class Page extends Model
         NodeTrait::replicate insteadof Sluggable;
     }
 
-    protected $fillable = ['title', 'permalink', 'permalink_short', 'body', 'type', 'template'];
+    protected $fillable = ['title', 'permalink', 'permalink_short', 'body', 'type', 'template', 'front_page'];
 
     /**
      * Return the sluggable configuration array for this model.

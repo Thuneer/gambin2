@@ -4,6 +4,7 @@ import setupElementHoverEvents from './page-builder/pb-hover-events';
 import setupElementDragEvents from './page-builder/elements-drag-events';
 import state from './page-builder/state';
 import setColumnHeights from './page-builder/set-column-heights';
+import { buildHTMLToPB, buildHTMLToDatabase, columnControls } from './page-builder/html-builders';
 
 (function ($) {
 
@@ -19,7 +20,8 @@ import setColumnHeights from './page-builder/set-column-heights';
     let colorClasses = [
         'articles__element--color-black',
         'articles__element--color-grey',
-        'articles__element--color-white'
+        'articles__element--color-white',
+        'articles__element--color-red'
     ];
 
     let fontSizeClasses = [
@@ -56,107 +58,13 @@ import setColumnHeights from './page-builder/set-column-heights';
         setupArticleElementEvents();
         setupDeleteElementEvent();
         setupCircleControlClickEvent();
+
         setupTextKeyUpEvent();
         setupTabSwitchingClickEvents();
         getImages();
 
-        $('.button--builder').click(function (e) {
-
-            let articles = $('#pb-content').val();
-
-            if ($(articles).hasClass('articles')) {
-
-                $('.articles').children().each(function (index, element) {
-                    if (!$(element).hasClass('articles__new-container')) {
-                        $(element).remove();
-                    }
-                });
-
-                let rows = $(articles).find('.articles__row');
-
-                for (let i = 0; i < rows.length; i++) {
-
-                    let row = document.createElement('div');
-                    row.className = 'row articles__row';
-
-                    $(row).append(rowControls());
-
-                    $('.articles').append(row);
-                    state.drakeRow.containers.push(row);
-
-                    let columns = $(rows[i]).find('.articles__column');
-
-                    for (let j = 0; j < columns.length; j++) {
-
-                        $('.articles-hand').hide();
-
-                        // Articles Column
-                        let column = document.createElement('div');
-                        column.classList = columns[j].classList;
-                        row.append(column);
-
-                        // Articles Item
-                        let article_item = document.createElement('div');
-                        article_item.className = 'articles__item';
-                        $(article_item).append(columnControls());
-                        column.append(article_item);
-
-                        // Articles Main Container
-                        let article_main_container = document.createElement('div');
-                        article_main_container.className = 'articles__main-container';
-                        $(article_item).append(article_main_container);
-
-                        // Articles Main
-                        let article_main = document.createElement('div');
-                        article_main.className = 'articles__main';
-                        $(article_main_container).append(article_main);
-
-                        let topElements = $(columns[j]).find('.articles__item').first().children();
-
-                        for (let k = 0; k < topElements.length; k++) {
-
-                            if ($(topElements[k]).prop('tagName') === 'IMG') {
-                                $(article_main).append(topElements[k]);
-
-                            } else {
-
-                                let box_container = document.createElement('div');
-                                box_container.classList = topElements[k].classList;
-                                $(article_main).append(box_container);
-
-                                let box = document.createElement('div');
-                                box.className = 'articles__box';
-                                $(box_container).append(box);
-
-                                state.drakeElements.containers.push(box);
-
-                                let elements = $(topElements[k]).children();
-
-                                for (let l = 0; l < elements.length; l++) {
-
-                                    if ($(elements[l]).prop('tagName') === 'H2') {
-                                        $(box).append(elements[l]);
-
-                                    } else if ($(elements[l]).prop('tagName') === 'P') {
-                                        $(box).append(elements[l]);
-                                    }
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                $('.articles-hand').hide();
-                setColumnHeights();
-
-            }
-
-        });
+        buildHTMLToDatabase();
+        buildHTMLToPB();
 
     }());
 
@@ -164,91 +72,6 @@ import setColumnHeights from './page-builder/set-column-heights';
         deselectActiveElement();
     });
 
-    $(document).on('click', '.pb-header__icon', function (e) {
-
-        let articles = $('.articles');
-        let rows = articles.find('.articles__row');
-        let output = document.createElement('div');
-        output.className = 'articles container';
-
-        for (let i = 0; i < rows.length; i++) {
-
-            let row = document.createElement('div');
-            row.className = 'articles__row row';
-            output.append(row);
-
-            let columns = $(rows[i]).find('.articles__column');
-
-            for (let j = 0; j < columns.length; j++) {
-
-                let column = document.createElement('div');
-                column.classList = columns[j].classList;
-                row.append(column);
-
-                let articles = $(columns[j]).find('.articles__main');
-
-                for (let k = 0; k < articles.length; k++) {
-
-                    let article = document.createElement('a');
-                    article.className = 'articles__item';
-                    $(article).attr('href', '/a/eee');
-                    column.append(article);
-
-
-                    let items = $(articles[k]).children();
-
-                    for (let l = 0; l < items.length; l++) {
-
-                        let item = null;
-
-                        if ($(items[l]).hasClass('articles__img')) {
-
-                            item = document.createElement('img');
-                            item.classList = items[l].classList;
-                            $(item).attr('src', $(items[l]).attr('src'));
-                            $(item).attr('data-path', $(items[l]).attr('data-path'));
-                            $(item).attr('data-extension', $(items[l]).attr('data-extension'));
-
-                        } else {
-
-                            item = document.createElement('div');
-                            item.classList = items[l].classList;
-
-                            let elements = $(items[l]).find('.articles__box').children();
-
-                            for (let m = 0; m < elements.length; m++) {
-
-                                let element = null;
-
-                                if ($(elements[m]).hasClass('articles__header')) {
-                                    element = document.createElement('H2');
-                                } else {
-                                    element = document.createElement('P');
-                                }
-
-                                $(element).text($(elements[m]).text());
-                                element.classList = elements[m].classList;
-                                item.append(element);
-
-                            }
-
-                        }
-
-                        article.append(item);
-
-                    }
-
-                }
-
-            }
-
-        }
-
-        $('#pb-content').val(output.outerHTML);
-
-        console.log(output);
-
-    });
 
     function deselectActiveElement() {
         $(activeElement).removeClass('articles__element--selected');
@@ -285,10 +108,13 @@ import setColumnHeights from './page-builder/set-column-heights';
             if (value.includes('bg')) {
                 removeClassesFromElement(backgroundColorClasses, activeElement);
                 addClassToActiveElement(value, ['white', 'red', 'green', 'blue', 'purple', 'black'], backgroundColorClasses);
+
+
+
             }
             else if (value.includes('color')) {
                 removeClassesFromElement(colorClasses, activeElement);
-                addClassToActiveElement(value, ['black', 'grey', 'white'], colorClasses);
+                addClassToActiveElement(value, ['black', 'grey', 'white', 'red'], colorClasses);
             }
             else if (value.includes('font-size')) {
                 removeClassesFromElement(fontSizeClasses, activeElement);
@@ -553,7 +379,7 @@ import setColumnHeights from './page-builder/set-column-heights';
     function createSidebarArticle(article) {
         let string = `
         <div class="pb-articles__container">
-               <div class="pb-articles__item" data-id="${article['id']}" data-path="${article['images'][0]['path']}" data-extension="${article['images'][0]['extension']}" data-title="${article['title']}">
+               <div class="pb-articles__item" data-id="${article['id']}" data-path="${article['images'][0]['path']}" data-extension="${article['images'][0]['extension']}" data-title="${article['title']}" data-link="/articles/${article.slug}">
                   <div class="pb-articles__img" style="background-image: url('/${article['images'][0]['path'] + '.' + article['images'][0]['extension']}')"></div>
                   <h3 class="pb-articles__title">${article['title']}</h3>
                   
@@ -681,12 +507,12 @@ import setColumnHeights from './page-builder/set-column-heights';
         let value = $(e.target).attr('data-value');
         let row = $(e.target).parent().parent().parent().parent();
 
-        console.log(row);
+        console.log(value);
 
         $(row).find('.articles__column').remove();
 
         if (value === '12') {
-            $(row).append(addColumn('col-md-12'));
+            $(row).append(addColumn('col-md-12', columnControls()));
         } else if (value === '6-6') {
             $(row).append(addColumn('col-md-6', columnControls()));
             $(row).append(addColumn('col-md-6', columnControls()));
@@ -720,45 +546,6 @@ import setColumnHeights from './page-builder/set-column-heights';
         </div>
         </div>`;
 
-    }
-
-    function rowControls() {
-        return `
- 
-          <div class="pb-row-controls">
-                            <div class="pb-row-controls__icon pb-row-controls__icon--drag fas fa-arrows-alt"></div>
-                            <div class="pb-row-controls__icon pb-row-controls__icon--menu fas fa-bars" type="button" data-toggle="dropdown"></div>
-                            <div class="pb-row-controls__icon pb-row-controls__icon--delete fas fa-trash-alt"></div>
-                            <div class="dropdown">
-                                <div class="dropdown-menu">
-                                    <h6 class="dropdown-header">Column types</h6>
-                                    <button data-value="12" class="dropdown-item" type="button">Column 12</button>
-                                    <button data-value="6-6" class="dropdown-item" type="button">Column 6 + 6</button>
-                                    <button data-value="4-6" class="dropdown-item" type="button">Column 4 + 8</button>
-                                    <button data-value="6-4" class="dropdown-item" type="button">Column 8 + 4</button>
-                                    <button data-value="4-4-4" class="dropdown-item" type="button">Column 4 + 4 + 4</button>
-                                </div>
-                            </div>
-                        </div>
-
-       `;
-    }
-
-    function columnControls() {
-        return `
- 
-            <div class="pb-column-controls">
-            <div class="pb-column-controls__icon pb-column-controls__icon--drag fas fa-arrows-alt"></div>
-            <div class="pb-column-controls__icon pb-column-controls__icon--menu fas fa-bars"></div>
-            <div class="pb-column-controls__icon pb-column-controls__icon--delete fas fa-trash-alt"></div>
-            </div>
-
-            <div class="articles-hand">
-            <div><i class="articles-hand__icon far fa-hand-point-down"></i></div>
-        <p class="articles-hand__text">Drop article here</p>
-        </div>
-
-       `;
     }
 
 }(jQuery));

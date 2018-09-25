@@ -1,7 +1,6 @@
 import $ from 'jquery';
 
 export default function setColumnHeights() {
-    console.log('hey');
     setTimeout(() => {
 
         let rows = $('.articles__row');

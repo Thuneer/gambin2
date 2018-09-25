@@ -77,9 +77,6 @@
                         @slot('id') imagePicker @endslot
                     @endcomponent
 
-                    <!-- Categories -->
-                    @component('admin.components.forms.post_categories', ['categories' => $categories, 'post' => ['categories' => []]])@endcomponent
-
                     <!-- Tags -->
                     @component('admin.components.forms.post_tags', ['tags' => $tags, 'post' => ['tags' => []]])@endcomponent
 

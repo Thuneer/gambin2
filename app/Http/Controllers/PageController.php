@@ -103,7 +103,8 @@ class PageController extends Controller
             'title' => 'required',
             'permalink' => 'required',
             'parent' => 'nullable|integer',
-            'type' => 'integer'
+            'type' => 'integer',
+            'front' => 'required|integer'
         ]);
 
         $title = $request->title;
@@ -113,6 +114,7 @@ class PageController extends Controller
         $type = $request->type;
         $parent = $request->parent;
         $template = $request->template;
+        $front = $request->front;
 
         $page = new Page();
         $page->title = $title;
@@ -122,6 +124,17 @@ class PageController extends Controller
         } else {
             $page->body = $pb_body;
         }
+
+        if ($front == 1) {
+
+            $p = Page::where('front_page', '=', 1)->first();
+            if ($p) {
+                $p->front_page = 0;
+                $p->save();
+            }
+
+        }
+        $page->front_page = $front;
 
         if($template !== '-1') {
             $page->template = $template;
@@ -206,8 +219,21 @@ class PageController extends Controller
         $type = $request->type;
         $parent = $request->parent;
         $template = $request->template;
+        $front = $request->front;
 
         $page->title = $title;
+
+        if ($front == 1) {
+
+            $front_page = Page::where('front_page', '=', 1)->first();
+
+            if ($front_page && $page->id != $front_page->id) {
+                $front_page->front_page = 0;
+                $front_page->save();
+            }
+
+        }
+        $page->front_page = $front;
 
         if ($type == 0) {
             $page->body = $summernote_body;

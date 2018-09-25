@@ -78,7 +78,8 @@ export default function setupElementDragEvent() {
                 id: $(el).attr('data-id'),
                 title: $(el).attr('data-title'),
                 path: $(el).attr('data-path'),
-                extension: $(el).attr('data-extension')
+                extension: $(el).attr('data-extension'),
+                link: $(el).attr('data-link')
             };
 
             setTimeout(function () {
@@ -166,13 +167,14 @@ export default function setupElementDragEvent() {
 
 }
 
+
 function insertArticle(article) {
 
     return `
-        <div class="articles__main-container" data-id="${article.id}">     
+        <div class="articles__main-container" data-id="${article.id}" data-link="${article.link}">     
                 <div class="articles__main">
         
-                   <img class="articles__img articles__element--image-height-s" src="/${article['path'] + '-21-9-md.' + article['extension']}" alt="" data-path="${article['path']}" data-extension="${article['extension']}">              
+                   <img class="articles__img articles__element--image-height-s lazy" src="/${article['path'] + '-21-9-md.' + article['extension']}" alt="" data-path="${article['path']}" data-extension="${article['extension']}">              
            
                     <div class="articles__box-container articles__element--bg-white">
                          <div class="articles__box">

@@ -101,8 +101,18 @@
                             <input name="type" id="pagebuilder" type="radio" value="1">
                             <label for="pagebuilder">News builder</label>
                         </div>
+                    </div>
 
-
+                    <div class="form__group form__group--card">
+                        <label class="form__label" for="">Front page</label>
+                        <div>
+                            <input name="front" id="front-yes" type="radio" value="1">
+                            <label for="front-yes">Yes</label>
+                        </div>
+                        <div>
+                            <input name="front" checked id="front-no" type="radio" value="0">
+                            <label for="front-no">No</label>
+                        </div>
                     </div>
 
                     <div class="form__group form__group--card">

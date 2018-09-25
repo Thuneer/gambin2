@@ -14576,6 +14576,10 @@ input[type=checkbox]:checked + label:before {
   color: black;
 }
 
+.articles__element--color-red {
+  color: red;
+}
+
 .articles__element--font-size-xs {
   font-size: 1rem;
 }

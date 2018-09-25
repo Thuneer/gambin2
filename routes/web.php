@@ -19,11 +19,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 
+// Authentication Routes...
+Route::post('admin/login', 'Auth\LoginController@login');
+Route::post('admin/logout', 'Auth\LoginController@logout')->name('logout');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/admin/login', function () {
 
@@ -35,6 +39,7 @@ Route::get('/admin/login', function () {
 
 });
 
+Route::post('/admin/login', 'Auth\LoginController@adminLogin');
 
 Route::group(['middleware' => ['admin']], function () {
 
@@ -87,30 +92,47 @@ Route::group(['middleware' => ['admin']], function () {
 
 });
 
-Route::post('/admin/login', 'Auth\LoginController@adminLogin');
-
-Route::get('/', function () {
-    return view('404');
-});
-
 Route::get('/preview/a', function () {
 
     $preview_post = Post::where('user_id', Auth::user()->id)->where('status', 'preview')->first();
 
-    if ($preview_post)
+    if ($preview_post) {
         return view('article', ['item' => $preview_post]);
-    else
-        return view('404');
+    }
+    else {
+        $page = new stdClass();
+        $page->title = 'Page not found';
+        return view('404', ['item' => $page]);
+    }
+
 });
 
-Route::get('/a/{slug}', function ($slug) {
+Route::get('/articles/{slug}', function ($slug) {
 
-    $item = \App\Post::where('slug', $slug)->first();
+    $page = \App\Post::where('slug', $slug)->first();
+    $articles = Post::where('id', '!=', $page->id)->take(6)->get();
 
-    if ($item)
-        return view('article', ['item' => $item]);
-    else
-        return view('404');
+    if ($page) {
+        return view('article', ['item' => $page, 'articles' => $articles]);
+    }
+    else {
+        $page = new stdClass();
+        $page->title = 'Page not found';
+        return view('404', ['item' => $page]);
+    }
+
+});
+
+Route::get('/', function () {
+
+    if ($front_page = Page::where('front_page', '=', 1)->first()) {
+        return view('welcome', ['item' => $front_page]);
+    }
+
+    $page = new stdClass();
+    $page->title = 'Page not found';
+    return view('404', ['item' => $page]);
+
 });
 
 Route::get('/{url}', function ($url) {
@@ -119,9 +141,13 @@ Route::get('/{url}', function ($url) {
 
     $page = \App\Page::where('permalink', $url)->first();
 
-    if ($page)
+    if ($page) {
         return view('welcome', ['item' => $page]);
-    else
-        return view('404');
+    }
+    else {
+        $page = new stdClass();
+        $page->title = 'Page not found';
+        return view('404', ['item' => $page]);
+    }
 
 })->where('url','.+');

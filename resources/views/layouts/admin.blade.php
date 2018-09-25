@@ -276,6 +276,7 @@
                 @endhasrole
 
 
+                @if(false)
                 <!-- Appearance -->
 
                     <li class="sidebar-menu-outer__item">
@@ -322,7 +323,7 @@
             @endcan
             <!-- Settings - END -->
 
-
+            @endif
             </ul>
 
         </div>

@@ -115,6 +115,8 @@
                                      data-value="color-grey"></div>
                                 <div id="co-white" class="pb-element__circle pb-element__circle--white"
                                      data-value="color-white"></div>
+                                <div id="co-red" class="pb-element__circle pb-element__circle--red"
+                                     data-value="color-red"></div>
                             </div>
 
                             <!-- FONT SIZE -->
