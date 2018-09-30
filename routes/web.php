@@ -53,6 +53,7 @@ Route::group(['middleware' => ['admin']], function () {
 
     });
 
+    // USERS
     Route::get('/admin/users', 'UserController@index');
     Route::get('/admin/users/new', 'UserController@newView');
     Route::post('/admin/users/new', 'UserController@store');
@@ -60,27 +61,31 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/admin/users/{id}/edit', 'UserController@edit');
     Route::post('/admin/users/delete', 'UserController@delete');
 
+    // MEDIA
     Route::get('/admin/media', 'MediaController@index');
     Route::post('/admin/media', 'MediaController@upload');
     Route::post('/admin/media/delete', 'MediaController@delete');
     Route::post('/admin/media/{id}/edit', 'MediaController@edit');
     Route::get('/admin/media/getImages', 'MediaController@getImages');
 
+    // ARTICLES
     Route::get('/admin/articles', 'PostController@index');
     Route::get('/admin/articles/new', 'PostController@newView');
     Route::post('/admin/articles/new', 'PostController@store');
     Route::get('/admin/articles/{id}/edit', 'PostController@editView');
     Route::post('/admin/articles/{id}/edit', 'PostController@edit');
     Route::post('/admin/articles/delete', 'PostController@delete');
-    Route::post('/admin/articles/preview', 'PostController@preview');
     Route::get('/admin/articles/{amount}', 'PostController@getArticles');
 
+    // CATEGORIES
     Route::get('/admin/articles/categories', 'CategoryController@index');
     Route::post('/admin/articles/categories', 'CategoryController@create');
 
+    // TAGS
     Route::get('/admin/articles/tags', 'TagController@index');
     Route::post('/admin/articles/tags', 'TagController@create');
 
+    // PAGES
     Route::get('/admin/pages', 'PageController@index');
     Route::get('/admin/pages/new', 'PageController@newView');
     Route::post('/admin/pages/new', 'PageController@create');
@@ -90,20 +95,11 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/admin/permissions', 'PermissionController@index');
     Route::post('/admin/permissions/', 'PermissionController@edit');
 
-});
-
-Route::get('/preview/a', function () {
-
-    $preview_post = Post::where('user_id', Auth::user()->id)->where('status', 'preview')->first();
-
-    if ($preview_post) {
-        return view('article', ['item' => $preview_post]);
-    }
-    else {
-        $page = new stdClass();
-        $page->title = 'Page not found';
-        return view('404', ['item' => $page]);
-    }
+    // Messages
+    Route::get('/admin/conversations', 'MessageController@index');
+    Route::post('/admin/conversations', 'MessageController@newConversation');
+    Route::get('/admin/conversations/{id}', 'MessageController@conversation');
+    Route::post('/admin/conversations/{id}', 'MessageController@newMessage');
 
 });
 
@@ -111,43 +107,40 @@ Route::get('/articles/{slug}', function ($slug) {
 
     $page = \App\Post::where('slug', $slug)->first();
     $articles = Post::where('id', '!=', $page->id)->take(6)->get();
+    $title = 'Page not found';
 
     if ($page) {
-        return view('article', ['item' => $page, 'articles' => $articles]);
+        return view('article', ['item' => $page, 'articles' => $articles, 'title' => $title]);
     }
     else {
-        $page = new stdClass();
-        $page->title = 'Page not found';
-        return view('404', ['item' => $page]);
+        return view('404', ['item' => $page, 'title' => $title]);
     }
 
 });
 
 Route::get('/', function () {
 
-    if ($front_page = Page::where('front_page', '=', 1)->first()) {
-        return view('welcome', ['item' => $front_page]);
-    }
+    $title = 'Page not found';
 
-    $page = new stdClass();
-    $page->title = 'Page not found';
-    return view('404', ['item' => $page]);
+    if ($front_page = Page::where('front_page', '=', 1)->first()) {
+        return view('welcome', ['item' => $front_page, 'title' => $title]);
+    }
+    return view('404', ['title' => $title]);
 
 });
 
 Route::get('/{url}', function ($url) {
 
     App::setLocale('no');
+    $title = 'Page not found';
 
     $page = \App\Page::where('permalink', $url)->first();
 
     if ($page) {
-        return view('welcome', ['item' => $page]);
+        return view('welcome', ['item' => $page, 'title' => $title]);
     }
     else {
-        $page = new stdClass();
-        $page->title = 'Page not found';
-        return view('404', ['item' => $page]);
+        return view('404', ['title' => $title]);
     }
 
 })->where('url','.+');

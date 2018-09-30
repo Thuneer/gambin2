@@ -148,3 +148,9 @@ function renderPageParentNodes($page, $editPage, $prefix = 0) {
 
 }
 
+function redirectWithStatus($type, $message, $path, $request) {
+    $request->session()->flash('message', 'Message added successfully.');
+    $request->session()->flash('message-status', 'success');
+
+    return redirect($path);
+}

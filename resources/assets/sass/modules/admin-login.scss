@@ -1,10 +1,11 @@
 .admin-login {
 
   background-color: white;
-  padding: 50px;
+  padding: 45px 50px 50px 50px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
   border-radius: 3px;
-  margin-top: 30px;
+  width: 450px;
+  margin: 40px auto 0 auto;
 
   &__header {
     margin-bottom: 35px;
@@ -20,7 +21,7 @@
 
   &__input {
     border-radius: 2px;
-    height: 44px;
+    height: 43px;
     background-color: white;
     border: 1px solid #dcdcdc;
   }

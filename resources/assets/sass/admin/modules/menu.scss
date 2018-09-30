@@ -13,7 +13,7 @@
   &__icon {
     font-size: 16px;
     margin-right: 10px;
-    top: 16px;
+    top: 17px;
     position: absolute;
     color: #4f4f4f;
   }
@@ -21,6 +21,8 @@
   &__text {
     margin-left: 36px;
     font-size: 14px;
+    font-weight: 600;
+    color: grey;
   }
 
   &__dropdown {
@@ -42,11 +44,12 @@
     align-items: center;
     width: 100%;
     text-align: left;
-    padding: 13px 20px;
+    padding: 14px 20px;
     border: none;
     font-size: 14px;
     color: #595959;
     transition: 0.15s all;
+    border-bottom: 1px solid #f1f1f1;
   }
 
   &__btn.collapsed {
@@ -80,6 +83,10 @@
     }
 
     .sidebar-menu-outer__icon {
+      color: white;
+    }
+
+    .sidebar-menu-outer__text {
       color: white;
     }
 

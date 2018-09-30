@@ -61,20 +61,20 @@
         </div>
 
         <div class="top-bar__right">
-            <div class="message-top">
+            <a href="/admin/conversations" class="message-top">
                 <i class="message-top__icon fas fa-envelope"></i>
-            </div>
+            </a>
 
             <div class="user-top">
                 <div class="user-top__container">
                     <img class="user-top__img"
-                         src="@if(count(Auth::user()->images) > 0)/{{ Auth::user()->images[0]->path_thumbnail }} @else {{ userAvatar(Auth::user()->id) }} @endif"
+                         src="@if(count(Auth::user()->images) > 0)/{{ Auth::user()->images[0]->path . '-1-1-sm.' . Auth::user()->images[0]->extension }} @else {{ userAvatar(Auth::user()->id) }} @endif"
                          alt="">
                     <div class="user-top__name">{{ substr(ucfirst(Auth::user()->roles->pluck('name')[0]), 0, 11)}}</div>
                     <i class="user-top__icon fas fa-chevron-down"></i>
 
                     <div class="user-top__dropdown">
-                        <a href="/" class="user-top__item">Profile</a>
+                        <a href="/admin/users/{{ Auth::user()->id }}/edit" class="user-top__item">Profile</a>
                         <a href="{{ route('logout') }}" class="user-top__item"
                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -87,9 +87,9 @@
                     </div>
 
                 </div>
-                <a href="/">
+                <a href="/admin/users/{{ Auth::user()->id }}">
                     <img class="user-top__img user-top__img--mobile"
-                         src="@if(count(Auth::user()->images) > 0)/{{ Auth::user()->images[0]->path_thumbnail }} @else {{ userAvatar(Auth::user()->id) }} @endif"
+                         src="@if(count(Auth::user()->images) > 0)/{{ Auth::user()->images[0]->path . '-1-1-sm.' . Auth::user()->images[0]->extension }} @else {{ userAvatar(Auth::user()->id) }} @endif"
                          alt="">
                 </a>
             </div>
@@ -102,7 +102,7 @@
 
         <div class="sidebar-user">
             <img class="sidebar-user__img"
-                 src="@if(count(Auth::user()->images)> 0)/{{ Auth::user()->images[0]->path_thumbnail }} @else {{ userAvatar(Auth::user()->id) }} @endif"
+                 src="@if(count(Auth::user()->images)> 0)/{{ Auth::user()->images[0]->path . '-1-1-sm.' . Auth::user()->images[0]->extension }} @else {{ userAvatar(Auth::user()->id) }} @endif"
                  alt="">
             <div class="sidebar-user__container">
                 <span class="sidebar-user__name">Hi, {{ Auth::user()->first_name }}</span>

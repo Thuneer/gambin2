@@ -133,12 +133,11 @@
 
         <div class="form__bottom">
             <button onclick="$('#submitBtn').click();" type="submit" class="form__btn button button--primary"
-                    @if(!canEditUser($user_role_name, $auth_user_role) || ($user_role_name == 'owner' && Auth::user()->id != $user->id)) disabled @endif>
-                Save
-                user
+                    @if(!canEditUser($user_role_name, $auth_user_role) && (Auth::user()->id != $user->id)) disabled @endif>
+                Save user
             </button>
 
-            @if(!canEditUser($user_role_name, $auth_user_role) || ($user_role_name == 'owner' && Auth::user()->id != $user->id))
+            @if(!canEditUser($user_role_name, $auth_user_role) && (Auth::user()->id != $user->id))
                 You are not allowed to edit <b>{{ ucfirst($user->roles[0]->name) }}s</b>.
             @endif
 

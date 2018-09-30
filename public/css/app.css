@@ -10522,8 +10522,7 @@ a.text-dark:focus {
   font-weight: 400;
 }
 
-.logo {
-  height: 100%;
+.navigation__logo {
   letter-spacing: 4px;
   font-weight: 400;
   padding: 0 30px;
@@ -10540,13 +10539,18 @@ a.text-dark:focus {
   height: 66px;
 }
 
+.navigation__logo:hover {
+  color: white;
+}
+
 .admin-login {
   background-color: white;
-  padding: 50px;
+  padding: 45px 50px 50px 50px;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 3px;
-  margin-top: 30px;
+  width: 450px;
+  margin: 40px auto 0 auto;
 }
 
 .admin-login__header {
@@ -10563,7 +10567,7 @@ a.text-dark:focus {
 
 .admin-login__input {
   border-radius: 2px;
-  height: 44px;
+  height: 43px;
   background-color: white;
   border: 1px solid #dcdcdc;
 }

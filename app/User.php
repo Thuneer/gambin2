@@ -40,5 +40,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Post');
     }
 
+    public function threads()
+    {
+        return $this->hasMany('App\Thread');
+    }
+
 
 }
