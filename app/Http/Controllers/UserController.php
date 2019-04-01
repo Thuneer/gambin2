@@ -105,7 +105,7 @@ class UserController extends Controller
             ($role->name === 'administrator' && !$auth_role->hasPermissionTo('create administrators')) ||
             ($role->name === 'super admin' && !$auth_role->hasPermissionTo('create super admins'))) {
 
-            $request->session()->flash('message', 'You do not have permission to create <b>'. ucfirst($role->name) .'s</b>.');
+            $request->session()->flash('message', 'You do not have permission to create <b>' . ucfirst($role->name) . 's</b>.');
             $request->session()->flash('message-status', 'error');
 
             return redirect('admin');
@@ -173,7 +173,6 @@ class UserController extends Controller
         $user = User::find($id);
 
         if ($user) {
-
             $user->first_name = $request->input('first-name');
             $user->last_name = $request->input('last-name');
             $user->email = $request->input('email');
@@ -181,16 +180,16 @@ class UserController extends Controller
             $role = Role::find($request->input('role'));
 
             if (!canEditUserRole(Auth::user(), $user, 'edit ' . $role->name . 's')) {
-
-                $request->session()->flash('message', 'You do not have permission to edit <b>'. ucfirst($role->name) .'s</b>.');
+                $request->session()->flash('message', 'You do not have permission to edit <b>' . ucfirst($role->name) . 's</b>.');
                 $request->session()->flash('message-status', 'error');
 
                 return redirect('admin/users');
-
             }
 
-            $password = $request->input('password');
-            $user->password = bcrypt($password);
+            // Update new password if set
+            if (!empty($request->input('password'))) {
+                $user->password = bcrypt($request->input('password'));
+            }
 
             $user->save();
 

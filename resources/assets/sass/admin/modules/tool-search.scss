@@ -4,16 +4,19 @@
   width: 100%;
   display: none;
 
+
   &__input {
     border-radius: 3px;
-    border: 1px solid $light-grey;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     height: 40px;
     padding: 12px;
     width: 100%;
+    border: none;
   }
 
   &__btn {
     background-color: transparent;
+
     border: none;
     position: absolute;
     right: 9px;

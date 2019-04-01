@@ -1,9 +1,27 @@
+.list-amount {
+
+  margin-bottom: 0;
+  margin-right: 3px;
+  align-self: flex-end;
+  font-size: 0.95rem;
+
+  &__bold {
+    font-weight: 600;
+  }
+
+  &__total {
+    color: #004aff;
+    font-weight: 600;
+  }
+
+}
+
 .list {
 
   .table {
 
     background-color: white;
-    border: 1px solid $lighter-grey;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 
     thead th {
       border: none;
@@ -96,14 +114,15 @@
   }
 
   &__img {
-    height: 36px;
-    width: 36px;
+    height: 32px;
+    width: 32px;
     background-color: $placeholder-color;
     margin: 0 15px 0 0;
     border-radius: 4px;
     display: inline-block;
     background-position: center;
     background-size: cover;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
   }
 
   &__link {
@@ -122,12 +141,6 @@
   &__img-avatar {
     border-radius: 50%;
     min-width: 32px;
-  }
-
-  &__amount {
-    margin-bottom: 0;
-    margin-right: 3px;
-    align-self: flex-end;
   }
 
   &__search-text {

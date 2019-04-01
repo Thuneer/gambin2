@@ -11,23 +11,23 @@
   }
 
   &__icon {
-    font-size: 16px;
+    font-size: 15px;
     margin-right: 10px;
     top: 17px;
     position: absolute;
-    color: #4f4f4f;
+    color: #4b4b4b;
   }
 
   &__text {
     margin-left: 36px;
     font-size: 14px;
-    font-weight: 600;
-    color: grey;
+    font-weight: 500;
+    color: #4b4b4b;
   }
 
   &__dropdown {
     position: absolute;
-    right: 20px;
+    right: 25px;
     font-size: 12px;
     color: #8b8b8b;
     top: 20px;
@@ -44,12 +44,11 @@
     align-items: center;
     width: 100%;
     text-align: left;
-    padding: 14px 20px;
+    padding: 14px 25px;
     border: none;
     font-size: 14px;
     color: #595959;
     transition: 0.15s all;
-    border-bottom: 1px solid #f1f1f1;
   }
 
   &__btn.collapsed {
@@ -69,7 +68,6 @@
 
   &__btn:focus,
   &__btn:active {
-    //border-bottom: 1px solid #e4e4e4;
     outline: none;
   }
 

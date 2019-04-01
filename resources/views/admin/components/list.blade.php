@@ -95,7 +95,7 @@
 
                             <td class="list__td list__primary">
                                 <a class="list__link" href="/admin/users/{{ $item->id }}/edit">
-                            <span class="list__img"
+                            <span class="list__img list__img-avatar"
                                   style="background-color: {{ $item->color }}; background-image: url('@if(count($item->images) > 0)/{{ $item->images[0]->path . '.' . $item->images[0]->extension }} @else{{ userAvatar($item->id) }} @endif'"></span>
 
                                     <span class="list__title">{{ $item->first_name }} {{ $item->last_name }}</span>

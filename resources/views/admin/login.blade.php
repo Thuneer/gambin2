@@ -44,17 +44,6 @@
 
                             </div>
 
-                            <div class="form-group">
-
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"
-                                               name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-
-                            </div>
-
                             <div class="">
 
                                 <button type="submit" class="admin-login__btn btn btn-primary">
@@ -62,10 +51,6 @@
                                 </button>
 
                             </div>
-
-                            @foreach ($errors->all() as $message) {
-                            <p>{{ $message }}</p>
-                            @endforeach
 
 
                         </form>

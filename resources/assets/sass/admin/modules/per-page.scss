@@ -7,7 +7,8 @@
   }
   &__btn {
     background-color: white;
-    border: 1px solid $light-grey;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 
   .dropdown-item:hover {
